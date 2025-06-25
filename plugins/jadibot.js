@@ -83,7 +83,7 @@ let handler = async (m, { conn, command, usedPrefix, args, text, isOwner }) => {
 ⁖ฺ۟̇࣪·֗٬̤⃟🪇 online : ${v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : 'Desconocido'}
 ╰❍━━━━━━━✦୨୧✦━━━━━━━❍╯`).join('\n\n');
 
-        const responseMessage = `╭═━⬣ 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 𝐉𝐀𝐃𝐈𝐁𝐎𝐓 🌹
+        const responseMessage = `╭═━⬣ ⚡ 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 𝐉𝐀𝐃𝐈𝐁𝐎𝐓 🌹
 ┃ 🌴 sᴜʙʙᴏᴛs ᴀᴄᴛɪᴠᴏs: *${users.length}*
 ╰═━━━━━━━━━━━━━━━━⬣\n\n${message || '⚽ No hay sub-bots conectados actualmente.'}`.trim();
 
@@ -101,9 +101,6 @@ let handler = async (m, { conn, command, usedPrefix, args, text, isOwner }) => {
             mentionedJid: conn.parseMention(responseMessage)
           }
         }, { quoted: fkontak })
-      } catch (e) {
-        reportError(e)
-      }
       break
   }
 }
