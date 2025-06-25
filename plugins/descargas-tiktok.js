@@ -2,11 +2,11 @@ import fetch from 'node-fetch';
 
 var handler = async (m, { conn, args, usedPrefix, command }) => {
     if (!args[0]) {
-        return conn.reply(m.chat, `${emoji} Por favor, ingresa un enlace de TikTok.`, m);
+        return conn.reply(m.chat, `*☃️ Por favor, ingresa un enlace de TikTok.*`, m);
     }
 
     try {
-        await conn.reply(m.chat, `${emoji} Espere un momento, estoy descargando su video...`, m);
+        await conn.reply(m.chat, `*🐉 Espere un momento, estoy descargando su video...*`, m);
 
         const tiktokData = await tiktokdl(args[0]);
 
@@ -17,7 +17,9 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
         const videoURL = tiktokData.data.play;
 
         if (videoURL) {
-            await conn.sendFile(m.chat, videoURL, "tiktok.mp4", `${emoji} Aquí tienes ฅ^•ﻌ•^ฅ`, m);
+            await conn.sendFile(m.chat, videoURL, "tiktok.mp4", `╭───『 *𝙏𝙄𝙆𝙏𝙊𝙆 𝘿𝙀𝙎𝘾𝘼𝙍𝙂𝘼𝘿𝙊𝙍* 』
+│⚡ 𝒂𝒒𝒖𝒊 𝒕𝒊𝒆𝒏𝒆𝒔 𝒕𝒖 𝒗𝒊𝒅𝒆𝒐 𝒖𝒘𝒖 🌪️
+╰────────────⬣`, m);
         } else {
             return conn.reply(m.chat, "No se pudo descargar.", m);
         }
@@ -29,7 +31,7 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
 handler.help = ['tiktok'].map((v) => v + ' *<link>*');
 handler.tags = ['descargas'];
 handler.command = ['tiktok', 'tt'];
-handler.group = true;
+//handler.group = true;
 handler.register = true;
 handler.coin = 2;
 handler.limit = true;
