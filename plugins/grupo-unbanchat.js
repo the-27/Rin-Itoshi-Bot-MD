@@ -17,7 +17,7 @@ const info = `⚡ *Un administrador puede activar o desactivar a rin itoshi util
 \`┃\` 🌴 𝗘𝘀𝘁𝗮𝗱𝗼 𝗔𝗰𝘁𝘂𝗮𝗹: ${estado}
 \`╰━━━━━━━━━━━━━━━━━━━╯\``
 return conn.reply(m.chat, info, fkontak, rcanal);
-  });
+  }
 if (args[0] === 'off') {
 if (chat.isBanned) {
 return conn.reply(m.chat, `⭕ *𝐑𝐈𝐍 𝐈𝐓𝐎𝐒𝐇𝐈 YA ESTABA DESACTIVADO!.*`, m, rcanal);
