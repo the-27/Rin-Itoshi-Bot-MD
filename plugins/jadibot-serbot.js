@@ -59,6 +59,8 @@ let rtx2 = `\`╔═══════════════════╗\`
 \`╚═══════════════════╝\`
 > *✇︎ 𝑵𝒐𝒕𝒂:* 𝑬𝒔𝒕𝒆 𝑪𝒐𝒅𝒊𝒈𝒐 𝒔𝒐𝒍𝒐 𝒇𝒖𝒏𝒄𝒊𝒐𝒏𝒂 𝒆𝒏 𝒆𝒍 𝒏𝒖𝒎𝒆𝒓𝒐 𝒒𝒖𝒆 𝒍𝒐 𝒔𝒐𝒍𝒊𝒄𝒊𝒕𝒐 XD.`;
 
+let imgurl = './src/catalogo.jpg'
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const blackJBOptions = {}
@@ -159,8 +161,18 @@ return
 if (qr && mcode) {
 let secret = await sock.requestPairingCode((m.sender.split`@`[0]))
 secret = secret.match(/.{1,4}/g)?.join("-")
-txtCode = await conn.sendMessage(m.chat, {text : rtx2}, { quoted: m })
-codeBot = await m.reply(secret)
+
+
+let txtCode = await conn.sendMessage(m.chat, {
+    image: { url: imgurl },
+    caption: rtx2,
+    quoted: fake 
+});
+
+let codeBot = await conn.reply(m.chat, `${secret}`, fkontak, rcanal);
+//txtCode = await conn.sendMessage(m.chat, {text : rtx2}, { quoted: m })
+//codeBot = await m.reply(secret)
+
 console.log(secret)
 }
 if (txtCode && txtCode.key) {
