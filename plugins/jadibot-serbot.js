@@ -173,10 +173,9 @@ let txtCode = await conn.sendMessage(m.chat, {
       mediaType: 1,
       renderLargerThumbnail: true,
       thumbnailUrl: imgurl
-    },
-    mentionedJid: conn.parseMention(responseMessage)
+    }
   }
-}, { quoted: fkontak })
+}, { quoted: fkontak });
 
 /*let txtCode = await conn.sendMessage(m.chat, {
     image: { url: imgurl },
