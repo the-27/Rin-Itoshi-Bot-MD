@@ -41,39 +41,32 @@ await conn.reply(m.chat, `${emoji} ${botname} desactivada.`, m)
 conn.ws.close()}  
 break
 
-case isCommand3:
-//if (global.db.data.settings[conn.user.jid].jadibotmd) return m.reply(`${emoji} Este comando está desactivado por mi creador.`)
-const users = [...new Set([...global.conns.filter((conn) => conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED).map((conn) => conn)])];
-function convertirMsADiasHorasMinutosSegundos(ms) {
-var segundos = Math.floor(ms / 1000);
-var minutos = Math.floor(segundos / 60);
-var horas = Math.floor(minutos / 60);
-var días = Math.floor(horas / 24);
-segundos %= 60;
-minutos %= 60;
-horas %= 24;
-var resultado = "";
-if (días !== 0) {
-resultado += días + " días, ";
-}
-if (horas !== 0) {
-resultado += horas + " horas, ";
-}
-if (minutos !== 0) {
-resultado += minutos + " minutos, ";
-}
-if (segundos !== 0) {
-resultado += segundos + " segundos";
-}
-return resultado;
-}
+
+  if (!isCommand3) return;
+  const users = [...new Set([...global.conns.filter((conn) => conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED)])];
+
+  function convertirMsADiasHorasMinutosSegundos(ms) {
+    var segundos = Math.floor(ms / 1000);
+    var minutos = Math.floor(segundos / 60);
+    var horas = Math.floor(minutos / 60);
+    var días = Math.floor(horas / 24);
+    segundos %= 60;
+    minutos %= 60;
+    horas %= 24;
+    var resultado = "";
+    if (días !== 0) resultado += días + " días, ";
+    if (horas !== 0) resultado += horas + " horas, ";
+    if (minutos !== 0) resultado += minutos + " minutos, ";
+    if (segundos !== 0) resultado += segundos + " segundos";
+    return resultado;
+  }
+
   const message = users.map((v, i) => `
 ⬣───[ *SUB - BOT: « #${i + 1} »* ]───⬣
 🧃 *usuario* : ${v.user?.name || '𝐒𝐔𝐁 𝐁𝐎𝐓 ☘︎'}
 🔗 *Enlace* : wa.me/${(v.user?.jid || '').replace(/[^0-9]/g, '')}?text=${usedPrefix}estado
 🪇 *online* : ${v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : 'Desconocido'}
-╰❍━━━━━━━━━━✦━━━━━━━━━━❍╯
-`).join('\n\n');
+╰❍━━━━━━━━━━✦━━━━━━━━━━❍╯`).join('\n\n');
 
   const replyMessage = message.length === 0 
     ? `No hay Sub-Bots disponible por el momento, verifique más tarde.` 
@@ -85,7 +78,7 @@ return resultado;
 ┃ ⭐ sᥙᑲᑲ᥆𝗍s ᥲᥴ𝗍і᥎᥆s: *${totalUsers || '0'}*
 ╰═━━━━━━━━━━━━━━━━⬣
 
-${replyMessage.trim()}`.trim();
+${replyMessage.trim()}`;
 
   await _envio.sendMessage(m.chat, {
     image: { url: 'https://files.catbox.moe/dajw8b.jpg' },
@@ -93,7 +86,6 @@ ${replyMessage.trim()}`.trim();
     mentions: _envio.parseMention(responseMessage)
   }, { quoted: fkontak });
 };
-
 
 handler.tags = ['serbot']
 handler.help = ['sockets', 'deletesesion', 'pausarai']
