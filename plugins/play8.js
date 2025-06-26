@@ -4,7 +4,6 @@ import yts from 'yt-search';
 const handler = async (m, { conn, text, command }) => {
     try {
         if (!text.trim()) {
-            await m.react('❌');
             return conn.reply(m.chat, `⚡ Por favor, ingresa el nombre de la música a descargar. Ejemplo: *.${command} Albirroja Te amo de verdad - Talento del barrio*`, m, rcanal);
         }
 
@@ -16,26 +15,22 @@ const handler = async (m, { conn, text, command }) => {
             return conn.reply(m.chat, '🛑 No se encontraron resultados para tu búsqueda.', m, rcanal);
         }
 
-        const { title, url, views, timestamp, ago, thumbnail } = ytVideo;
+        const { title, url, views, timestamp, ago, thumbnail, author } = ytVideo;
 
-        const infoMessage = `
-≡ *Información del Audio*
-┌──────────────
-▢ 🎵 Título: ${title || 'Desconocido'}
-▢ 🔗 URL: ${url || 'No disponible'}
-▢ 👀 Vistas: ${formatViews(views)}
-▢ ⌚ Duración: ${timestamp || 'No disponible'}
-▢ 📆 Subido: ${ago || 'No disponible'}
-└──────────────
-`;
+        const infoMessage = `╭─⬣「⚡  *𝒓𝒊𝒏 𝒊𝒕𝒐𝒔𝒉𝒊 ☃️*  ⭐」⬣
+│ ≡🌴 *Título:* ${title || 'Desconocido'}
+│ ≡🥥 *Canal:* ${(author?.name) || "Desconocido"}
+│ ≡📅 *Publicado:* ${ago || 'No disponible'}
+│ ≡🐉 *Vistas:* ${formatViews(views)}
+│ ≡🌲 *Duración:* ${timestamp || 'No disponible'}
+│ ≡🦠 *Link:* ${url || 'No disponible'}
+╰──⬣`;
 
-        // Enviar la imagen con la info como caption
         await conn.sendMessage(m.chat, {
             image: { url: thumbnail },
             caption: infoMessage
         }, { quoted: m });
 
-        // Descargar y enviar el audio
         try {
             const apiResponse = await fetch(`https://api.vreden.my.id/api/ytmp3?url=${url}`);
             const apiData = await apiResponse.json();
