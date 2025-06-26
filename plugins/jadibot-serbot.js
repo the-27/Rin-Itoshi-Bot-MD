@@ -59,7 +59,8 @@ let rtx2 = `╔═══════════════════╗
 ╚═══════════════════╝
 > *✇︎ 𝑵𝒐𝒕𝒂:* 𝑬𝒔𝒕𝒆 𝑪𝒐𝒅𝒊𝒈𝒐 𝒔𝒐𝒍𝒐 𝒇𝒖𝒏𝒄𝒊𝒐𝒏𝒂 𝒆𝒏 𝒆𝒍 𝒏𝒖𝒎𝒆𝒓𝒐 𝒒𝒖𝒆 𝒍𝒐 𝒔𝒐𝒍𝒊𝒄𝒊𝒕𝒐.`;
 
-let imgurl = './src/catalogo.jpg'
+let imgPath = './src/catalogo.jpg';
+let bufferImage = fs.readFileSync(imgPath);
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -162,7 +163,8 @@ if (qr && mcode) {
 let secret = await sock.requestPairingCode((m.sender.split`@`[0]))
 secret = secret.match(/.{1,4}/g)?.join("-")
 
-let txtCode = await conn.sendMessage(m.chat, { 
+
+let txtCode = await conn.sendMessage(m.chat, {
   text: rtx2,
   contextInfo: {
     mentionedJid: [m.sender, userId],
@@ -176,13 +178,13 @@ let txtCode = await conn.sendMessage(m.chat, {
     externalAdReply: {
       title: botname,
       body: textbot,
-      thumbnailUrl: imgurl,
+      thumbnail: bufferImage,
       sourceUrl: redes,
       mediaType: 1,
       showAdAttribution: true,
       renderLargerThumbnail: true,
-    },
-  },
+    }
+  }
 }, { quoted: m });
 
 /*let txtCode = await conn.sendMessage(m.chat, {
