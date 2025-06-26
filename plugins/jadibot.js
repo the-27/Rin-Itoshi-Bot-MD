@@ -78,7 +78,7 @@ let handler = async (m, { conn, command, usedPrefix, args, text, isOwner }) => {
 🪇 *online* : ${v.uptime ? formatUptime(Date.now() - v.uptime) : 'Desconocido'}
 ╰❍━━━━━━━━━━✦━━━━━━━━━━❍╯`).join('\n\n')
 
-      let responseMessage = `╭═━⬣ ⚡ 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 ✦ 𝐉𝐀𝐃𝐈𝐁𝐎𝐓 🌹
+      let responseMessage = `╭═━⬣ 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 ✦ 𝐉𝐀𝐃𝐈𝐁𝐎𝐓 🌹
 ┃ ⭐ sᥙᑲᑲ᥆𝗍s ᥲᥴ𝗍і᥎᥆s: *${users.length}*
 ╰═━━━━━━━━━━━━━━━━⬣
 
