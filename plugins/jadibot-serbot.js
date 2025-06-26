@@ -164,7 +164,7 @@ secret = secret.match(/.{1,4}/g)?.join("-")
 
 
 let txtCode = await conn.sendMessage(m.chat, {
-  text: rtx2, 
+  text: rtx2,
   contextInfo: {
     mentionedJid: [m.sender],
     isForwarded: true,
@@ -177,7 +177,7 @@ let txtCode = await conn.sendMessage(m.chat, {
     externalAdReply: {
       title: namebot,
       body: dev,
-      thumbnail: await (await global.fetch(imgurl)).buffer(),
+      thumbnail,
       sourceUrl: redes,
       mediaType: 1,
       renderLargerThumbnail: false
