@@ -1,85 +1,86 @@
-import fetch from "node-fetch"
+ import fetch from "node-fetch"
 import yts from 'yt-search'
 import axios from "axios"
+
 const youtubeRegexID = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([a-zA-Z0-9_-]{11})/
 
 const handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
-    if (!text.trim()) {
-      return conn.reply(m.chat, `*🌴 Por favor, ingresa el nombre de la música a descargar.*`, m, fake)
-    }
-  
-let videoIdToFind = text.match(youtubeRegexID) || null
-let ytplay2 = await yts(videoIdToFind === null ? text : 'https://youtu.be/' + videoIdToFind[1])
+    if (!text.trim()) return conn.reply(m.chat, `*🌹 Por favor, ingresa el nombre o link de la música a descargar.*`, m, fake)
 
-if (videoIdToFind) {
-const videoId = videoIdToFind[1]  
-ytplay2 = ytplay2.all.find(item => item.videoId === videoId) || ytplay2.videos.find(item => item.videoId === videoId)
-} 
-ytplay2 = ytplay2.all?.[0] || ytplay2.videos?.[0] || ytplay2  
-if (!ytplay2 || ytplay2.length == 0) {
-return m.reply('✧ No se encontraron resultados para tu búsqueda.')
-}
-let { title, thumbnail, timestamp, views, ago, url, author } = ytplay2
-title = title || 'no encontrado'
-thumbnail = thumbnail || 'no encontrado'
-timestamp = timestamp || 'no encontrado'
-views = views || 'no encontrado'
-ago = ago || 'no encontrado'
-url = url || 'no encontrado'
-author = author || 'no encontrado'
+    let videoIdMatch = text.match(youtubeRegexID)
+    let search = await yts(videoIdMatch ? `https://youtu.be/${videoIdMatch[1]}` : text)
+
+    let ytVideo = videoIdMatch
+      ? search.all.find(v => v.videoId === videoIdMatch[1])
+      : search.videos[0]
+
+    if (!ytVideo) return m.reply('✧ No se encontraron resultados para tu búsqueda.')
+
+    let { title, thumbnail, timestamp, views, ago, url, author } = ytVideo
     const vistas = formatViews(views)
-    const canal = author.name ? author.name : 'Desconocido'
+    const canal = author?.name || 'Desconocido'
     const infoMessage = `╭─⬣「⚡  *𝒓𝒊𝒏 𝒊𝒕𝒐𝒔𝒉𝒊 ☃️*  ⭐」⬣
-│ ≡🌴 *𝗍í𝗍ᥙᥣ᥆:* ${title || 'Desconocido'}
-│ ≡🥥 *ᥴᥲᥒᥲᥣ:* ${canal}
-│ ≡🐉 *᥎іs𝗍ᥲs:* ${vistas || 'Desconocido'}
-│ ≡🌲 *ძᥙrᥲᥴіóᥒ:* ${timestamp || 'Desconocido'}
-│ ≡🥞 *⍴ᥙᑲᥣіᥴᥲძ᥆:* ${ago || 'Desconocido'}
-│ ≡🦠 *ᥣіᥒk:* ${url}
+│ ≡🌴 *Título:* ${title}
+│ ≡🥥 *Canal:* ${canal}
+│ ≡🐉 *Vistas:* ${vistas}
+│ ≡🌲 *Duración:* ${timestamp}
+│ ≡🥞 *Publicado:* ${ago}
+│ ≡🦠 *Link:* ${url}
 ╰──⬣
-          *🐾 ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ ᴍᴅ あ*`
+*🐾 ʀɪɴ ɪᴛᴏsʜɪ ʙᴏᴛ ᴍᴅ あ*`
+
     const thumb = (await conn.getFile(thumbnail))?.data
-    const JT = {
+    const externalInfo = {
       contextInfo: {
         externalAdReply: {
-          title: `${title || 'Desconocido'}`,
-          body: dev,
+          title: title,
+          body: canal,
           mediaType: 1,
           previewType: 0,
           mediaUrl: url,
           sourceUrl: url,
           thumbnail: thumb,
           renderLargerThumbnail: true,
-        },
-      },
+        }
+      }
     }
-    await conn.reply(m.chat, infoMessage, m, JT)    
+
+    await conn.reply(m.chat, infoMessage, m, externalInfo)
+
     if (command === 'play' || command === 'ytmp3' || command === 'playaudio') {
       try {
         const api = await (await fetch(`https://api.vreden.my.id/api/ytmp3?url=${url}`)).json()
-        const resulta = api.data
-        const result = resulta.dl   
-        if (!result) throw new Error('⚠ El enlace de audio no se generó correctamente.')
-        await conn.sendMessage(m.chat, { audio: { url: result }, fileName: `${resulta.title}.mp3`, mimetype: 'audio/mpeg' }, { quoted: m })
+        const result = api?.data?.dl
+        if (!result) throw '⚠ El enlace de audio no se generó correctamente.'
+        await conn.sendMessage(m.chat, {
+          audio: { url: result },
+          fileName: `${api.data.title || 'audio'}.mp3`,
+          mimetype: 'audio/mpeg'
+        }, { quoted: m })
       } catch (e) {
-        return conn.reply(m.chat, '⚠︎ No se pudo enviar el audio. Esto puede deberse a que el archivo es demasiado pesado o a un error en la generación de la URL. Por favor, intenta nuevamente más tarde.', m)
+        return conn.reply(m.chat, '⚠︎ No se pudo enviar el audio. Puede que el archivo sea muy pesado o hubo un error al generar el enlace.', m)
       }
+
     } else if (command === 'play2' || command === 'ytmp4' || command === 'mp4') {
       try {
-        const response = await fetch(`https://api.neoxr.eu/api/youtube?url=${url}&type=video&quality=480p&apikey=GataDios`)
-        const json = await response.json()
-        await conn.sendFile(m.chat, json.data.dl, json.data.title + '.mp4', title, m)
+        const res = await fetch(`https://api.neoxr.eu/api/youtube?url=${url}&type=video&quality=480p&apikey=GataDios`)
+        const json = await res.json()
+        await conn.sendFile(m.chat, json.data.dl, `${json.data.title}.mp4`, title, m)
       } catch (e) {
-        return conn.reply(m.chat, '⚠︎ No se pudo enviar el video. Esto puede deberse a que el archivo es demasiado pesado o a un error en la generación de la URL. Por favor, intenta nuevamente más tarde.', m)
+        return conn.reply(m.chat, '⚠︎ No se pudo enviar el video. Puede que el archivo sea muy pesado o hubo un error en el enlace.', m)
       }
+
     } else {
       return conn.reply(m.chat, '✧︎ Comando no reconocido.', m)
     }
-  } catch (error) {
-    return m.reply(`⚠︎ Ocurrió un error: ${error}`)
+
+  } catch (err) {
+    console.error(err)
+    return m.reply(`⚠︎ Ocurrió un error:\n${err}`)
   }
 }
+
 handler.command = handler.help = ['play', 'ytmp3', 'play2', 'ytmp4', 'playaudio', 'mp4']
 handler.tags = ['descargas']
 handler.group = true
@@ -87,16 +88,9 @@ handler.group = true
 export default handler
 
 function formatViews(views) {
-  if (views === undefined) {
-    return "No disponible"
-  }
-
-  if (views >= 1_000_000_000) {
-    return `${(views / 1_000_000_000).toFixed(1)}B (${views.toLocaleString()})`
-  } else if (views >= 1_000_000) {
-    return `${(views / 1_000_000).toFixed(1)}M (${views.toLocaleString()})`
-  } else if (views >= 1_000) {
-    return `${(views / 1_000).toFixed(1)}k (${views.toLocaleString()})`
-  }
+  if (!views) return 'No disponible'
+  if (views >= 1e9) return `${(views / 1e9).toFixed(1)}B (${views.toLocaleString()})`
+  if (views >= 1e6) return `${(views / 1e6).toFixed(1)}M (${views.toLocaleString()})`
+  if (views >= 1e3) return `${(views / 1e3).toFixed(1)}K (${views.toLocaleString()})`
   return views.toString()
 }
