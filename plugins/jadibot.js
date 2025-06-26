@@ -8,14 +8,13 @@ import fetch from 'node-fetch';
 let emoji = '🌹', emoji2 = '🤖', emoji3 = '✅', botname = 'Bot'
 let imagenurl = 'https://files.catbox.moe/1ips7f.jpg'
 let msm = '❌ Error:'
-//let jadi = 'jadibot'
+// let jadi = 'jadibot'
 
-
+// CACHE DE IMAGEN
 let cachedThumbnail = null
 fetch(imagenurl)
   .then(res => res.buffer())
   .then(buffer => cachedThumbnail = buffer)
-  .catch(err => console.error('[❌ ERROR AL DESCARGAR IMAGEN]:', err))
 
 let handler = async (m, { conn, command, usedPrefix, args, text, isOwner }) => {
   const isCommand1 = /^(deletesesion|deletebot|deletesession|deletesesaion)$/i.test(command)
@@ -84,6 +83,8 @@ let handler = async (m, { conn, command, usedPrefix, args, text, isOwner }) => {
 ╰═━━━━━━━━━━━━━━━━⬣
 
 ${listado || '🐉 No hay sub-bots conectados actualmente.'}`
+
+      if (!cachedThumbnail) cachedThumbnail = await fetch(imagenurl).then(res => res.buffer())
 
       await conn.sendMessage(m.chat, {
         text: responseMessage,
