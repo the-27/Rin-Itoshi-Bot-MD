@@ -73,7 +73,7 @@ const message = users.map((v, i) => `
 ⁖ฺ۟̇࣪·֗٬̤⃟🧃 *usuario* : ${v.user.name || '𝐒𝐔𝐁 𝐁𝐎𝐓 ☘︎'}
 ⁖ฺ۟̇࣪·֗٬̤⃟🔗 *Enlace* : wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=${usedPrefix}estado
 ⁖ฺ۟̇࣪·֗٬̤⃟🪇 *online* : ${v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : 'Desconocido'}
-╰❍━━━━━━━✦୨୧✦━━━━━━━❍╯`).join('\n\n');
+╰❍━━━━━━━✦୨ B ୧✦━━━━━━━❍╯`).join('\n\n');
 
 const replyMessage = message.length === 0 ? `⚽ No hay sub-bots conectados actualmente..` : message;
 
