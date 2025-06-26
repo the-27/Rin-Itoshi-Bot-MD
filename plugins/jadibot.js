@@ -79,25 +79,23 @@ const totalUsers = users.length;
 const responseMessage = `╭═━⬣ 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 ✦ 𝐉𝐀𝐃𝐈𝐁𝐎𝐓 🌹
 ┃ ⭐ sᥙᑲᑲ᥆𝗍s ᥲᥴ𝗍і᥎᥆s: *${totalUsers || '0'}*
 ╰═━━━━━━━━━━━━━━━━⬣\n\n${replyMessage.trim()}`.trim();
-await conn.sendMessage(m.chat, {
-        text: replyMessage,
-        contextInfo: {
-          mentionedJid: [m.sender],
-          externalAdReply: {
-            title: '✧★ꦿ𝐒𝐔𝐁𝐁𝐎𝐓𝐒 𝐀𝐂𝐓𝐈𝐕𝐎𝐒 ꦿ᭄ꦿ✧',
-            body: dev,
-            thumbnailUrl: avatar,
-            mediaType: 1,
-            showAdAttribution: true,
-            renderLargerThumbnail: true
-          }
-        }
-      }, { quoted: m });
-
-      break;
+await _envio.sendMessage(m.chat, {
+  text: responseMessage,
+  mentions: [_envio.parseMention(responseMessage)],
+  contextInfo: {
+    mentionedJid: [m.sender],
+    externalAdReply: {
+      title: '✧★ꦿ𝐒𝐔𝐁𝐁𝐎𝐓𝐒 𝐀𝐂𝐓𝐈𝐕𝐎𝐒 ꦿ᭄ꦿ✧',
+      body: dev,
+      thumbnailUrl: avatar,
+      mediaType: 1,
+      showAdAttribution: true,
+      renderLargerThumbnail: true
     }
   }
-};
+}, { quoted: m });
+
+break;
 
 handler.tags = ['serbot']
 handler.help = ['sockets', 'deletesesion', 'pausarai']
