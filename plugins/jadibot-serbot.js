@@ -164,18 +164,21 @@ secret = secret.match(/.{1,4}/g)?.join("-")
 
 
 let txtCode = await conn.sendMessage(m.chat, {
-    image: { url: imgurl },
-    caption: rtx2,
-    quoted: fkontak,
-    contextInfo: {
-      externalAdReply: {
-        title: botname,
-        body: dev,
-        mediaType: 1,
-        thumbnail: avatar,
-        sourceUrl: 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U' + rcanal
-      }
+  image: { url: imgurl },
+  caption: rtx2,
+  quoted: fkontak,
+  contextInfo: {
+    externalAdReply: {
+      showAdAttribution: true,
+      title: '⚡ Canal oficial ⚽',
+      body: 'Sígueme para más contenido',
+      mediaType: 1,
+      previewType: "PHOTO",
+      renderLargerThumbnail: true,
+      thumbnail: await (await fetch(imgurl)).buffer(),
+      sourceUrl: `120363401008003732@newsletter`
     }
+  }
 });
 
 /*let txtCode = await conn.sendMessage(m.chat, {
