@@ -16,7 +16,7 @@ const handler = async (m, { conn, text, command }) => {
             return conn.reply(m.chat, '🛑 No se encontraron resultados para tu búsqueda.', m, rcanal);
         }
 
-        const { title, url, views, timestamp, ago } = ytVideo;
+        const { title, url, views, timestamp, ago, thumbnail } = ytVideo;
 
         const infoMessage = `
 ≡ *Información del Audio*
@@ -29,8 +29,13 @@ const handler = async (m, { conn, text, command }) => {
 └──────────────
 `;
 
-        await conn.reply(m.chat, infoMessage, m, rcanal);
+        // Enviar la imagen con la info como caption
+        await conn.sendMessage(m.chat, {
+            image: { url: thumbnail },
+            caption: infoMessage
+        }, { quoted: m });
 
+        // Descargar y enviar el audio
         try {
             const apiResponse = await fetch(`https://api.vreden.my.id/api/ytmp3?url=${url}`);
             const apiData = await apiResponse.json();
@@ -48,15 +53,16 @@ const handler = async (m, { conn, text, command }) => {
             await m.react('❌');
             return conn.reply(m.chat, 'No se pudo enviar el audio. Intenta nuevamente.', m);
         }
+
     } catch (error) {
         await m.react('❌');
         return conn.reply(m.chat, `Ocurrió un error: ${error.message}`, m);
     }
 };
 
-handler.command = ['play5'];
+handler.command = ['play'];
 handler.tags = ['descargas'];
-handler.help = ['play5 <texto>'];
+handler.help = ['play <texto>'];
 
 export default handler;
 

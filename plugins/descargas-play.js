@@ -1,6 +1,6 @@
 // editado y reestructurado por 
 // https://github.com/deylin-eliac 
-
+/*
 import fetch from "node-fetch";
 import yts from "yt-search";
 import axios from "axios";
@@ -205,3 +205,4 @@ function formatViews(views) {
     ? (views / 1000).toFixed(1) + "k (" + views.toLocaleString() + ")"
     : views.toString();
 }
+*/
