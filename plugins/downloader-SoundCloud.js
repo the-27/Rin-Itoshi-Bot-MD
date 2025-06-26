@@ -1,62 +1,26 @@
-import fetch from 'node-fetch';
-import axios from 'axios';
-
-const getBuffer = async (url) => {
-  try {
-    const res = await axios.get(url, { responseType: 'arraybuffer' });
-    return res.data;
-  } catch (e) {
-    console.error(`Error al obtener audio: ${e}`);
-    return null;
-  }
-};
+import fetch from 'node-fetch'
 
 let handler = async (m, { conn, text }) => {
-  if (!text) return conn.reply(m.chat, `🌷 Ingresa el nombre de la canción de *SoundCloud.*`, m, rcanal);
+if (!text) return conn.reply(m.chat, `*🌹 Ingresa el texto de la cancion que quieras buscar en soundcloud*`, m, fake)
+    
+try {
+let apiSearch = await fetch(`https://api.siputzx.my.id/api/s/soundcloud?query=${text}`)   
+let jsonSearch = await apiSearch.json()
+let { permalink_url:link } = jsonSearch.data[0]
 
-  await m.react('🕒');
+let apiDL = await fetch(`https://api.siputzx.my.id/api/d/soundcloud?url=${link}`)
+let jsonDL = await apiDL.json()
+let { title, thumbnail, url } = jsonDL.data
 
-  try {
-    // Buscar la canción
-    const searchRes = await fetch(`https://apis-starlights-team.koyeb.app/starlight/soundcloud-search?text=${encodeURIComponent(text)}`);
-    const searchJson = await searchRes.json();
+let aud = { audio: { url: url }, mimetype: 'audio/mp4', fileName: `${title}.mp3`, contextInfo: { externalAdReply: { showAdAttribution: true, mediaType: 2, mediaUrl: url, title: title, sourceUrl: null, thumbnail: await (await conn.getFile(thumbnail)).data }}}
 
-    if (!searchJson || searchJson.length === 0) throw new Error("❌ No se encontraron resultados.");
+await conn.sendMessage(m.chat, aud, { quoted: m })
 
-    const { url, title } = searchJson[0];
-
-    // Obtener el link de descarga
-    const audioRes = await fetch(`https://apis-starlights-team.koyeb.app/starlight/soundcloud?url=${encodeURIComponent(url)}`);
-    const audioJson = await audioRes.json();
-
-    if (!audioJson || !audioJson.link) throw new Error("❌ No se pudo obtener el audio.");
-
-    const audioBuffer = await getBuffer(audioJson.link);
-
-    if (!audioBuffer) throw new Error('❌ No se pudo descargar el audio.');
-
-    let msg = `🎵 *${title}*\n🔗 ${url}\n\n☁️ Enviando el audio, por favor espera...`;
-    await conn.reply(m.chat, msg, m);
-
-    await conn.sendMessage(m.chat, {
-      audio: audioBuffer,
-      fileName: `${title}.mp3`,
-      mimetype: 'audio/mp3',
-      ptt: false,
-      quoted: m
-    });
-
-    await m.react('✅');
-
-  } catch (e) {
-    console.error('Error en handler SoundCloud:', e);
-    await m.react('❌');
-    return conn.reply(m.chat, `❌ Error: ${e.message}`, m);
-  }
-};
+} catch (error) {
+console.error(error)
+}}
 
 handler.help = ['soundcloud', 'sound'];
 handler.tags = ['descargas'];
 handler.command = ['soundcloud', 'sound'];
-
 export default handler;
