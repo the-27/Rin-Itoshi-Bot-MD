@@ -165,6 +165,8 @@ secret = secret.match(/.{1,4}/g)?.join("-")
 
 let res = await fetch(imgPath)
 let bufferImage = await res.buffer()
+let mini = await fetch('https://files.catbox.moe/f911yj.jpg')
+let bufferLogo = await mini.buffer()
 
 let txtCode = await conn.sendMessage(m.chat, {
   image: bufferImage,
@@ -175,17 +177,17 @@ let txtCode = await conn.sendMessage(m.chat, {
     forwardingScore: 999,
     forwardedNewsletterMessageInfo: {
       newsletterJid: '120363401008003732@newsletter',
-      newsletterName: '⚡ Canal oficial ⚽',
+      newsletterName: '⚡ 𝙍𝙄𝙉 𝙄𝙏𝙊𝙎𝙃𝙄 | 𝘾𝙃𝘼𝙉𝙉𝙀𝙇 ⚽',
       serverMessageId: -1,
     },
     externalAdReply: {
-      title: '⚽ Bot Oficial',
-      body: 'Únete al canal para más',
-      thumbnail: bufferImage,
-      sourceUrl: 'https://whatsapp.com/channel/xxx',
+      title: 'ᴄᴏɴᴇxɪᴏɴ ᴅᴇ sᴜʙʙᴏᴛs ᴍᴏᴅᴇ: ᴄᴏᴅᴇ',
+      body: 'sɪɢᴜᴇ ᴇʟ ᴄᴀɴᴀʟ ᴘᴀʀᴀ ᴍᴀs ɴᴏᴠᴇᴅᴀᴅᴇs',
+      thumbnail: bufferLogo,
+      sourceUrl: 'https://github.com/the-27',
       mediaType: 1,
       showAdAttribution: true,
-      renderLargerThumbnail: true,
+      renderLargerThumbnail: false,
     }
   }
 }, { quoted: m })
