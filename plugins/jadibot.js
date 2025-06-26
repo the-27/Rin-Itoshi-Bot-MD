@@ -79,7 +79,7 @@ const replyMessage = message.length === 0 ? `⚽ No hay sub-bots conectados actu
 
 const totalUsers = users.length;
 const responseMessage = `╭═━⬣ ⚡ 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 - 𝐉𝐀𝐃𝐈𝐁𝐎𝐓 🌹
-┃ 🌴 sᴜʙʙᴏᴛs ᴀᴄᴛɪᴠᴏs: *${totalUsers || '0'}*
+┃ 🌴 sᥙᑲᑲ᥆𝗍s ᥲᥴ𝗍і᥎᥆s: *${totalUsers || '0'}*
 ╰═━━━━━━━━━━━━━━━━⬣\n\n${replyMessage.trim()}`.trim();
 
   await conn.sendMessage(m.chat, {
