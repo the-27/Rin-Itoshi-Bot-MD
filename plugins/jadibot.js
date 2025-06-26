@@ -67,32 +67,33 @@ resultado += segundos + " segundos";
 }
 return resultado;
 }
-const message = users.map((v, i) => `
+  const message = users.map((v, i) => `
 ⬣───[ *SUB - BOT: « #${i + 1} »* ]───⬣
 🧃 *usuario* : ${v.user?.name || '𝐒𝐔𝐁 𝐁𝐎𝐓 ☘︎'}
 🔗 *Enlace* : wa.me/${(v.user?.jid || '').replace(/[^0-9]/g, '')}?text=${usedPrefix}estado
-🪇 *online* : ${ v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : 'Desconocido'}
+🪇 *online* : ${v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : 'Desconocido'}
 ╰❍━━━━━━━━━━✦━━━━━━━━━━❍╯
 `).join('\n\n');
-const replyMessage = message.length === 0 
-  ? `No hay Sub-Bots disponible por el momento, verifique más tarde.` 
-  : message;
 
-const totalUsers = users.length;
+  const replyMessage = message.length === 0 
+    ? `No hay Sub-Bots disponible por el momento, verifique más tarde.` 
+    : message;
 
-const responseMessage = `╭═━⬣ 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 ✦ 𝐉𝐀𝐃𝐈𝐁𝐎𝐓 🌹
+  const totalUsers = users.length;
+
+  const responseMessage = `╭═━⬣ 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 ✦ 𝐉𝐀𝐃𝐈𝐁𝐎𝐓 🌹
 ┃ ⭐ sᥙᑲᑲ᥆𝗍s ᥲᥴ𝗍і᥎᥆s: *${totalUsers || '0'}*
 ╰═━━━━━━━━━━━━━━━━⬣
 
 ${replyMessage.trim()}`.trim();
 
-await _envio.sendMessage(m.chat, {
-  image: { url: 'https://files.catbox.moe/dajw8b.jpg' },
-  caption: responseMessage,
-  mentions: _envio.parseMention(responseMessage)
-}, { quoted: fkontak });
+  await _envio.sendMessage(m.chat, {
+    image: { url: 'https://files.catbox.moe/dajw8b.jpg' },
+    caption: responseMessage,
+    mentions: _envio.parseMention(responseMessage)
+  }, { quoted: fkontak });
+};
 
-break;
 
 handler.tags = ['serbot']
 handler.help = ['sockets', 'deletesesion', 'pausarai']
