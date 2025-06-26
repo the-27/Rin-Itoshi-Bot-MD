@@ -74,11 +74,19 @@ const message = users.map((v, i) => `
 🪇 *online* : ${ v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : 'Desconocido'}
 ╰❍━━━━━━━━━━✦━━━━━━━━━━❍╯
 `).join('\n\n');
-const replyMessage = message.length === 0 ? `No hay Sub-Bots disponible por el momento, verifique mas tarde.` : message;
-const totalUsers = users.length;
+
+
+const replyMessage = (message && message.length !== 0)
+  ? message
+  : 'No hay Sub-Bots disponible por el momento, verifique más tarde.';
+
+const totalUsers = Array.isArray(users) ? users.length : 0;
+
 const responseMessage = `╭═━⬣ 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 ✦ 𝐉𝐀𝐃𝐈𝐁𝐎𝐓 🌹
-┃  sᥙᑲᑲ᥆𝗍s ᥲᥴ𝗍і᥎᥆s: *${totalUsers || '0'}*
-╰═━━━━━━━━━━━━━━━━⬣\n\n${replyMessage.trim()}`.trim();
+┃  sᥙᑲᑲ᥆𝗍s ᥲᥴ𝗍і᥎᥆s: *${totalUsers}*
+╰═━━━━━━━━━━━━━━━━⬣
+
+${replyMessage.trim()}`.trim();
 
 await _envio.sendMessage(m.chat, {
   text: responseMessage,
@@ -87,8 +95,8 @@ await _envio.sendMessage(m.chat, {
     mentionedJid: [m.sender],
     externalAdReply: {
       title: '✧★ꦿ𝐒𝐔𝐁𝐁𝐎𝐓𝐒 𝐀𝐂𝐓𝐈𝐕𝐎𝐒 ꦿ᭄ꦿ✧',
-      body: dev || 'SubBots by Developer',  
-      thumbnailUrl: avatar || null,
+      body: typeof dev === 'string' ? dev : 'SubBots by Developer',
+      thumbnailUrl: avatar,
       mediaType: 1,
       showAdAttribution: true,
       renderLargerThumbnail: true
