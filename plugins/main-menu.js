@@ -21,7 +21,7 @@ let handler = async (m, { conn, usedPrefix }) => {
 
     let img = 'https://files.catbox.moe/rs834j.jpg';
     let menu = `
-> ｡ﾟ･ 𖥸──-ˋˏ❢ˎˊ-──𖥸 ｡ﾟ･
+ ｡ﾟ･ 𖥸──-ˋˏ❢ˎˊ-──𖥸 ｡ﾟ･
 > ⚘۪۬『 𝙄𝙉𝙁𝙊 - 𝙐𝙎𝙀𝙍 』
 > ⚘۪۬👤 *USUARIO* : ${name}
 > ⚘۪۬🔗 *NÚMERO* : wa.me/${numero}
