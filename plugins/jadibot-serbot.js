@@ -59,8 +59,7 @@ let rtx2 = `╔═══════════════════╗
 ╚═══════════════════╝
 > *✇︎ 𝑵𝒐𝒕𝒂:* 𝑬𝒔𝒕𝒆 𝑪𝒐𝒅𝒊𝒈𝒐 𝒔𝒐𝒍𝒐 𝒇𝒖𝒏𝒄𝒊𝒐𝒏𝒂 𝒆𝒏 𝒆𝒍 𝒏𝒖𝒎𝒆𝒓𝒐 𝒒𝒖𝒆 𝒍𝒐 𝒔𝒐𝒍𝒊𝒄𝒊𝒕𝒐.`;
 
-let imgPath = './src/catalogo.jpg';
-let bufferImage = fs.readFileSync(imgPath);
+let imgPath = 'https://files.catbox.moe/dr3r2f.jpg';
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -164,28 +163,32 @@ let secret = await sock.requestPairingCode((m.sender.split`@`[0]))
 secret = secret.match(/.{1,4}/g)?.join("-")
 
 
+let res = await fetch(imgPath)
+let bufferImage = await res.buffer()
+
 let txtCode = await conn.sendMessage(m.chat, {
-  text: rtx2,
+  image: bufferImage,
+  caption: rtx2,
   contextInfo: {
-    mentionedJid: [m.sender, userId],
+    mentionedJid: [m.sender],
     isForwarded: true,
     forwardingScore: 999,
     forwardedNewsletterMessageInfo: {
-      newsletterJid: channelRD.id,
-      newsletterName: channelRD.name,
+      newsletterJid: '120363401008003732@newsletter',
+      newsletterName: '⚡ Canal oficial ⚽',
       serverMessageId: -1,
     },
     externalAdReply: {
-      title: botname,
-      body: textbot,
+      title: '⚽ Bot Oficial',
+      body: 'Únete al canal para más',
       thumbnail: bufferImage,
-      sourceUrl: redes,
+      sourceUrl: 'https://whatsapp.com/channel/xxx',
       mediaType: 1,
       showAdAttribution: true,
       renderLargerThumbnail: true,
     }
   }
-}, { quoted: m });
+}, { quoted: m })
 
 /*let txtCode = await conn.sendMessage(m.chat, {
   image: { url: imgurl },
