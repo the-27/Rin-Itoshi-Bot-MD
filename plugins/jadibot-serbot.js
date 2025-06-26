@@ -169,8 +169,8 @@ await conn.sendMessage(m.chat, {
     contextInfo: {
         mentionedJid: [m.sender],
         externalAdReply: {
-            title: '✧ ᴄᴏɴᴇxɪᴏɴ ᴅᴇ sᴜʙʙᴏᴛs ᴍᴏᴅᴇ: ᴄᴏᴅᴇꦿ✧',
-            body: 'sɪɢᴜᴇ ᴇʟ ᴄᴀɴᴀʟ ᴘᴀʀᴀ ᴍᴀs ɴᴏᴠᴇᴅᴀᴅᴇs',
+            title: '✧ ᴄᴏɴᴇxɪᴏɴ ᴅᴇ sᴜʙʙᴏᴛ ᴍᴏᴅᴇ: ᴄᴏᴅᴇꦿ✧',
+            body: '🌴 𝙍𝙄𝙉 𝙄𝙏𝙊𝙎𝙃𝙄 𝘽𝙊𝙏 𝙈𝘿 ⚽',
             thumbnailUrl: imgPath,
             mediaType: 1,
             showAdAttribution: true,
@@ -184,7 +184,6 @@ await conn.sendMessage(m.chat, {
   caption: rtx2,
   quoted: m
 });*/
-
 let codeBot = await conn.reply(m.chat, `${secret}`, fkontak, rcanal);
 //txtCode = await conn.sendMessage(m.chat, {text : rtx2}, { quoted: m })
 //codeBot = await m.reply(secret)
