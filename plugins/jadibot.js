@@ -76,12 +76,31 @@ const message = users.map((v, i) => `
 `).join('\n\n');
 const replyMessage = message.length === 0 ? `No hay Sub-Bots disponible por el momento, verifique mas tarde.` : message;
 const totalUsers = users.length;
-const responseMessage = `╭═━⬣ 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 ✦ 𝐉𝐀𝐃𝐈𝐁𝐎𝐓 🌹
-┃ ⭐ sᥙᑲᑲ᥆𝗍s ᥲᥴ𝗍і᥎᥆s: *${totalUsers || '0'}*
+
+let responseMessage = `╭═━⬣ 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 ✦ 𝐉𝐀𝐃𝐈𝐁𝐎𝐓 🌹
+┃ sᥙᑲᑲ᥆𝗍s ᥲᥴ𝗍і᥎᥆s: *${totalUsers || '0'}*
 ╰═━━━━━━━━━━━━━━━━⬣\n\n${replyMessage.trim()}`.trim();
-await _envio.sendMessage(m.chat, {text: responseMessage, mentions: _envio.parseMention(responseMessage)}, {quoted: m})
-break   
-}}
+
+
+await conn.sendMessage(m.chat, { 
+    text: responseMessage,
+    contextInfo: {
+        mentionedJid: [m.sender],
+        externalAdReply: {
+            title: '✧★᭄ꦿ᭄ꦿ𝐏𝐄𝐑𝐅𝐈𝐋 𝐃𝐄 𝐔𝐒𝐔𝐀𝐑𝐈𝐎★᭄ꦿ᭄ꦿ✧',
+            body: dev,
+            thumbnailUrl: perfil,
+            mediaType: 1,
+            showAdAttribution: true,
+            renderLargerThumbnail: true
+        }
+    }
+}, { quoted: m });
+
+await conn.sendMessage(m.chat, {
+    text: responseMessage,
+    mentions: [m.sender]
+}, { quoted: m });
 
 handler.tags = ['serbot']
 handler.help = ['sockets', 'deletesesion', 'pausarai']
