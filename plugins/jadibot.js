@@ -2,112 +2,111 @@ import { readdirSync, statSync, unlinkSync, existsSync, readFileSync, watch, rmS
 const fs = { ...fsPromises, existsSync };
 import path, { join } from 'path' 
 import ws from 'ws';
-import fetch from 'node-fetch' // ✅ Importación para cargar la imagen
+import fetch from 'node-fetch'
 
-let handler = async (m, { conn: _envio, command, usedPrefix, args, text, isOwner}) => {
-let imagenurl = 'https://files.catbox.moe/1ips7f.jpg'
-const isCommand1 = /^(deletesesion|deletebot|deletesession|deletesesaion)$/i.test(command)  
-const isCommand2 = /^(stop|pausarai|pausarbot)$/i.test(command)  
-const isCommand3 = /^(bots|sockets|socket)$/i.test(command)   
+// VARIABLES FALTANTES
+let emoji = '😼'
+let emoji2 = '🤖'
+let emoji3 = '✅'
+let botname = 'Bot'
+//let jadi = 'jadibot'
+let msm = '❌ Error:'
 
-async function reportError(e) {
-  await m.reply(`${msm} Ocurrió un error.`)
-  console.log(e)
-}
+let handler = async (m, { conn, command, usedPrefix, args, text, isOwner }) => {
+  let imagenurl = 'https://files.catbox.moe/1ips7f.jpg'
+  const isCommand1 = /^(deletesesion|deletebot|deletesession|deletesesaion)$/i.test(command)
+  const isCommand2 = /^(stop|pausarai|pausarbot)$/i.test(command)
+  const isCommand3 = /^(bots|sockets|socket)$/i.test(command)
 
-switch (true) {       
-case isCommand1:
-  let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender
-  let uniqid = `${who.split`@`[0]}`
-  const path = `./${jadi}/${uniqid}`
-
-  if (!await fs.existsSync(path)) {
-    await conn.sendMessage(m.chat, { text: `${emoji} Usted no tiene una sesión, puede crear una usando:\n${usedPrefix + command}\n\nSi tiene una *(ID)* puede usar para saltarse el paso anterior usando:\n*${usedPrefix + command}* \`\`\`(ID)\`\`\`` }, { quoted: m })
-    return
+  async function reportError(e) {
+    await m.reply(`${msm} Ocurrió un error.`)
+    console.log(e)
   }
 
-  if (global.conn.user.jid !== conn.user.jid) return conn.sendMessage(m.chat, {
-    text: `${emoji2} Use este comando al *Bot* principal.\n\n*https://api.whatsapp.com/send/?phone=${global.conn.user.jid.split`@`[0]}&text=${usedPrefix + command}&type=phone_number&app_absent=0*`
-  }, { quoted: m }) 
-  else {
-    await conn.sendMessage(m.chat, { text: `${emoji} Tu sesión como *Sub-Bot* se ha eliminado` }, { quoted: m })
-  }
+  switch (true) {
+    case isCommand1:
+      let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender
+      let uniqid = `${who.split`@`[0]}`
+      const userPath = `./${jadi}/${uniqid}`
 
-  try {
-    fs.rmdir(`./${jadi}/` + uniqid, { recursive: true, force: true })
-    await conn.sendMessage(m.chat, { text : `${emoji3} Ha cerrado sesión y borrado todo rastro.` }, { quoted: m })
-  } catch (e) {
-    reportError(e)
-  }  
-  break
+      if (!fs.existsSync(userPath)) {
+        await conn.sendMessage(m.chat, { text: `${emoji} Usted no tiene una sesión...` }, { quoted: m })
+        return
+      }
 
-case isCommand2:
-  if (global.conn.user.jid == conn.user.jid) {
-    conn.reply(m.chat, `${emoji} Si no es *Sub-Bot* comuníquese al número principal del *Bot* para ser *Sub-Bot*.`, m)
-  } else {
-    await conn.reply(m.chat, `${emoji} ${botname} desactivada.`, m)
-    conn.ws.close()
-  }  
-  break
+      if (global.conn.user.jid !== conn.user.jid) {
+        return conn.sendMessage(m.chat, {
+          text: `${emoji2} Use este comando al *Bot* principal.\n\n*https://api.whatsapp.com/send/?phone=${global.conn.user.jid.split`@`[0]}&text=${usedPrefix + command}&type=phone_number&app_absent=0*`
+        }, { quoted: m })
+      } else {
+        await conn.sendMessage(m.chat, { text: `${emoji} Tu sesión como *Sub-Bot* se ha eliminado` }, { quoted: m })
+      }
 
-case isCommand3:
-  const users = [...new Set([...global.conns.filter((conn) => conn.user && conn.ws.socket && conn.ws.socket.readyState !== ws.CLOSED).map((conn) => conn)])];
+      try {
+        await fs.rmdir(userPath, { recursive: true, force: true })
+        await conn.sendMessage(m.chat, { text: `${emoji3} Ha cerrado sesión y borrado todo rastro.` }, { quoted: m })
+      } catch (e) {
+        reportError(e)
+      }
+      break
 
-  function convertirMsADiasHorasMinutosSegundos(ms) {
-    var segundos = Math.floor(ms / 1000);
-    var minutos = Math.floor(segundos / 60);
-    var horas = Math.floor(minutos / 60);
-    var días = Math.floor(horas / 24);
-    segundos %= 60;
-    minutos %= 60;
-    horas %= 24;
-    var resultado = "";
-    if (días !== 0) resultado += días + "D, ";
-    if (horas !== 0) resultado += horas + "H, ";
-    if (minutos !== 0) resultado += minutos + "M, ";
-    if (segundos !== 0) resultado += segundos + " S";
-    return resultado;
-  }
+    case isCommand2:
+      if (global.conn.user.jid == conn.user.jid) {
+        conn.reply(m.chat, `${emoji} Si no es *Sub-Bot*...`, m)
+      } else {
+        await conn.reply(m.chat, `${emoji} ${botname} desactivada.`, m)
+        conn.ws.close()
+      }
+      break
 
-  const message = users.map((v, i) => `
+    case isCommand3:
+      const users = [...new Set([...global.conns.filter(c => c.user && c.ws.socket && c.ws.socket.readyState !== ws.CLOSED)])]
+
+      function convertirMsADiasHorasMinutosSegundos(ms) {
+        let segundos = Math.floor(ms / 1000)
+        let minutos = Math.floor(segundos / 60)
+        let horas = Math.floor(minutos / 60)
+        let días = Math.floor(horas / 24)
+        segundos %= 60
+        minutos %= 60
+        horas %= 24
+        return `${días}D ${horas}H ${minutos}M ${segundos}S`
+      }
+
+      const message = users.map((v, i) => `
 ⬣───[ *SUB - BOT: « #${i + 1} »* ]───⬣
-⁖ฺ۟̇࣪·֗٬̤⃟🧃 *usuario* : ${v.user?.name || '𝐒𝐔𝐁 𝐁𝐎𝐓 ☘︎'}
-⁖ฺ۟̇࣪·֗٬̤⃟🔗 *Enlace* : wa.me/${(v.user?.jid || '').replace(/[^0-9]/g, '')}?text=${usedPrefix}estado
-⁖ฺ۟̇࣪·֗٬̤⃟🪇 *online* : ${v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : 'Desconocido'}
-╰❍━━━━━━━✦୨ B ୧✦━━━━━━━❍╯`).join('\n\n');
+🧃 *usuario* : ${v.user?.name || '𝐒𝐔𝐁 𝐁𝐎𝐓 ☘︎'}
+🔗 *Enlace* : wa.me/${(v.user?.jid || '').replace(/[^0-9]/g, '')}?text=${usedPrefix}estado
+🪇 *online* : ${v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : 'Desconocido'}
+╰❍━━━━━━━✦━━━━━━━❍╯`).join('\n\n');
 
-  const replyMessage = message.length === 0 
-    ? `🐉 No hay sub-bots conectados actualmente.` 
-    : message;
-
-  const totalUsers = users.length;
-
-  const responseMessage = `╭═━⬣ ⚡ 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 - 𝐉𝐀𝐃𝐈𝐁𝐎𝐓 🌹
-┃ 🌴 sᥙᑲᑲ᥆𝗍s ᥲᥴ𝗍і᥎᥆s: *${totalUsers || '0'}*
+      const responseMessage = `╭═━⬣ ⚡ 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 - 𝐉𝐀𝐃𝐈𝐁𝐎𝐓 🌹
+┃ 🌴 sᥙᑲᑲ᥆𝗍s ᥲᥴ𝗍і᥎᥆s: *${users.length}*
 ╰═━━━━━━━━━━━━━━━━⬣
 
-${replyMessage}`.trim();
+${message || '🐉 No hay sub-bots conectados actualmente.'}`
 
-  await conn.sendMessage(m.chat, {
-    text: responseMessage,
-    contextInfo: {
-      mentionedJid: conn.parseMention(responseMessage),
-      externalAdReply: {
-        title: '⚡ 𝐒𝐔𝐁-𝐁𝐎𝐓𝐒 𝐀𝐂𝐓𝐈𝐕𝐎𝐒 🔥',
-        body: '🦠 𝐑𝐈𝐍•- ⃝𝐈𝐓𝐎𝐒𝐇𝐈 𝐁𝐎𝐓 𝐌𝐃𝄟 ⚡',
-        mediaUrl: imagenurl,
-        mediaType: 1,
-        renderLargerThumbnail: true,
-        thumbnail: await (await fetch(imagenurl)).buffer(),
-        sourceUrl: imagenurl
-      }
-    }
-  }, { quoted: m })
-  break
+      await conn.sendMessage(m.chat, {
+        text: responseMessage,
+        contextInfo: {
+          mentionedJid: conn.parseMention(responseMessage),
+          externalAdReply: {
+            title: '⚡ 𝐒𝐔𝐁-𝐁𝐎𝐓𝐒 𝐀𝐂𝐓𝐈𝐕𝐎𝐒 🔥',
+            body: '🦠 𝐑𝐈𝐍•- ⃝𝐈𝐓𝐎𝐒𝐇𝐈 𝐁𝐎𝐓 𝐌𝐃𝄟 ⚡',
+            mediaUrl: imagenurl,
+            mediaType: 1,
+            renderLargerThumbnail: true,
+            thumbnail: await (await fetch(imagenurl)).buffer(),
+            sourceUrl: imagenurl
+          }
+        }
+      }, { quoted: m })
+      break
+  }
 }
 
 handler.tags = ['serbot']
 handler.help = ['sockets', 'deletesesion', 'pausarai']
-handler.command = ['deletesesion', 'deletebot', 'deletesession', 'deletesession', 'stop', 'pausarai', 'pausarbot', 'bots', 'sockets', 'socket']
+handler.command = ['deletesesion', 'deletebot', 'deletesession', 'deletesesaion', 'stop', 'pausarai', 'pausarbot', 'bots', 'sockets', 'socket']
 
 export default handler
