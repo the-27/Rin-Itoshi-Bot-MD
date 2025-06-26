@@ -79,10 +79,9 @@ let handler = async (m, { conn, usedPrefix, isOwner }) => {
   try {
     const black = 'BLACK.OFC';
     const numCreador = '51969214380';
-    const dev = '𝙏𝙝𝙚 𝘽𝙡𝙖𝙘𝙠 - Creador Oficial;
-    const imageUrl = 'https://files.catbox.moe/pp7ncd.jpg'; 
+    const dev = '𝙏𝙝𝙚 𝘽𝙡𝙖𝙘𝙠 - Creador Oficial';
+    const imageUrl = 'https://files.catbox.moe/pp7ncd.jpg';
 
- 
     const vcard = `BEGIN:VCARD
 VERSION:3.0
 N:;${black};;;
@@ -91,11 +90,11 @@ ORG:${black}
 TITLE:
 item1.TEL;waid=${numCreador}:${numCreador}
 item1.X-ABLabel:CREADOR
-X-WA-BIZ-DESCRIPTION: cantacto de mi creador
+X-WA-BIZ-DESCRIPTION: contacto de mi creador
 X-WA-BIZ-NAME:${black}
 END:VCARD`;
 
-    // Enviar contacto
+    
     await conn.sendMessage(m.chat, {
       contacts: {
         displayName: 'おBlack.xyz⁩',
@@ -103,7 +102,7 @@ END:VCARD`;
       }
     }, { quoted: m });
 
-    // Enviar mensaje con info
+   
     await conn.sendMessage(m.chat, {
       text: `
 ┏━━━━━━━━━━━━━━━━━━━┓
@@ -112,7 +111,7 @@ END:VCARD`;
 ┃ 🌱 *NOMBRE:* ${black}
 ┃ ⚡ *NUMERO:* ${numCreador}
 ┃ 💖 *LINK:* wa.me/${numCreador}
-┃ 👻 *GITHUB:* https://github.com/the-27
+┃ 👻 *GITHUB:* https://github.com/the-27 ⭐
 ┗━━━━━━━━━━━━━━━━━━━┛
                    ᵉⁿˡᵃᶜᵉˢ ᵘᵗⁱˡᵉˢ`.trim(),
       contextInfo: {
