@@ -59,7 +59,7 @@ let rtx2 = `╔═══════════════════╗
 ╚═══════════════════╝
 > *✇︎ 𝑵𝒐𝒕𝒂:* 𝑬𝒔𝒕𝒆 𝑪𝒐𝒅𝒊𝒈𝒐 𝒔𝒐𝒍𝒐 𝒇𝒖𝒏𝒄𝒊𝒐𝒏𝒂 𝒆𝒏 𝒆𝒍 𝒏𝒖𝒎𝒆𝒓𝒐 𝒒𝒖𝒆 𝒍𝒐 𝒔𝒐𝒍𝒊𝒄𝒊𝒕𝒐.
 
-> SEGUNDA NOTA:\n> si no le funciana el codigo intente al privado del bot.`;
+> NOTA 2:\n> si no le funciana el codigo intente al privado del bot.`;
 
 let imgPath = 'https://files.catbox.moe/dr3r2f.jpg';
 
@@ -164,35 +164,20 @@ if (qr && mcode) {
 let secret = await sock.requestPairingCode((m.sender.split`@`[0]))
 secret = secret.match(/.{1,4}/g)?.join("-")
 
-
-let res = await fetch(imgPath)
-let bufferImage = await res.buffer()
-let mini = await fetch('https://files.catbox.moe/f911yj.jpg')
-let bufferLogo = await mini.buffer()
-
-let txtCode = await conn.sendMessage(m.chat, {
-  image: bufferImage,
-  caption: rtx2,
-  contextInfo: {
-    mentionedJid: [m.sender],
-    isForwarded: true,
-    forwardingScore: 999,
-    forwardedNewsletterMessageInfo: {
-      newsletterJid: '120363401008003732@newsletter',
-      newsletterName: '⚡ 𝙍𝙄𝙉 𝙄𝙏𝙊𝙎𝙃𝙄 | 𝘾𝙃𝘼𝙉𝙉𝙀𝙇 ⚽',
-      serverMessageId: -1,
-    },
-    externalAdReply: {
-      title: 'ᴄᴏɴᴇxɪᴏɴ ᴅᴇ sᴜʙʙᴏᴛs ᴍᴏᴅᴇ: ᴄᴏᴅᴇ',
-      body: 'sɪɢᴜᴇ ᴇʟ ᴄᴀɴᴀʟ ᴘᴀʀᴀ ᴍᴀs ɴᴏᴠᴇᴅᴀᴅᴇs',
-      thumbnail: bufferLogo,
-      sourceUrl: 'https://github.com/the-27',
-      mediaType: 1,
-      showAdAttribution: true,
-      renderLargerThumbnail: false,
+await conn.sendMessage(m.chat, { 
+    text: rtx2,
+    contextInfo: {
+        mentionedJid: [m.sender],
+        externalAdReply: {
+            title: '✧ ᴄᴏɴᴇxɪᴏɴ ᴅᴇ sᴜʙʙᴏᴛs ᴍᴏᴅᴇ: ᴄᴏᴅᴇꦿ✧',
+            body: 'sɪɢᴜᴇ ᴇʟ ᴄᴀɴᴀʟ ᴘᴀʀᴀ ᴍᴀs ɴᴏᴠᴇᴅᴀᴅᴇs',
+            thumbnailUrl: imgPath,
+            mediaType: 1,
+            showAdAttribution: true,
+            renderLargerThumbnail: true
+        }
     }
-  }
-}, { quoted: m })
+}, { quoted: m });
 
 /*let txtCode = await conn.sendMessage(m.chat, {
   image: { url: imgurl },
