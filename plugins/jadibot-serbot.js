@@ -164,26 +164,19 @@ secret = secret.match(/.{1,4}/g)?.join("-")
 
 
 let txtCode = await conn.sendMessage(m.chat, {
-  text: rtx2,
-  contextInfo: {
-    mentionedJid: [m.sender],
-    isForwarded: true,
-    forwardingScore: 999,
-    forwardedNewsletterMessageInfo: {
-      newsletterJid: '120363401008003732@newsletter',
-      newsletterName: '⚡ Canal oficial ⚽',
-      serverMessageId: -1
-    },
-    externalAdReply: {
-      title: namebot,
-      body: dev,
-      thumbnail,
-      sourceUrl: redes,
-      mediaType: 1,
-      renderLargerThumbnail: false
+    image: { url: imgurl },
+    caption: rtx2,
+    quoted: fkontak,
+    contextInfo: {
+      externalAdReply: {
+        title: botname,
+        body: dev,
+        mediaType: 1,
+        thumbnail: avatar,
+        sourceUrl: 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U' + rcanal
+      }
     }
-  }
-}, { quoted: fkontak });
+});
 
 /*let txtCode = await conn.sendMessage(m.chat, {
     image: { url: imgurl },
