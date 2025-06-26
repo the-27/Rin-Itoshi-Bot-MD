@@ -163,11 +163,36 @@ let secret = await sock.requestPairingCode((m.sender.split`@`[0]))
 secret = secret.match(/.{1,4}/g)?.join("-")
 
 
-let txtCode = await conn.sendMessage(m.chat, {
+let txtCode = await conn.sendMessage(m.chat, { 
+  video: { url: imgurl() },
+  caption: rtx2,
+  gifPlayback: true,
+  gifAttribution: 0,
+  contextInfo: {
+    mentionedJid: [m.sender],
+    isForwarded: true,
+    forwardingScore: 999,
+    forwardedNewsletterMessageInfo: {
+      newsletterJid: channelRD.id,
+      newsletterName: channelRD.name,
+      serverMessageId: -1,
+    },
+    externalAdReply: {
+      title: '⚡⚡ Rin itoshi bot ⚡⚡',
+      body: dev,
+      thumbnailUrl: imgurl(),
+      sourceUrl: redes,
+      mediaType: 1,
+      renderLargerThumbnail: false,
+    }
+  }
+}, { quoted: null });
+
+/*let txtCode = await conn.sendMessage(m.chat, {
   image: { url: imgurl },
   caption: rtx2,
   quoted: m
-});
+});*/
 
 let codeBot = await conn.reply(m.chat, `${secret}`, fkontak, rcanal);
 //txtCode = await conn.sendMessage(m.chat, {text : rtx2}, { quoted: m })
