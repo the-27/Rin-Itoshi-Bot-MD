@@ -164,29 +164,27 @@ secret = secret.match(/.{1,4}/g)?.join("-")
 
 
 let txtCode = await conn.sendMessage(m.chat, { 
-  video: { url: imgurl() },
-  caption: rtx2,
-  gifPlayback: true,
-  gifAttribution: 0,
-  contextInfo: {
-    mentionedJid: [m.sender],
-    isForwarded: true,
-    forwardingScore: 999,
-    forwardedNewsletterMessageInfo: {
-      newsletterJid: channelRD.id,
-      newsletterName: channelRD.name,
-      serverMessageId: -1,
-    },
-    externalAdReply: {
-      title: '⚡⚡ Rin itoshi bot ⚡⚡',
-      body: dev,
-      thumbnailUrl: imgurl(),
-      sourceUrl: redes,
-      mediaType: 1,
-      renderLargerThumbnail: false,
-    }
-  }
-}, { quoted: null });
+      text: rtx2,
+      contextInfo: {
+          mentionedJid: [m.sender, userId],
+          isForwarded: true,
+          forwardedNewsletterMessageInfo: {
+              newsletterJid: channelRD.id,
+              newsletterName: channelRD.name,
+              serverMessageId: -1,
+          },
+          forwardingScore: 999,
+          externalAdReply: {
+              title: botname,
+              body: textbot,
+              thumbnailUrl: imgurl,
+              sourceUrl: redes,
+              mediaType: 1,
+              showAdAttribution: true,
+              renderLargerThumbnail: true,
+          },
+      },
+  }, { quoted: m })
 
 /*let txtCode = await conn.sendMessage(m.chat, {
   image: { url: imgurl },
