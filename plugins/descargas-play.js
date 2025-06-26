@@ -30,7 +30,7 @@ url = url || 'no encontrado'
 author = author || 'no encontrado'
     const vistas = formatViews(views)
     const canal = author.name ? author.name : 'Desconocido'
-    const infoMessage = `╭─⬣「 *𝒓𝒊𝒏 𝒊𝒕𝒐𝒔𝒉𝒊 ☃️* 」⬣
+    const infoMessage = `╭─⬣「⚡  *𝒓𝒊𝒏 𝒊𝒕𝒐𝒔𝒉𝒊 ☃️*  ⭐」⬣
 │ ≡🌴 *𝗍í𝗍ᥙᥣ᥆:* ${title || 'Desconocido'}
 │ ≡🥥 *ᥴᥲᥒᥲᥣ:* ${canal}
 │ ≡🐉 *᥎іs𝗍ᥲs:* ${vistas || 'Desconocido'}
@@ -57,7 +57,7 @@ author = author || 'no encontrado'
     await conn.reply(m.chat, infoMessage, m, JT)    
     if (command === 'play' || command === 'ytmp3' || command === 'playaudio') {
       try {
-        const api = await (await fetch(`https://api.stellarwa.xyz/dow/ytmp3?url=${url}`)).json()
+        const api = await (await fetch(`https://api.vreden.my.id/api/ytmp3?url=${url}`)).json()
         const resulta = api.data
         const result = resulta.dl   
         if (!result) throw new Error('⚠ El enlace de audio no se generó correctamente.')
@@ -67,7 +67,7 @@ author = author || 'no encontrado'
       }
     } else if (command === 'play2' || command === 'ytmp4' || command === 'mp4') {
       try {
-        const response = await fetch(`https://api.stellarwa.xyz/dow/ytmp4?url=${url}`)
+        const response = await fetch(`https://api.neoxr.eu/api/youtube?url=${url}&type=video&quality=480p&apikey=GataDios`)
         const json = await response.json()
         await conn.sendFile(m.chat, json.data.dl, json.data.title + '.mp4', title, m)
       } catch (e) {
