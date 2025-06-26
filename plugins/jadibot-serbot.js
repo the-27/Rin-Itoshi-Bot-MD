@@ -162,29 +162,28 @@ if (qr && mcode) {
 let secret = await sock.requestPairingCode((m.sender.split`@`[0]))
 secret = secret.match(/.{1,4}/g)?.join("-")
 
-
 let txtCode = await conn.sendMessage(m.chat, { 
-      text: rtx2,
-      contextInfo: {
-          mentionedJid: [m.sender, userId],
-          isForwarded: true,
-          forwardedNewsletterMessageInfo: {
-              newsletterJid: channelRD.id,
-              newsletterName: channelRD.name,
-              serverMessageId: -1,
-          },
-          forwardingScore: 999,
-          externalAdReply: {
-              title: botname,
-              body: textbot,
-              thumbnailUrl: imgurl,
-              sourceUrl: redes,
-              mediaType: 1,
-              showAdAttribution: true,
-              renderLargerThumbnail: true,
-          },
-      },
-  }, { quoted: m })
+  text: rtx2,
+  contextInfo: {
+    mentionedJid: [m.sender, userId],
+    isForwarded: true,
+    forwardingScore: 999,
+    forwardedNewsletterMessageInfo: {
+      newsletterJid: channelRD.id,
+      newsletterName: channelRD.name,
+      serverMessageId: -1,
+    },
+    externalAdReply: {
+      title: botname,
+      body: textbot,
+      thumbnailUrl: imgurl,
+      sourceUrl: redes,
+      mediaType: 1,
+      showAdAttribution: true,
+      renderLargerThumbnail: true,
+    },
+  },
+}, { quoted: m });
 
 /*let txtCode = await conn.sendMessage(m.chat, {
   image: { url: imgurl },
