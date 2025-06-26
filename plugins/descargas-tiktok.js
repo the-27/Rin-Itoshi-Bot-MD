@@ -1,15 +1,16 @@
 import fetch from 'node-fetch';
 
-var handler = async (m, { conn, args, usedPrefix, command }) => {
-    const tiktokRegex = /(https?:\/\/)?(www\.)?(vm\.|vt\.|tiktok\.com)\/[^\s]+/gi;
+const tiktokRegex = /(https?:\/\/)?(www\.)?(vm\.|vt\.|tiktok\.com)\/[^\s]+/gi;
+
+var handler = async (m, { conn, args }) => {
     const link = args[0] || (m.text.match(tiktokRegex) || [])[0];
 
     if (!link) {
-        return conn.reply(m.chat, `*☃️ Por favor, ingresa o envía un enlace de TikTok.*`, m);
+        return conn.reply(m.chat, `*🌹 Por favor, ingresa o envía un enlace de TikTok.*`, m);
     }
 
     try {
-        await conn.reply(m.chat, `*⚡⚡ Espere un momento, estoy descargando su video...*`, m);
+        await conn.reply(m.chat, `*⚡ Espere un momento, estoy descargando su video...*`, m);
 
         const tiktokData = await tiktokdl(link);
 
@@ -20,9 +21,7 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
         const videoURL = tiktokData.data.play;
 
         if (videoURL) {
-            await conn.sendFile(m.chat, videoURL, "tiktok.mp4", `╭───『 *𝙏𝙄𝙆𝙏𝙊𝙆 𝘿𝙀𝙎𝘾𝘼𝙍𝙂𝘼𝘿𝙊𝙍* 』
-│⚡ 𝒂𝒒𝒖𝒊 𝒕𝒊𝒆𝒏𝒆𝒔 𝒕𝒖 𝒗𝒊𝒅𝒆𝒐 𝒖𝒘𝒖 🌪️
-╰────────────⬣`, m);
+            await conn.sendFile(m.chat, videoURL, "tiktok.mp4", `╭───『 *𝙏𝙄𝙆𝙏𝙊𝙆 𝘿𝙀𝙎𝘾𝘼𝙍𝙂𝘼𝘿𝙊𝙍* 』\n│⚡ 𝒂𝒒𝒖𝒊 𝒕𝒊𝒆𝒏𝒆𝒔 𝒕𝒖 𝒗𝒊𝒅𝒆𝒐 𝒖𝒘𝒖 🌪️\n╰────────────⬣`, m);
         } else {
             return conn.reply(m.chat, "No se pudo descargar.", m);
         }
@@ -31,22 +30,22 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
     }
 };
 
-handler.help = ['tiktok'].map((v) => v + ' *<link>*');
+handler.customPrefix = tiktokRegex;
+handler.command = new RegExp();
+handler.help = ['tiktok *<link>*'];
 handler.tags = ['descargas'];
-handler.command = ['tiktok', 'tt', /^https?:\/\/(www\.)?(vm\.|vt\.|tiktok\.com)\//i];
 handler.register = true;
-handler.coin = 2;
 handler.limit = true;
+handler.coin = 2;
 
 export default handler;
 
 async function tiktokdl(url) {
-    let tikwm = `https://www.tikwm.com/api/?url=${url}?hd=1`;
-    let response = await (await fetch(tikwm)).json();
-    return response;
+    let api = `https://www.tikwm.com/api/?url=${url}&hd=1`;
+    let res = await fetch(api);
+    let json = await res.json();
+    return json;
 }
-
-
 
 /*import fetch from 'node-fetch';
 
