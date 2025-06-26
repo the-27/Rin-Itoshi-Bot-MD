@@ -101,7 +101,7 @@ let handler = async (m, { conn, command, usedPrefix, args, text, isOwner }) => {
         contextInfo: {
           mentionedJid: [m.sender],
           externalAdReply: {
-            title: '✧★᭄ꦿ᭄ꦿ𝐏𝐄𝐑𝐅𝐈𝐋 𝐃𝐄 𝐔𝐒𝐔𝐀𝐑𝐈𝐎★᭄ꦿ᭄ꦿ✧',
+            title: '✧★᭄ꦿ᭄ꦿ𝐒𝐔𝐁𝐁𝐎𝐓𝐒 𝐀𝐂𝐓𝐈𝐕𝐎𝐒 ★᭄ꦿ᭄ꦿ✧',
             body: dev,
             thumbnailUrl: avatar,
             mediaType: 1,
