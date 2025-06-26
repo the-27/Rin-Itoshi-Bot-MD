@@ -68,21 +68,27 @@ resultado += segundos + " S";
 }
 return resultado;
 }
+
 const message = users.map((v, i) => `
 ⬣───[ *SUB - BOT: « #${i + 1} »* ]───⬣
-⁖ฺ۟̇࣪·֗٬̤⃟🧃 *usuario* : ${v.user.name || '𝐒𝐔𝐁 𝐁𝐎𝐓 ☘︎'}
-⁖ฺ۟̇࣪·֗٬̤⃟🔗 *Enlace* : wa.me/${v.user.jid.replace(/[^0-9]/g, '')}?text=${usedPrefix}estado
+⁖ฺ۟̇࣪·֗٬̤⃟🧃 *usuario* : ${v.user?.name || '𝐒𝐔𝐁 𝐁𝐎𝐓 ☘︎'}
+⁖ฺ۟̇࣪·֗٬̤⃟🔗 *Enlace* : wa.me/${(v.user?.jid || '').replace(/[^0-9]/g, '')}?text=${usedPrefix}estado
 ⁖ฺ۟̇࣪·֗٬̤⃟🪇 *online* : ${v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : 'Desconocido'}
 ╰❍━━━━━━━✦୨ B ୧✦━━━━━━━❍╯`).join('\n\n');
 
-const replyMessage = message.length === 0 ? `⚽ No hay sub-bots conectados actualmente..` : message;
+const replyMessage = message.length === 0 
+  ? `🐉 No hay sub-bots conectados actualmente.` 
+  : message;
 
 const totalUsers = users.length;
+
 const responseMessage = `╭═━⬣ ⚡ 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 - 𝐉𝐀𝐃𝐈𝐁𝐎𝐓 🌹
 ┃ 🌴 sᥙᑲᑲ᥆𝗍s ᥲᥴ𝗍і᥎᥆s: *${totalUsers || '0'}*
-╰═━━━━━━━━━━━━━━━━⬣\n\n${replyMessage.trim()}`.trim();
+╰═━━━━━━━━━━━━━━━━⬣
 
-  await conn.sendMessage(m.chat, {
+${replyMessage}`.trim();
+
+await conn.sendMessage(m.chat, {
   text: responseMessage,
   contextInfo: {
     mentionedJid: conn.parseMention(responseMessage),
@@ -92,11 +98,11 @@ const responseMessage = `╭═━⬣ ⚡ 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 - 𝐉�
       mediaUrl: imagenurl,
       mediaType: 1,
       renderLargerThumbnail: true,
-      thumbnailUrl: imagenurl,
+      thumbnail: await (await fetch(imagenurl)).buffer(), // ⚠️
       sourceUrl: imagenurl
     }
   }
-})
+});
 handler.tags = ['serbot']
 handler.help = ['sockets', 'deletesesion', 'pausarai']
 handler.command = ['deletesesion', 'deletebot', 'deletesession', 'deletesession', 'stop', 'pausarai', 'pausarbot', 'bots', 'sockets', 'socket']
