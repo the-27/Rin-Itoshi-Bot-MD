@@ -74,36 +74,25 @@ const message = users.map((v, i) => `
 🪇 *online* : ${ v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : 'Desconocido'}
 ╰❍━━━━━━━━━━✦━━━━━━━━━━❍╯
 `).join('\n\n');
+const replyMessage = message.length === 0 
+  ? `No hay Sub-Bots disponible por el momento, verifique más tarde.` 
+  : message;
 
-
-const replyMessage = (message && message.length !== 0)
-  ? message
-  : 'No hay Sub-Bots disponible por el momento, verifique más tarde.';
-
-const totalUsers = Array.isArray(users) ? users.length : 0;
+const totalUsers = users.length;
 
 const responseMessage = `╭═━⬣ 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 ✦ 𝐉𝐀𝐃𝐈𝐁𝐎𝐓 🌹
-┃  sᥙᑲᑲ᥆𝗍s ᥲᥴ𝗍і᥎᥆s: *${totalUsers}*
+┃ ⭐ sᥙᑲᑲ᥆𝗍s ᥲᥴ𝗍і᥎᥆s: *${totalUsers || '0'}*
 ╰═━━━━━━━━━━━━━━━━⬣
 
 ${replyMessage.trim()}`.trim();
 
 await _envio.sendMessage(m.chat, {
-  text: responseMessage,
-  mentions: _envio.parseMention(responseMessage),
-  contextInfo: {
-    mentionedJid: [m.sender],
-    externalAdReply: {
-      title: '✧★ꦿ𝐒𝐔𝐁𝐁𝐎𝐓𝐒 𝐀𝐂𝐓𝐈𝐕𝐎𝐒 ꦿ᭄ꦿ✧',
-      body: typeof dev === 'string' ? dev : 'SubBots by Developer',
-      thumbnailUrl: avatar,
-      mediaType: 1,
-      showAdAttribution: true,
-      renderLargerThumbnail: true
-    }
-  }
-}, { quoted: m });
+  image: { url: 'https://files.catbox.moe/dajw8b.jpg' },
+  caption: responseMessage,
+  mentions: _envio.parseMention(responseMessage)
+}, { quoted: fkontak });
 
+break;
 
 handler.tags = ['serbot']
 handler.help = ['sockets', 'deletesesion', 'pausarai']
