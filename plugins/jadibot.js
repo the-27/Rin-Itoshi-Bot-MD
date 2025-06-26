@@ -81,7 +81,6 @@ let responseMessage = `╭═━⬣ 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 ✦ 𝐉𝐀�
 ┃ sᥙᑲᑲ᥆𝗍s ᥲᥴ𝗍і᥎᥆s: *${totalUsers || '0'}*
 ╰═━━━━━━━━━━━━━━━━⬣\n\n${replyMessage.trim()}`.trim();
 
-
 await conn.sendMessage(m.chat, { 
     text: responseMessage,
     contextInfo: {
@@ -89,7 +88,7 @@ await conn.sendMessage(m.chat, {
         externalAdReply: {
             title: '✧★᭄ꦿ᭄ꦿ𝐏𝐄𝐑𝐅𝐈𝐋 𝐃𝐄 𝐔𝐒𝐔𝐀𝐑𝐈𝐎★᭄ꦿ᭄ꦿ✧',
             body: dev,
-            thumbnailUrl: perfil,
+            thumbnailUrl: avatar,
             mediaType: 1,
             showAdAttribution: true,
             renderLargerThumbnail: true
@@ -97,10 +96,10 @@ await conn.sendMessage(m.chat, {
     }
 }, { quoted: m });
 
-await conn.sendMessage(m.chat, {
-    text: responseMessage,
-    mentions: [m.sender]
-}, { quoted: m });
+// ✅ Evitamos enviar mensaje duplicado (ya se envió arriba con info enriquecida)
+// Si deseas mantener solo uno, este ya es suficiente.
+
+break;
 
 handler.tags = ['serbot']
 handler.help = ['sockets', 'deletesesion', 'pausarai']
