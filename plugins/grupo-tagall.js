@@ -21,7 +21,7 @@ const handler = async (m, { isOwner, isAdmin, conn, text, participants, args, co
     `│ 🧃 *𝙼𝙸𝙴𝙼𝙱𝚁𝙾𝚂*: ${participants.length}`,
     `│ 🍁 *𝙶𝚁𝚄𝙿𝙾*: ${groupName}`,
     `├─╰➤ ${mj}`,
-    `╰═══════⬣\n`
+    `╰═══════⬣`
   ];
 
   for (const mem of participants) {
