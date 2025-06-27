@@ -1,8 +1,6 @@
 let handler = async (m, { conn, args }) => {
     let userId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.sender
     let user = global.db.data.users[userId]
-    let img = 'https://files.catbox.moe/7m1fbp.jpg'
-    let name = conn.getName(userId)
     let txt = `
     [ꔊꔊꔊ[🍉] _*MENU - OWNER*_ [🍓]ꔊꔊꔊ]    
 Hola @${userId.split('@')[0]} aqui esta el menu owner
@@ -158,7 +156,7 @@ Hola @${userId.split('@')[0]} aqui esta el menu owner
           externalAdReply: {
               title: botname,
               body: textbot,
-              thumbnailUrl: img,
+              thumbnailUrl: logo,
               sourceUrl: redes,
               mediaType: 1,
               showAdAttribution: true,

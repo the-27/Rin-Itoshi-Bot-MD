@@ -1,7 +1,7 @@
 let handler = async (m, { conn, args }) => {
     let userId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.sender
     let user = global.db.data.users[userId]
-    let img = 'https://files.catbox.moe/7m1fbp.jpg'
+    //let img = 'https://files.catbox.moe/7m1fbp.jpg'
     let txt = `
         ・･ ⴕ⌛𝗕꯭𝐈፝𝚵꯭𝐍፝𝐕꯭𝜩፝𝐍꯭𝐈𝗗꯭፝𝚹꯭💊᳸ⴕ₊･・
                  ᮢ ۪۪۪۪۪۪֘࣪࣪͜⏜͜𑂶ּ࣪࣪࣪࣪︵᷼ᜒ𝆬࣪࣪࣪࣪࣪ ۪۪۪۪۪۪۪   ᮬ⃘࣭࣭࣭᷼❀⃘࣭࣭࣭᷼  ᜒ𝆬 ͜ᮬ۪۪۪۪۪۪۪࣪࣪࣪࣪࣪⏜͜𑂶ּ࣪࣪࣪࣪︵۪۪۪۪۪۪࣪࣪͜  ᷑ ᮢ
@@ -59,7 +59,7 @@ let handler = async (m, { conn, args }) => {
           externalAdReply: {
               title: botname,
               body: textbot,
-              thumbnailUrl: img,
+              thumbnailUrl: logo,
               sourceUrl: redes,
               mediaType: 1,
               showAdAttribution: true,

@@ -1,8 +1,6 @@
 let handler = async (m, { conn, args }) => {
     let userId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.sender
     let user = global.db.data.users[userId]
-    let img = 'https://files.catbox.moe/7m1fbp.jpg'
-    let name = conn.getName(userId)
     let txt = `
                  ᮢ ۪۪۪۪۪۪֘࣪࣪͜⏜͜𑂶ּ࣪࣪࣪࣪︵᷼ᜒ𝆬࣪࣪࣪࣪࣪ ۪۪۪۪۪۪۪   ᮬ⃘࣭࣭࣭᷼❀⃘࣭࣭࣭᷼  ᜒ𝆬 ͜ᮬ۪۪۪۪۪۪۪࣪࣪࣪࣪࣪⏜͜𑂶ּ࣪࣪࣪࣪︵۪۪۪۪۪۪࣪࣪͜  ᷑ ᮢ
 ֹི࣭࣭࣭࣭࣭࣮ׅ۪۪۪۪۪۪۪۪۪ٜ࣪࣪࣪࣪᷼✾ֹྀ࣭࣭࣭࣭࣭࣮ׅ۪۪۪۪۪۪۪۪۪ٜ࣪࣪࣪࣪᷼⏝𝐌𝐄𝐍𝐔 𝐑𝐏𝐆 - 𝐄𝐂𝐎𝐍𝐎𝐌𝐈𝐀⏝ֹི࣭࣭࣭࣭࣭࣮ׅ۪۪۪۪۪۪۪۪۪ٜ࣪࣪࣪࣪᷼✾ֹྀ࣭࣭࣭࣭࣭࣮ׅ۪۪۪۪۪۪۪۪۪ٜ࣪࣪࣪࣪᷼
@@ -65,7 +63,7 @@ let handler = async (m, { conn, args }) => {
           externalAdReply: {
               title: botname,
               body: textbot,
-              thumbnailUrl: img,
+              thumbnailUrl: logo,
               sourceUrl: redes,
               mediaType: 1,
               showAdAttribution: true,

@@ -63,6 +63,7 @@ global.welcom1 = '🥥 𝐄ძі𝗍ᥲ ᥱᥣ ᥕᥱᥣᥴ᥆mᥱ ᥴ᥆ᥒ #s�
 global.welcom2 = '🌿 𝐄ძі𝗍ᥲ ᥱᥣ ᥕᥱᥣᥴ᥆mᥱ ᥴ᥆ᥒ #sᥱ𝗍ᑲᥡᥱ'
 global.banner = 'https://files.catbox.moe/1ips7f.jpg'
 global.avatar = 'https://files.catbox.moe/dr3r2f.jpg'
+global.logo = 'https://files.catbox.moe/xbc13q.jpg' // .
 
 //*─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─⭒─ׄ─ׅ─ׄ─*
 
