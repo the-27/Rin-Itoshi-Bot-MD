@@ -25,11 +25,33 @@ const handler = async (m, { isOwner, isAdmin, conn, text, participants, args, co
     teksLines.push(`│🥥 ${customEmoji} @${mem.id.split('@')[0]}`);
   }
 
-  teksLines.push(`╰──────────────༓\n> ${dev}`);
+  teksLines.push(`╰──────────────༓`);
 
   const teks = teksLines.join('\n');
 
-  const quotedMsg = typeof fkontak !== 'undefined' ? fkontak : m;
+  // Definición de contacto falso (fkontak)
+  const fkontak = {
+    key: {
+      participants: "0@s.whatsapp.net",
+      remoteJid: "status@broadcast",
+      fromMe: false,
+      id: "Halo"
+    },
+    message: {
+      contactMessage: {
+        displayName: 'the_Black',
+        vcard: `
+BEGIN:VCARD
+VERSION:3.0
+N:;ITOSHIBOT;;;
+FN:🌟 THEBALCK
+item1.TEL;waid=51969214380:51969214380
+item1.X-ABLabel:📍 BOT
+END:VCARD`,
+        jpegThumbnail: await (await fetch(logo)).buffer()
+      }
+    }
+  };
 
   await conn.sendMessage(m.chat, {
     text: teks,
@@ -37,15 +59,15 @@ const handler = async (m, { isOwner, isAdmin, conn, text, participants, args, co
     contextInfo: {
       mentionedJid: participants.map(p => p.id),
       externalAdReply: {
-        title: '✧★᭄ꦿInvocando a todos★᭄ꦿ✧',
-        body: 'Bot creado por el dev',
+        title: '✧ 𝐈𝐍𝐕𝐎𝐂𝐀𝐍𝐃𝐎 𝐀 𝐓𝐎𝐃𝐎𝐒ꦿ✧',
+        body: 'ʙᴏᴛ ᴅᴇ ᴛʜᴇ_ʙʟᴀᴄᴋ',
         thumbnailUrl: logo,
         mediaType: 1,
         showAdAttribution: true,
         renderLargerThumbnail: true
       }
     }
-  }, { quoted: quotedMsg });
+  }, { quoted: fkontak });
 };
 
 handler.help = ['todos *<mensaje opcional>*'];
@@ -55,7 +77,6 @@ handler.admin = true;
 handler.group = true;
 
 export default handler;
-
 
 
 /*const handler = async (m, { isOwner, isAdmin, conn, text, participants, args, command, usedPrefix }) => {
