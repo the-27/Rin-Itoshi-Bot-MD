@@ -55,7 +55,7 @@ const handler = async (m, { conn, text, command }) => {
     }
 };
 
-handler.command = ['play'];
+handler.command = ['play', 'playaudio', 'ytmp3'];
 handler.tags = ['descargas'];
 handler.help = ['play <texto>'];
 

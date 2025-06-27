@@ -59,7 +59,7 @@ let handler = async (m, { conn: _envio, command, usedPrefix, args, text, isOwner
       if (global.conn.user.jid == _envio.user.jid) {
         await _envio.reply(m.chat, `${emoji} Si no es *Sub-Bot* comuníquese al número principal del *Bot* para ser *Sub-Bot*.`, m);
       } else {
-        await _envio.reply(m.chat, `${emoji} ${botname} desactivada.`, m);
+        await _envio.reply(m.chat, `${emoji} ${botname} desactivado.`, m);
         _envio.ws.close();
       }
       break;
@@ -78,10 +78,10 @@ let handler = async (m, { conn: _envio, command, usedPrefix, args, text, isOwner
         minutos %= 60;
         horas %= 24;
         var resultado = "";
-        if (días !== 0) resultado += días + " días, ";
-        if (horas !== 0) resultado += horas + " horas, ";
-        if (minutos !== 0) resultado += minutos + " minutos, ";
-        if (segundos !== 0) resultado += segundos + " segundos";
+        if (días !== 0) resultado += días + "D, ";
+        if (horas !== 0) resultado += horas + "H, ";
+        if (minutos !== 0) resultado += minutos + "M, ";
+        if (segundos !== 0) resultado += segundos + "S";
         return resultado;
       }
 
@@ -90,10 +90,10 @@ let handler = async (m, { conn: _envio, command, usedPrefix, args, text, isOwner
 🧃 *usuario* : ${v.user?.name || '𝐒𝐔𝐁 𝐁𝐎𝐓 ☘︎'}
 🔗 *Enlace* : wa.me/${(v.user?.jid || '').replace(/[^0-9]/g, '')}?text=${usedPrefix}estado
 🪇 *online* : ${v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : 'Desconocido'}
-╰❍━━━━━━━━━━✦━━━━━━━━━━❍╯`).join('\n\n');
+╰❍━━━━━━━━━✦━━━━━━━━━❍╯`).join('\n\n');
 
       const replyMessage = message.length === 0
-        ? `No hay Sub-Bots disponible por el momento, verifique más tarde.`
+        ? `😔 No hay Sub-Bots disponible por el momento, verifique más tarde.`
         : message;
 
       const totalUsers = users.length;

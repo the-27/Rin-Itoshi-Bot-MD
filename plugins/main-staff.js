@@ -1,7 +1,7 @@
 let handler = async (m, { conn, command, usedPrefix }) => {
 let img = './src/catalogo.jpg'
 let staff = `  ︵ٜ⊹۬︵߭ꥈ‌⏜ׄ︵‌୨ ꥇ⭐߭ ୧‌︵۬߭⏜ꥇ‌︵⊹︵
-    ꥇ𝐄ٜ۬߭𝐐ׄꥇ‌𝐔ᨘ࣪𝐈ꥈ𝐏࣭߭𝐎 𝐃𝐄 𝐀𝐘𝐔𝐃𝐀𝐍𝐓𝐄𝐒.il
+    ꥇ𝐄ٜ۬߭𝐐ׄꥇ‌𝐔ᨘ࣪𝐈ꥈ𝐏࣭߭𝐎..𝐃𝐄..𝐀𝐘𝐔𝐃𝐀𝐍𝐓𝐄𝐒.il
   ⏝۬‌ꥇ︶ꥇ⊹۬︶‌⏝۬︶ᨘ⊹߭︶ׅꥇ⏝߭︶۬⊹ꥈ︶⏝
           .⬪  ࣪   🏜️(*ℝ𝕀ℕ 𝕀𝕋𝕆𝕊ℍ𝕀 𝕄𝔻*) 
 
@@ -22,7 +22,7 @@ let staff = `  ︵ٜ⊹۬︵߭ꥈ‌⏜ׄ︵‌୨ ꥇ⭐߭ ୧‌︵۬߭⏜ꥇ�
 
 ❒ *Colaboradores:*
 
-no ay 
+no ay
 `
 await conn.sendFile(m.chat, img, 'staff.jpg', staff.trim(), fkontak)
 }

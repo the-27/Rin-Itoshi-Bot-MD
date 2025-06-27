@@ -1,4 +1,4 @@
-const estilosLogos = [
+const estilogo = [
   { cmd: "glitchtext",      emoji: "🟣" },
   { cmd: "narutotext",     emoji: "🍥" },
   { cmd: "dragonball",     emoji: "🟠" },
@@ -53,12 +53,12 @@ const estilosLogos = [
 ];
 
 const handler = async (m, { conn, usedPrefix }) => {
-  let menuText = `*┏━━⊱  MENÚ DE LOGOS Y ESTILOS  ⊰━━┓*\n\n`;
+  let menutxt = `*┏━━⊱  MENÚ DE LOGOS Y ESTILOS  ⊰━━┓*\n\n`;
 
-  menuText += estilosLogos.map(e => `${e.emoji} *${usedPrefix}${e.cmd}*`).join('\n');
-  menuText += `\n\n*┗━━⊱ Usa así:* _${usedPrefix}comando tu texto_\nPor ejemplo: *${usedPrefix}glitchtext Rayo-ofc*`;
+  menutxt += estilogo.map(e => `${e.emoji} *${usedPrefix}${e.cmd}*`).join('\n');
+  menutxt += `\n\n*┗━━⊱ Usa así:*\n_${usedPrefix}comando tu texto_\nPor ejemplo: *${usedPrefix}glitchtext RIN ITOSHI*`;
 
-  await conn.reply(m.chat, menuText, m);
+  await conn.reply(m.chat, menutxt, m);
 };
 
 handler.help = ['menulogos'];
