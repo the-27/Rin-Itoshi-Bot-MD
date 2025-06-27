@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';
+
 const handler = async (m, { isOwner, isAdmin, conn, text, participants, args, command, usedPrefix }) => {
   if (usedPrefix.toLowerCase() === 'a') return;
 
@@ -12,6 +14,7 @@ const handler = async (m, { isOwner, isAdmin, conn, text, participants, args, co
   const pesan = args.length ? args.join(' ') : 'Sin mensaje';
   const mj = `°◦⃝📑 *𝙼𝙴𝙽𝚂𝙰𝙹𝙴:*\n│ ${pesan}`;
   const groupName = await conn.getName(m.chat);
+
   const teksLines = [
     `╭══〔 🦠 𝒓𝒊𝒏 𝒊𝒕𝒐𝒔𝒉𝒊 💫 〕══╮`,
     `│ 🥥 𝑀𝐸𝑁𝐶𝐼𝑂𝑁 𝐺𝐸𝑁𝐸𝑅𝐴𝐿 🥞`,
@@ -29,7 +32,6 @@ const handler = async (m, { isOwner, isAdmin, conn, text, participants, args, co
 
   const teks = teksLines.join('\n');
 
-  // Definición de contacto falso (fkontak)
   const fkontak = {
     key: {
       participants: "0@s.whatsapp.net",
@@ -39,18 +41,10 @@ const handler = async (m, { isOwner, isAdmin, conn, text, participants, args, co
     },
     message: {
       contactMessage: {
-        displayName: 'the_Black',
-        vcard: `
-BEGIN:VCARD
-VERSION:3.0
-N:;ITOSHIBOT;;;
-FN:🌟 THEBALCK
-item1.TEL;waid=51969214380:51969214380
-item1.X-ABLabel:📍 BOT
-END:VCARD`,
-        jpegThumbnail: await (await fetch(logo)).buffer()
+        vcard: `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`
       }
-    }
+    },
+    participant: "0@s.whatsapp.net"
   };
 
   await conn.sendMessage(m.chat, {
@@ -77,52 +71,3 @@ handler.admin = true;
 handler.group = true;
 
 export default handler;
-
-
-/*const handler = async (m, { isOwner, isAdmin, conn, text, participants, args, command, usedPrefix }) => {
-  if (usedPrefix.toLowerCase() === 'a') return;
-
-  const customEmoji = global.db.data.chats[m.chat]?.customEmoji || '🌲';
-  await m.react(customEmoji);
-
-  if (!(isAdmin || isOwner)) {
-    global.dfail?.('admin', m, conn);
-    throw false;
-  }
-
-  const pesan = args.length ? args.join(' ') : 'Sin mensaje';
-  const mj = `°◦⃝📑 *𝙼𝙴𝙽𝚂𝙰𝙹𝙴:*\n│ ${pesan}`;
-  const groupName = await conn.getName(m.chat);
-  const teksLines = [
-    `╭══〔 🦠 𝒓𝒊𝒏 𝒊𝒕𝒐𝒔𝒉𝒊 💫 〕══╮`,
-    `│ 🥥 𝑀𝐸𝑁𝐶𝐼𝑂𝑁 𝐺𝐸𝑁𝐸𝑅𝐴𝐿 🥞`,
-    `│ 🧃 *𝙼𝙸𝙴𝙼𝙱𝚁𝙾𝚂*: ${participants.length}`,
-    `│ 🍁 *𝙶𝚁𝚄𝙿𝙾*: ${groupName}`,
-    `├─╰➤ ${mj}`,
-    `╰═══════⬣\n`
-  ];
-
-  for (const mem of participants) {
-    teksLines.push(`│🥥 ${customEmoji} @${mem.id.split('@')[0]}`);
-  }
-
-  teksLines.push(`> ${dev}`);
-
-  const teks = teksLines.join('\n');
-
-  const quotedMsg = typeof fkontak !== 'undefined' ? fkontak : m;
-
-  await conn.sendMessage(m.chat, {
-    text: teks,
-    mentions: participants.map(p => p.id)
-  }, { quoted: quotedMsg });
-};
-
-handler.help = ['todos *<mensaje opcional>*'];
-handler.tags = ['grupo'];
-handler.command = ['todos', 'invocar', 'tagall', 'marcar'];
-handler.admin = true;
-handler.group = true;
-
-export default handler;
-*/
