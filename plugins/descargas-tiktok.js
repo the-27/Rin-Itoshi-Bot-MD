@@ -1,26 +1,12 @@
 import fetch from 'node-fetch';
 
 var handler = async (m, { conn, args, usedPrefix, command }) => {
-    let logorin = 'https://files.catbox.moe/dajw8b.jpg';  
-    let rcanal = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U';
-    
     if (!args[0]) {
-        return conn.reply(m.chat, `*☃️ Por favor, ingresa un enlace de TikTok.*`, m);
+        return conn.reply(m.chat, `*☃️ Por favor, ingresa un enlace de TikTok.*`, m, rcanal);
     }
 
     try {
-        await conn.sendMessage(m.chat, { 
-            text: "*⚡ Espere un momento, estoy descargando su video.*", 
-            contextInfo: { 
-                externalAdReply: { 
-                    title: "Descargando TikTok...",
-                    body: "🦠 Espere unos segundos...",
-                    mediaType: 1, 
-                    thumbnail: await (await fetch(logorin)).buffer(), 
-                    sourceUrl: rcanal 
-                }
-            }
-        });
+        await conn.reply(m.chat, `*${emoji} Espere un momento, estoy descargando su video...*`, m, rcanal);
 
         const tiktokData = await tiktokdl(args[0]);
 
