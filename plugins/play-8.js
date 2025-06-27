@@ -1,0 +1,62 @@
+import fetch from "node-fetch";
+import yts from 'yt-search';
+
+const handler = async (m, { conn, text, command }) => {
+    if (!text.trim()) {
+        return conn.reply(m.chat, `? Ingresa el nombre o enlace del video de YouTube para descargar.`, m, rcanal);
+    }
+
+    try {
+        const search = await yts(text);
+        if (!search.all || search.all.length === 0) {
+            return m.reply('? No se encontraron resultados para tu b¨²squeda.');
+        }
+
+        const videoInfo = search.all[0];
+        const { title, thumbnail, url, timestamp, views, ago, author } = videoInfo;
+
+        const thumb = (await conn.getFile(thumbnail))?.data;
+        const infoMessage = `¨q©¤©¤©¤[ ???????????? ]©¤©¤©¤?
+©¦? T¨ªtulo: *${title}*
+©¦? Duraci¨®n: ${timestamp}
+©¦? Vistas: ${views}
+©¦? Publicado: ${ago}
+©¦? Canal: ${author.name}
+©¦? Enlace: ${url}
+¨t©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤?`;
+
+        await conn.reply(m.chat, infoMessage, m);
+
+        if (['play2', 'playvideo', 'ytmp4'].includes(command)) {
+            const apiKey = "GataDios";
+            const apiUrl = `https://api.neoxr.eu/api/youtube?url=${encodeURIComponent(url)}&type=video&quality=480p&apikey=${apiKey}`;
+            const res = await fetch(apiUrl);
+
+            if (!res.ok) {
+                throw new Error(`Hubo un problema al conectar con la API. C¨®digo de estado: ${res.status}`);
+            }
+
+            const data = await res.json();
+            if (!data?.data?.url) {
+                throw new Error(`No se pudo obtener un enlace de descarga v¨¢lido.`);
+            }
+
+            const { url: downloadUrl } = data.data;
+            await conn.sendMessage(m.chat, {
+                video: { url: downloadUrl },
+                caption: `? Aqu¨ª tienes tu video:\n> *${title}*`,
+                thumbnail: thumb,
+            }, { quoted: m });
+        } else {
+            throw new Error("Comando no reconocido.");
+        }
+    } catch (error) {
+        return m.reply(`? *Error:* ${error.message}`);
+    }
+};
+
+handler.command = ['play2', 'ytmp4', 'playvideo'];
+handler.help = ['play2 <enlace o nombre>', 'ytmp4 <enlace o nombre>'];
+handler.tags = ['descargas'];
+
+export default handler;

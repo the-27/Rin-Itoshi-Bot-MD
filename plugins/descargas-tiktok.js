@@ -6,7 +6,7 @@ var handler = async (m, { conn, args, usedPrefix, command }) => {
     }
 
     try {
-        await conn.reply(m.chat, `*${emoji} Espere un momento, estoy descargando su video...*`, m, rcanal);
+        await conn.reply(m.chat, `*⚡ Espere un momento, estoy descargando su video...*`, m, rcanal);
 
         const tiktokData = await tiktokdl(args[0]);
 
