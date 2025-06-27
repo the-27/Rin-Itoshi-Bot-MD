@@ -3,6 +3,7 @@ import fetch from 'node-fetch';
 var handler = async (m, { conn, args, usedPrefix, command }) => {
     let logorin = 'https://files.catbox.moe/dajw8b.jpg';  
     let rcanal = 'https://whatsapp.com/channel/0029VbAtbPA84OmJSLiHis2U';
+    
     if (!args[0]) {
         return conn.reply(m.chat, `*☃️ Por favor, ingresa un enlace de TikTok.*`, m);
     }
@@ -54,4 +55,3 @@ async function tiktokdl(url) {
     let response = await (await fetch(tikwm)).json();
     return response;
 }
-*/
