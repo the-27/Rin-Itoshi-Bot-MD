@@ -1,30 +1,8 @@
 let handler = async (m, { conn, usedPrefix, command }) => {
-  // Asegúrate de definir estas variables correctamente o importar desde donde las tengas
-  const rcanal = {
-    externalAdReply: {
-      title: 'Canal oficial del bot',
-      body: 'Únete para más actualizaciones',
-      thumbnailUrl: 'https://telegra.ph/file/1a2b3c4d5e.jpg',
-      mediaType: 1,
-      mediaUrl: 'https://t.me/CanalOficialBot', 
-      sourceUrl: 'https://t.me/CanalOficialBot',
-    },
-    contextInfo: {
-      externalAdReply: {
-        showAdAttribution: true,
-        mediaType: 1,
-        title: 'Canal oficial del bot',
-        body: 'Únete para más actualizaciones',
-        previewType: 'PHOTO',
-        thumbnailUrl: logo,
-        sourceUrl: 'https://t.me/CanalOficialBot',
-      }
-    }
-  };
 
   let black = `
 ┏━━━━━━━━━━━━━━━━━━━⬣
-┃ ⚽ 𝗥𝗘𝗦𝗣𝗘𝗧𝗔 𝗟𝗔𝗦 𝗥𝗘𝗚𝗟𝗔𝗦 🍬
+┃ ⚽ 𝗥𝗘𝗦𝗣𝗘𝗧𝗔 𝗟𝗔𝗦 𝗥𝗘𝗚𝗟𝗔𝗦 ☃️
 ┗━━━━━━━━━━━━━━━━━━━⬣
 > ╭─⋄
 > │• 𝔑𝔬 𝔩𝔩𝔞𝔪𝔞𝔯 𝔞𝔩 𝔟𝔬𝔱.
@@ -48,7 +26,7 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 > ${textbot}
 `.trim();
 
-  await conn.sendFile(m.chat, catalogo, 'isagi.mp4', black, fkontak, rcanal);
+  await conn.sendFile(m.chat, catalogo, 'isagi.mp4', black, rcanal, fkontak);
 };
 
 handler.help = ['botreglas'];
