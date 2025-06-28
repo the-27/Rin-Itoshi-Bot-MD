@@ -1,6 +1,28 @@
-let handler = async (m, { conn, usedPrefix, command}) => {
-  
-let black = `
+let handler = async (m, { conn, usedPrefix, command }) => {
+  // Asegúrate de definir estas variables correctamente o importar desde donde las tengas
+  const rcanal = {
+    externalAdReply: {
+      title: 'Canal oficial del bot',
+      body: 'Únete para más actualizaciones',
+      thumbnailUrl: 'https://telegra.ph/file/1a2b3c4d5e.jpg',
+      mediaType: 1,
+      mediaUrl: 'https://t.me/CanalOficialBot', 
+      sourceUrl: 'https://t.me/CanalOficialBot',
+    },
+    contextInfo: {
+      externalAdReply: {
+        showAdAttribution: true,
+        mediaType: 1,
+        title: 'Canal oficial del bot',
+        body: 'Únete para más actualizaciones',
+        previewType: 'PHOTO',
+        thumbnailUrl: logo,
+        sourceUrl: 'https://t.me/CanalOficialBot',
+      }
+    }
+  };
+
+  let black = `
 ┏━━━━━━━━━━━━━━━━━━━⬣
 ┃ ⚽ 𝗥𝗘𝗦𝗣𝗘𝗧𝗔 𝗟𝗔𝗦 𝗥𝗘𝗚𝗟𝗔𝗦 🍬
 ┗━━━━━━━━━━━━━━━━━━━⬣
@@ -24,12 +46,15 @@ let black = `
 
 > ${md}
 > ${textbot}
-`.trim()
-await conn.sendFile(m.chat, catalogo, 'isagi.mp4', black, fkontak, rcanal);
-}
-handler.help = ['botreglas']
-handler.tags = ['main']
-handler.command = ['botreglas', 'reglasdelbot', 'reglasbot', 'reglas']
-handler.register = true
-handler.coin = 4
-export default handler
+`.trim();
+
+  await conn.sendFile(m.chat, catalogo, 'isagi.mp4', black, fkontak, rcanal);
+};
+
+handler.help = ['botreglas'];
+handler.tags = ['main'];
+handler.command = ['botreglas', 'reglasdelbot', 'reglasbot', 'reglas'];
+handler.register = true;
+handler.coin = 4;
+
+export default handler;
