@@ -39,7 +39,7 @@ const handler = async (m, { conn, text, command }) => {
         try {
             json = await res.json();
         } catch (e) {
-            throw new Error('❌ La API devolvió una respuesta inválida (no es JSON).');
+            throw new Error('❌ La API devolvió una respuesta inválida.');
         }
 
         const audioUrl = json?.result?.download?.url;
@@ -51,7 +51,7 @@ const handler = async (m, { conn, text, command }) => {
         await conn.sendMessage(m.chat, {
             audio: { url: audioUrl },
             mimetype: 'audio/mpeg',
-            ptt: false // cambia a true si quieres nota de voz
+            ptt: true // .
         }, { quoted: m });
 
         await m.react('✅');
