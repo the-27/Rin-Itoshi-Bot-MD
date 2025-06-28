@@ -1,6 +1,22 @@
-let handler = async (m, { isPrems, conn }) => {
-let img = 'https://files.catbox.moe/7m1fbp.jpg' 
-let texto = `*☁️ _M E N U - A U D I O S_ ☁️*
+let handler = async (m, { conn, args }) => {
+    let userId = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.sender;
+    let user = global.db.data.users[userId];
+    let name = conn.getName(userId);
+    let _uptime = process.uptime() * 1000;
+    let uptime = clockString(_uptime);
+    let totalreg = Object.keys(global.db.data.users).length;
+    let totalCommands = Object.values(global.plugins).filter((v) => v.help && v.tags).length;
+
+    let txt = `
+🌟 Hola, ${name} 🌟
+
+📊 *Estadísticas del Bot*:
+- Usuarios registrados: ${totalreg}
+- Comandos disponibles: ${totalCommands}
+- Tiempo activo: ${uptime}
+
+✨ Usa los siguientes comandos para reproducir audios:
+*☁️ _M E N U - A U D I O S_ ☁️*
 ======== • ✠ • ========
 ° _Tunometecabrasaramambiche_.
 ° _Me Anda Buscando Anonymous_.
@@ -115,26 +131,36 @@ let texto = `*☁️ _M E N U - A U D I O S_ ☁️*
 .. ▶︎•||।||।।||।||।।|||।|||।। 0:43
 ╰──────────────────
 ⊰᯽⊱┈──╌❊╌──┈⊰᯽⊱
-`
+`.trim();
 
-const fkontak = {
-        "key": {
-    "participants":"0@s.whatsapp.net",
-                "remoteJid": "status@broadcast",
-                "fromMe": false,
-                "id": "Halo"
+    await conn.sendMessage(m.chat, { 
+        text: txt,
+        contextInfo: {
+            mentionedJid: [m.sender, userId],
+            isForwarded: true,
+            forwardingScore: 999,
+            externalAdReply: {
+                title: "Menú de Audios",
+                body: "Comandos disponibles para reproducir audios",
+                thumbnailUrl: 'https://files.catbox.moe/7m1fbp.jpg',
+                sourceUrl: 'https://github.com/the-27/Rin-Itoshi-Bot-MD',
+                mediaType: 1,
+                showAdAttribution: true,
+                renderLargerThumbnail: true,
+            },
         },
-        "message": {
-                "contactMessage": {
-                        "vcard": `BEGIN:VCARD\nVERSION:3.0\nN:Sy;Bot;;;\nFN:y\nitem1.TEL;waid=${m.sender.split('@')[0]}:${m.sender.split('@')[0]}\nitem1.X-ABLabel:Ponsel\nEND:VCARD`
-                }
-        },
-        "participant": "0@s.whatsapp.net"
+    }, { quoted: m });
+};
+
+handler.help = ['menu2'];
+handler.tags = ['main'];
+handler.command = ['menu2', 'menuaudios'];
+
+export default handler;
+
+function clockString(ms) {
+    let seconds = Math.floor((ms / 1000) % 60);
+    let minutes = Math.floor((ms / (1000 * 60)) % 60);
+    let hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
+    return `${hours}h ${minutes}m ${seconds}s`;
 }
-await conn.sendFile(m.chat, img, 'img.jpg', texto, fkontak)
-global.db.data.users[m.sender].lastcofre = new Date * 1
-}
-handler.help = ['menu2']
-handler.tags = ['main'] 
-handler.command = ['menu2', 'menuaudios'] 
-export default handler
