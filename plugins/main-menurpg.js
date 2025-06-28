@@ -39,6 +39,7 @@ let handler = async (m, { conn, args }) => {
 ┃⛨ _.cf_
 ┃⛨ _.crimen_
 ┃⛨ _.daily_
+┃⛨ _.regalo
 ┃⛨ _.minar_
 ┃⛨ _.robarxp_
 ┃⛨ _.buy - Buyall_

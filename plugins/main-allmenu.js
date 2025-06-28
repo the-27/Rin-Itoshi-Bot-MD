@@ -138,32 +138,32 @@ let handler = async (m, { conn, args }) => {
 │ ${med} .simi
 │ ${med} .chiste
 │ ${med} .consejo
-│ ${med} .doxear <mension>
+│ ${med} .doxear *<mension>*
 │ ${med} .facto
 │ ${med} .reto
 │ ${med} .verdad
-│ ${med} .prostituto <@tag> | <nombre>
+│ ${med} .prostituto *<@tag> | <nombre>*
 │ ${med} .formarpareja
 │ ${med} .formarpareja5
 │ ${med} .frase
-│ ${med} .huevo @user
-│ ${med} .chupalo <mencion>
-│ ${med} .aplauso <mencion>
-│ ${med} .marron <mencion>
+│ ${med} .huevo *@user*
+│ ${med} .chupalo *<mencion>*
+│ ${med} .aplauso *<mencion>*
+│ ${med} .marron *<mencion>*
 │ ${med} .suicidar
-│ ${med} .iqtest <mencion>
+│ ${med} .iqtest <mencion>*
 │ ${med} .meme
 │ ${med} .morse
 │ ${med} .nombreninja *<texto>*
 │ ${med} .paja
-│ ${med} .personalidad <mencion>
+│ ${med} .personalidad *<mencion>*
 │ ${med} .pregunta 
 │ ${med} .piropo 
 │ ${med} .zodiac *2002 02 25*
 │ ${med} .ship 
 │ ${med} .sorte 
-│ ${med} .top [texto]
-│ ${med} .formartrio <mencion>
+│ ${med} .top *[texto]*
+│ ${med} .formartrio *<mencion>*
 │ ${med} .tt 
 ╰────────────────────╯
 
@@ -329,6 +329,7 @@ let handler = async (m, { conn, args }) => {
 │ ${med} .depositar 
 │ ${med} .explorar
 │ ${med} .gremio
+│ ${med} .regalo
 │ ${med} .halloween
 │ ${med} .heal
 │ ${med} .inventario 
