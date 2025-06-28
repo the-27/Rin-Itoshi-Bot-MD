@@ -39,19 +39,24 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
       const groupInfo = await conn.groupMetadata(m.chat);
       const url = await conn.profilePictureUrl(m.chat, 'image').catch(_ => null);
       texto = `
-📜 *Reglas del grupo:
- "${groupInfo.subject}"*
+📜 *Reglas del grupo:*
+*"${groupInfo.subject}"*
 
 ${groupInfo.desc?.trim() || 'No hay reglas establecidas en la descripción del grupo.'}
       `.trim();
 
-      if (url) {
-        await conn.sendFile(m.chat, url, 'group.jpg', texto, m);
-      } else {
-        await conn.reply(m.chat, texto, m);
-      }
+      const fallbackImage = `${global.logo}`;
+
+      await conn.sendFile(
+        m.chat,
+        url || fallbackImage,
+        'group.jpg',
+        texto,
+        m
+      );
 
     } catch (e) {
+      console.error(e);
       await conn.reply(m.chat, '❌ No se pudieron obtener las reglas del grupo. Asegúrate de usar este comando en un grupo válido.', m);
     }
   }
