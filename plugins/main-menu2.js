@@ -10,12 +10,13 @@ let handler = async (m, { conn, args }) => {
     let txt = `
 🌟 Hola, ${name} 🌟
 
-📊 *Estadísticas del Bot*:
-- Usuarios registrados: ${totalreg}
-- Comandos disponibles: ${totalCommands}
-- Tiempo activo: ${uptime}
+> 📊 *Estadísticas del Bot*:
+- \`Usuarios registrados:\` ${totalreg}
+- \`Comandos disponibles:\` ${totalCommands}
+- \`Tiempo activo:\` ${uptime}
 
-✨ Usa los siguientes comandos para reproducir audios:
+> ✨ Usa los siguientes comandos para reproducir audios:
+
 *☁️ _M E N U - A U D I O S_ ☁️*
 ======== • ✠ • ========
 ° _Tunometecabrasaramambiche_.
@@ -140,7 +141,7 @@ let handler = async (m, { conn, args }) => {
             isForwarded: true,
             forwardingScore: 999,
             externalAdReply: {
-                title: "Menú de Audios",
+                title: "MENU DE AUDIOS",
                 body: "Comandos disponibles para reproducir audios",
                 thumbnailUrl: 'https://files.catbox.moe/7m1fbp.jpg',
                 sourceUrl: 'https://github.com/the-27/Rin-Itoshi-Bot-MD',
