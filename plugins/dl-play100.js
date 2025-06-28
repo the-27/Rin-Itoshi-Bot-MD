@@ -1,25 +1,19 @@
 import fetch from "node-fetch";
 import yts from 'yt-search';
 
-
 const handler = async (m, { conn, text, command }) => {
   if (!text.trim()) {
-    return conn.reply(m.chat, `❗ Ingresa el nombre o enlace del video de YouTube para descargar.`, m);
+    return conn.reply(m.chat, `❗ Ingresa el nombre o enlace del video de YouTube para descargar.`, m, rcanal);
   }
 
   try {
-    // Reacción ⏳
+   
     await conn.sendMessage(m.chat, {
-      react: {
-        text: "⏳",
-        key: m.key
-      }
+      react: { text: "⏳", key: m.key }
     });
-
 
     const loadingMsg = await conn.reply(m.chat, "🔄 Procesando tu video, espera un momento...", m);
 
-  
     const search = await yts(text);
     const video = search.videos[0];
 
@@ -29,34 +23,35 @@ const handler = async (m, { conn, text, command }) => {
 
     const { title, url, timestamp, author, image } = video;
 
-   
     await conn.sendMessage(m.chat, {
       image: { url: image },
       caption: `📽️ *Título:* ${title}\n👤 *Canal:* ${author.name}\n⏱️ *Duración:* ${timestamp}\n🔗 *Link:* ${url}`
-    }, { quoted: fkontak });
+    }, { quoted: m });
 
-    
+  
     const res = await fetch(`https://api.vreden.my.id/api/ytmp4?url=${encodeURIComponent(url)}`);
+    const contentType = res.headers.get("content-type");
+
+
+    if (!contentType || !contentType.includes("application/json")) {
+      return conn.reply(m.chat, '❌ Error: la API no devolvió un JSON válido. Puede estar caída o fallando.', m);
+    }
+
     const json = await res.json();
 
     if (!json.result || !json.result.link) {
-      return conn.reply(m.chat, '❌ Error al obtener el video.', m);
+      return conn.reply(m.chat, `❌ Error al obtener el video.\n📛 Mensaje: ${json.message || "Sin información de error"}`, m);
     }
 
-    
+  
     await conn.sendMessage(m.chat, {
       video: { url: json.result.link },
       caption: `🎬 *Aquí tienes tu video:* ${title}`
-    }, { quoted: fkontak });
-
+    }, { quoted: m });
 
     await conn.sendMessage(m.chat, {
-      react: {
-        text: "✅",
-        key: m.key
-      }
+      react: { text: "✅", key: m.key }
     });
-
 
     if (loadingMsg.key) {
       await conn.sendMessage(m.chat, { delete: loadingMsg.key });
@@ -64,7 +59,7 @@ const handler = async (m, { conn, text, command }) => {
 
   } catch (e) {
     console.error(e);
-    conn.reply(m.chat, `❌ Error: ${e.message}`, m);
+    conn.reply(m.chat, `❌ Error inesperado: ${e.message}`, m);
   }
 };
 
