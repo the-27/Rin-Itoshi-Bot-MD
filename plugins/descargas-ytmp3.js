@@ -18,7 +18,7 @@ const handler = async (m, { conn, command, text, usedPrefix }) => {
     const vid = search.videos[0]
     const { title, thumbnail, timestamp, views, ago, url, author, description } = vid
 
-    const captext = `*⚡ E S P E R E:*\n☃️ descargado:\n> ${title || 'no encontrado'}
+    const captext = `*⚡ E S P E R E:*\n☃️ descargando:\n> ${title || 'no encontrado'}
 `
 
     await conn.sendMessage(m.chat, {
