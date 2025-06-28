@@ -2,63 +2,85 @@ import fetch from "node-fetch";
 import yts from 'yt-search';
 
 const handler = async (m, { conn, text, command }) => {
-    if (!text.trim()) {
-        return conn.reply(m.chat, `*Ingresa el nombre o enlace del video de YouTube para descargar.*`, m, rcanal);
-    }
-
     try {
-        await m.react('?'); 
-
-        const search = await yts(text);
-        if (!search.all || search.all.length === 0) {
-            return m.reply('No se encontraron resultados para tu b¨²squeda.');
+        if (!text.trim()) {
+            return conn.reply(m.chat, `? Por favor, ingresa el nombre de la m¨²sica a descargar. Ejemplo: *.${command} Albirroja Te amo de verdad - Talento del barrio*`, m, fkontak);
         }
 
-        const videoInfo = search.all[0];
-        const { title, thumbnail, url, timestamp, views, ago, author } = videoInfo;
+        let ytSearchResults = await yts(text);
+        let ytVideo = ytSearchResults.all?.[0] || ytSearchResults.videos?.[0];
 
-        const infoMessage = `     Y T - P L A Y 
-> Titulo: *${title}*
-> Canal: ${author.name}
-> Duracion: ${timestamp}
-> Vistas: ${views}
-> Publicado: ${ago}
-> Enlace: ${url}`;
+        if (!ytVideo) {
+            await m.react('?');
+            return conn.reply(m.chat, '? No se encontraron resultados para tu b¨²squeda.', m, fkontak);
+        }
+
+        const { title, url, views, timestamp, ago, thumbnail, author } = ytVideo;
+
+        const infoMessage = `¨q©¤?¡¸?  *??? ?????? ??*  ?¡¹?
+©¦ ¡Ô? *T¨ªtulo:* ${title || 'Desconocido'}
+©¦ ¡Ô? *Canal:* ${(author?.name) || "Desconocido"}
+©¦ ¡Ô? *Publicado:* ${ago || 'No disponible'}
+©¦ ¡Ô? *Vistas:* ${formatViews(views)}
+©¦ ¡Ô? *Duraci¨®n:* ${timestamp || 'No disponible'}
+©¦ ¡Ô? *Link:* ${url || 'No disponible'}
+¨t©¤©¤?`;
 
         await conn.sendMessage(m.chat, {
             image: { url: thumbnail },
             caption: infoMessage
-        }, { quoted: m });
+        }, { quoted: fkontak });
 
+        try {
+            const apiResponse = await fetch(`https://api.vreden.my.id/api/ytmp4?url=${url}`);
+            const apiData = await apiResponse.json();
+            const videoUrl = apiData?.result?.download?.url;
 
-        if (['play2', 'playvideo', 'ytmp4'].includes(command)) {
-            const apiKey = "GataDios";
-            const apiUrl = `https://api.neoxr.eu/api/youtubeurl=${encodeURIComponent(url)}&type=video&quality=480p&apikey=${apiKey}`;
-            const res = await fetch(apiUrl);
-
-            if (!res.ok) {
-                throw new Error(`Hubo un problema al conectar con la API. C¨®digo de estado: ${res.status}`);
-            }
-
-            const data = await res.json();
-            if (!data.data.url) {
-                throw new Error(`No se pudo obtener un enlace de descarga v¨¢lido.`);
-            }
-
-            const { url: downloadUrl } = data.data;
+            if (!videoUrl) throw new Error('El enlace de video no se gener¨® correctamente.');
 
             await conn.sendMessage(m.chat, {
-                video: { url: downloadUrl },
-                caption: `Aqu¨ª tienes tu video:\n> *${title}*`,
-            }, { quoted: m });
+                video: { url: videoUrl },
+                caption: `? *${title}*`,
+                mimetype: 'video/mp4'
+            }, { quoted: fkontak });
+
+            await m.react('?');
+        } catch (error) {
+            await m.react('?');
+            return conn.reply(m.chat, 'No se pudo enviar el video. Intenta nuevamente.', m, fkontak);
         }
+
     } catch (error) {
-        return m.reply(`*Error:* ${error.message}`);
+        await m.react('?');
+        return conn.reply(m.chat, `Ocurri¨® un error: ${error.message}`, m, fkontak);
     }
 };
 
-handler.command = ['play2', 'ytmp4', 'playvideo'];
-handler.help = ['play2 <enlace o nombre>', 'ytmp4 <enlace o nombre>'];
+handler.command = ['play2', 'playvideo', 'ytmp4'];
 handler.tags = ['descargas'];
+handler.help = ['play2 <texto>'];
 
 export default handler;
+
+const fkontak = {
+  key: {
+    participants: '0@s.whatsapp.net',
+    remoteJid: 'status@broadcast',
+    fromMe: false,
+    id: 'Halo'
+  },
+  message: {
+    contactMessage: {
+      displayName: '??? ??????',
+      vcard: `BEGIN:VCARD\nVERSION:3.0\nN:Rin;Itoshi;;;\nFN:Rin Itoshi\nitem1.TEL;waid=51969214380:51969214380\nitem1.X-ABLabel:M¨®vil\nEND:VCARD`
+    }
+  }
+};
+
+function formatViews(views) {
+    if (!views) return "No disponible";
+    if (views >= 1_000_000_000) return `${(views / 1_000_000_000).toFixed(1)}B (${views.toLocaleString()})`;
+    if (views >= 1_000_000) return `${(views / 1_000_000).toFixed(1)}M (${views.toLocaleString()})`;
+    if (views >= 1_000) return `${(views / 1_000).toFixed(1)}k (${views.toLocaleString()})`;
+    return views.toString();
+}
