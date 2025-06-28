@@ -57,7 +57,7 @@ let handler = async (m, { conn, command, usedPrefix }) => {
         },
         buttons: [
           {
-            buttonId: `${usedPrefix}play ${meta.title}`,
+            buttonId: `${usedPrefix}audio ${meta.title}`,
             buttonText: { displayText: '📥 Descargar' },
             type: 1
           }
