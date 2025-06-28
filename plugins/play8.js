@@ -4,7 +4,7 @@ import yts from 'yt-search';
 const handler = async (m, { conn, text, command }) => {
     try {
         if (!text.trim()) {
-            return conn.reply(m.chat, `⚡ Por favor, ingresa el nombre de la música a descargar. Ejemplo: *.${command} Albirroja Te amo de verdad - Talento del barrio*`, m, rcanal);
+            return conn.reply(m.chat, `⚡ Por favor, ingresa el nombre de la música a descargar. Ejemplo: *.${command} Albirroja Te amo de verdad - Talento del barrio*`, m);
         }
 
         let ytSearchResults = await yts(text);
@@ -12,7 +12,7 @@ const handler = async (m, { conn, text, command }) => {
 
         if (!ytVideo) {
             await m.react('❌');
-            return conn.reply(m.chat, '🛑 No se encontraron resultados para tu búsqueda.', m, rcanal);
+            return conn.reply(m.chat, '🛑 No se encontraron resultados para tu búsqueda.', m);
         }
 
         const { title, url, views, timestamp, ago, thumbnail, author } = ytVideo;
@@ -31,27 +31,35 @@ const handler = async (m, { conn, text, command }) => {
             caption: infoMessage
         }, { quoted: m });
 
+        await m.react('⏳'); 
+
+        const res = await fetch(`https://api.vreden.my.id/api/ytmp3?url=${encodeURIComponent(url)}`);
+        let json;
+
         try {
-            const apiResponse = await fetch(`https://api.vreden.my.id/api/ytmp3?url=${url}`);
-            const apiData = await apiResponse.json();
-            const audioUrl = apiData?.result?.download?.url;
-
-            if (!audioUrl) throw new Error('El enlace de audio no se generó correctamente.');
-
-            await conn.sendMessage(m.chat, { 
-                audio: { url: audioUrl }, 
-                mimetype: 'audio/mpeg' 
-            }, { quoted: m });
-
-            await m.react('✅');
-        } catch (error) {
-            await m.react('❌');
-            return conn.reply(m.chat, 'No se pudo enviar el audio. Intenta nuevamente.', m);
+            json = await res.json();
+        } catch (e) {
+            throw new Error('❌ La API devolvió una respuesta inválida (no es JSON).');
         }
 
+        const audioUrl = json?.result?.download?.url;
+
+        if (!audioUrl) {
+            throw new Error('❌ No se pudo obtener el enlace de descarga del audio.');
+        }
+
+        await conn.sendMessage(m.chat, {
+            audio: { url: audioUrl },
+            mimetype: 'audio/mpeg',
+            ptt: false // cambia a true si quieres nota de voz
+        }, { quoted: m });
+
+        await m.react('✅');
+
     } catch (error) {
+        console.error(error);
         await m.react('❌');
-        return conn.reply(m.chat, `Ocurrió un error: ${error.message}`, m);
+        return conn.reply(m.chat, `⚠️ Ocurrió un error:\n\n${error.message}`, m);
     }
 };
 
