@@ -1,23 +1,40 @@
-import fetch from 'node-fetch'
+import fetch from 'node-fetch';
 
 let handler = async (m, { conn, text }) => {
-if (!text) return conn.reply(m.chat, ` Ingresa un link de soundcloud`, m)
-    
-if (!text.includes('soundcloud.com') && !text.includes('m.soundcloud.com')) return conn.reply(m.chat, `Ingresa un link de soundcloud`, m)
+  if (!text) return conn.reply(m.chat, `❗ Ingresa un link de SoundCloud.`, m);
 
-    
-try {
-let api = await fetch(`https://api.siputzx.my.id/api/d/soundcloud?url=${text}`)
-let json = await api.json()
-let { title, thumbnail, url } = json.data
+  if (!/soundcloud\.com/.test(text)) return conn.reply(m.chat, `⚠️ El enlace debe ser de SoundCloud.`, m);
 
-let aud = { audio: { url: url }, mimetype: 'audio/mp4', fileName: `${title}.mp3`, contextInfo: { externalAdReply: { showAdAttribution: true, mediaType: 2, mediaUrl: url, title: title, sourceUrl: null, thumbnail: await (await conn.getFile(thumbnail)).data }}}
+  try {
+    const res = await fetch(`https://api.siputzx.my.id/api/d/soundcloud?url=${encodeURIComponent(text)}`);
+    const json = await res.json();
 
-await conn.sendMessage(m.chat, aud, { quoted: m })
+    if (!json.status || !json.data) throw '❌ No se pudo obtener el audio.';
 
-} catch (error) {
-console.error(error)
-}}
+    const { title, thumbnail, url } = json.data;
 
-handler.command = ['sounddl', 'soundclouddl']
-export default handler
+    const audioMessage = {
+      audio: { url },
+      mimetype: 'audio/mp4',
+      fileName: `${title}.mp3`,
+      contextInfo: {
+        externalAdReply: {
+          showAdAttribution: true,
+          mediaType: 2,
+          mediaUrl: url,
+          title,
+          sourceUrl: text,
+          thumbnail: await (await conn.getFile(thumbnail)).data,
+        },
+      },
+    };
+
+    await conn.sendMessage(m.chat, audioMessage, { quoted: m });
+  } catch (error) {
+    console.error(error);
+    return conn.reply(m.chat, `❌ Error al intentar descargar desde SoundCloud.`, m);
+  }
+};
+
+handler.command = ['sounddl', 'soundclouddl'];
+export default handler;
