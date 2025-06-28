@@ -37,7 +37,7 @@ const handler = async (m, { conn, text, command }) => {
       caption: `📽️ *Título:* ${title}\n👤 *Canal:* ${author.name}\n⏱️ *Duración:* ${timestamp}\n🔗 *Link:* ${url}`
     }, { quoted: fkontak });
 
-    const res = await fetch(`https://api.lolhuman.xyz/api/ytvideo?apikey=TuApiKeyLolhuman&url=${url}`);
+    const res = await fetch(`https://api.vreden.my.id/api/ytmp4?url=${url}`);
     const json = await res.json();
 
     if (!json.result || !json.result.link) {
