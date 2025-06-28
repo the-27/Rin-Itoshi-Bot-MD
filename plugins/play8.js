@@ -55,8 +55,8 @@ const handler = async (m, { conn, text, command }) => {
     }
 };
 
-handler.command = /^$/;
-handler.customPrefix = /^(play|playaudio|ytmp3)$/i;
+handler.command = ['play', 'playaudio', 'ytmp3'];
+handler.customPrefix = null;
 handler.help = ['play <texto>'];
 handler.tags = ['descargas'];
 
