@@ -57,5 +57,7 @@ const handler = async (m, { conn, text, command }) => {
   }
 };
 
-handler.command = /^yt(v|play2)?$/i;
+handler.command = ["play2"]
+handler.help = ["play2", "playvideo", "ytmp4"];
+handler.tags = ["downloader"];
 export default handler;
