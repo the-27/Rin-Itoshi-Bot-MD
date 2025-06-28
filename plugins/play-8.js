@@ -3,28 +3,27 @@ import yts from 'yt-search';
 
 const handler = async (m, { conn, text, command }) => {
     if (!text.trim()) {
-        return conn.reply(m.chat, `? Ingresa el nombre o enlace del video de YouTube para descargar.`, m, rcanal);
+        return conn.reply(m.chat, `*Ingresa el nombre o enlace del video de YouTube para descargar.*`, m, rcanal);
     }
 
     try {
         const search = await yts(text);
         if (!search.all || search.all.length === 0) {
-            return m.reply('? No se encontraron resultados para tu b¨²squeda.');
+            return m.reply('No se encontraron resultados para tu b¨²squeda.');
         }
 
         const videoInfo = search.all[0];
         const { title, thumbnail, url, timestamp, views, ago, author } = videoInfo;
 
-        const infoMessage = `¨q©¤©¤©¤[ ?? Y T - P L A Y ?]©¤©¤©¤?
-©¦? T¨ªtulo: *${title}*
-©¦? Canal: ${author.name}
-©¦?? Duraci¨®n: ${timestamp}
-©¦? Vistas: ${views}
-©¦? Publicado: ${ago}
-©¦? Enlace: ${url}
-¨t©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤?`;
+        const infoMessage = `     Y T - P L A Y 
+©¦ T¨ªtulo: *${title}*
+©¦ Canal: ${author.name}
+©¦ Duracion: ${timestamp}
+©¦ Vistas: ${views}
+©¦ Publicado: ${ago}
+©¦ Enlace: ${url}
+¨t©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤`;
 
-        // Enviar imagen con texto
         await conn.sendMessage(m.chat, {
             image: { url: thumbnail },
             caption: infoMessage
@@ -49,11 +48,11 @@ const handler = async (m, { conn, text, command }) => {
 
             await conn.sendMessage(m.chat, {
                 video: { url: downloadUrl },
-                caption: `? Aqu¨ª tienes tu video:\n> *${title}*`,
+                caption: `Aqu¨ª tienes tu video:\n> *${title}*`,
             }, { quoted: m });
         }
     } catch (error) {
-        return m.reply(`?? *Error:* ${error.message}`);
+        return m.reply(`*Error:* ${error.message}`);
     }
 };
 
