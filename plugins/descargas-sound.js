@@ -1,3 +1,5 @@
+// no funciona xd
+
 import fetch from "node-fetch";
 
 const handler = async (m, { conn, text, command }) => {
@@ -11,25 +13,39 @@ const handler = async (m, { conn, text, command }) => {
         let thumbnail = '';
         let duration = '';
 
-        // Si es un link de SoundCloud, lo usa directamente
+     
         if (/soundcloud\.com/.test(text)) {
             songUrl = text;
         } else {
-            // Buscar por nombre
+            
             const search = await fetch(`https://api.siputzx.my.id/api/soundcloud/search?query=${encodeURIComponent(text)}`);
-            const searchData = await search.json();
+            const searchText = await search.text();
+
+            let searchData;
+            try {
+                searchData = JSON.parse(searchText);
+            } catch {
+                throw new Error('⚠️ Error al analizar la respuesta del servidor (búsqueda).');
+            }
 
             if (!searchData.status || !searchData.data || searchData.data.length === 0) {
                 return m.reply('❌ No se encontraron resultados para tu búsqueda.');
             }
 
-            // Tomar el primer resultado
+            
             songUrl = searchData.data[0].url;
         }
 
-        // Descargar datos de la canción
+       
         const res = await fetch(`https://api.siputzx.my.id/api/d/soundcloud?url=${encodeURIComponent(songUrl)}`);
-        const json = await res.json();
+        const resText = await res.text();
+
+        let json;
+        try {
+            json = JSON.parse(resText);
+        } catch {
+            throw new Error('⚠️ Error al analizar la respuesta del servidor (descarga).');
+        }
 
         if (!json.status || !json.data) {
             throw new Error('❌ No se pudo obtener el audio.');
@@ -72,7 +88,7 @@ const handler = async (m, { conn, text, command }) => {
     }
 };
 
-handler.command = ['sc', 'soundcloud', 'sounddl'];
+handler.command = ['soundcloud', 'sounddl'];
 handler.help = ['soundcloud <nombre o link>'];
 handler.tags = ['descargas'];
 
