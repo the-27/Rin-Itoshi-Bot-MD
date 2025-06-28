@@ -1,46 +1,42 @@
 import axios from "axios";
-import FormData from "form-data";
 import cheerio from "cheerio";
 
-let handler = async (m, { conn, usedPrefix, command, text, args }) => {
+let handler = async (m, { conn, usedPrefix, command, text }) => {
   if (!text) {
-    return conn.reply(m.chat, '*`Ingresa el link del vídeo a descargar 🤍`*', m);
+    return conn.reply(m.chat, '*Ingresa el link del video de TikTok* 😄', m);
   }
 
   try {
-    await m.react('🕓');
+    await m.react('⏳');
+    const result = await tiktokdl(text);
 
-    let data = await tiktokdl(text);
-    if (!data?.status || !data.server1?.url) {
-      throw new Error('No se pudo obtener el video.');
-    }
+    if (!result.status) throw new Error(result.message || 'No se pudo obtener el video.');
 
-    const capNormal = '*`[ TIKTOK CALIDAD NORMAL ]`*';
-    const capHD = '*`[ TIKTOK CALIDAD HD ]`*';
-
-    // Calidad normal
-    await conn.sendMessage(m.chat, {
-      video: { url: data.server1.url },
-      caption: capNormal
-    }, { quoted: m });
-
-    // Calidad HD (si está disponible)
-    if (data.serverHD?.url) {
+    // Enviar calidad HD si está disponible
+    if (result.hd) {
       await conn.sendMessage(m.chat, {
-        video: { url: data.serverHD.url },
-        caption: capHD
+        video: { url: result.hd },
+        caption: '*[ TIKTOK HD ]* ✅'
       }, { quoted: m });
+    } else if (result.normal) {
+      // Si no hay HD, enviar calidad normal
+      await conn.sendMessage(m.chat, {
+        video: { url: result.normal },
+        caption: '*[ TIKTOK CALIDAD NORMAL ]*'
+      }, { quoted: m });
+    } else {
+      throw new Error('No se encontró ningún video válido.');
     }
 
     await m.react('✅');
-  } catch (err) {
-    console.error(err);
-    await m.react('✖️');
-    conn.reply(m.chat, '*`Ocurrió un error al intentar descargar el video.`*', m);
+  } catch (e) {
+    console.error(e);
+    await m.react('❌');
+    conn.reply(m.chat, '*Ocurrió un error al procesar el video 😢*', m);
   }
 };
 
-handler.help = ['tiktokhd *<url>*'];
+handler.help = ['tiktokhd <url>'];
 handler.tags = ['descargas'];
 handler.command = ['tiktokhd'];
 
@@ -49,40 +45,31 @@ export default handler;
 // ────────────────────────────────────────
 
 async function tiktokdl(url) {
-  const result = {};
-  const form = new FormData();
-  form.append("q", url);
-  form.append("lang", "id");
-
   try {
-    const { data } = await axios("https://savetik.co/api/ajaxSearch", {
-      method: "post",
-      data: form,
+    const { data } = await axios.post("https://savetik.co/api/ajaxSearch", new URLSearchParams({
+      q: url,
+      lang: 'en'
+    }), {
       headers: {
-        "content-type": "application/x-www-form-urlencoded",
-        "User-Agent": "PostmanRuntime/7.32.2"
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'User-Agent': 'Mozilla/5.0'
       }
     });
 
     const $ = cheerio.load(data.data);
 
-    result.status = true;
-    result.caption = $("div.video-data .content h3").text();
-    result.server1 = {
-      quality: "MEDIUM",
-      url: $("div.video-data .tik-right > div > p:nth-child(1) > a").attr("href")
-    };
-    result.serverHD = {
-      quality: $("div.video-data .tik-right > div > p:nth-child(3) > a").text()?.split("MP4 ")[1],
-      url: $("div.video-data .tik-right > div > p:nth-child(3) > a").attr("href")
-    };
-    result.audio = $("div.video-data .tik-right > div > p:nth-child(4) > a").attr("href");
+    const normal = $('div.video-data .tik-right p:nth-child(1) a').attr('href');
+    const hd = $('div.video-data .tik-right p:nth-child(3) a').attr('href');
 
-  } catch (error) {
-    console.error("Error en tiktokdl:", error);
-    result.status = false;
-    result.message = error.message;
+    return {
+      status: true,
+      normal,
+      hd: hd || null
+    };
+  } catch (err) {
+    return {
+      status: false,
+      message: 'Error al obtener datos desde el servidor.'
+    };
   }
-
-  return result;
 }
