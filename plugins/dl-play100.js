@@ -21,7 +21,16 @@ const handler = async (m, { conn, text, command }) => {
   }
 
   try {
-    if (m.key) await conn.react(m.chat, '⏳', m.key);
+    // Reacción de espera
+    await conn.sendMessage(m.chat, {
+      react: {
+        text: "⏳",
+        key: m.key
+      }
+    });
+
+    // Mensaje temporal de carga
+    const loadingMsg = await conn.reply(m.chat, "🔄 Procesando tu video, espera un momento...", m, fkontak);
 
     const search = await yts(text);
     const video = search.videos.length > 0 ? search.videos[0] : null;
@@ -37,6 +46,7 @@ const handler = async (m, { conn, text, command }) => {
       caption: `📽️ *Título:* ${title}\n👤 *Canal:* ${author.name}\n⏱️ *Duración:* ${timestamp}\n🔗 *Link:* ${url}`
     }, { quoted: fkontak });
 
+    // Petición a API principal
     const res = await fetch(`https://api.vreden.my.id/api/ytmp4?url=${url}`);
     const contentType = res.headers.get("content-type");
 
@@ -55,11 +65,22 @@ const handler = async (m, { conn, text, command }) => {
       caption: `🎬 *Aquí tienes tu video:* ${title}`
     }, { quoted: fkontak });
 
-    if (m.key) await conn.react(m.chat, '✅', m.key);
+    // Reacción de éxito
+    await conn.sendMessage(m.chat, {
+      react: {
+        text: "✅",
+        key: m.key
+      }
+    });
+
+    // Eliminar mensaje de "procesando"
+    if (loadingMsg.key) {
+      await conn.sendMessage(m.chat, { delete: loadingMsg.key });
+    }
 
   } catch (e) {
     console.error(e);
-    conn.reply(m.chat, `❌ Error: ${e.message}`, m, fkontak); // Útil para debug
+    conn.reply(m.chat, `❌ Error: ${e.message}`, m, fkontak);
   }
 };
 
