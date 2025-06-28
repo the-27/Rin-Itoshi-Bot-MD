@@ -7,6 +7,8 @@ const handler = async (m, { conn, text, command }) => {
     }
 
     try {
+        await m.react('?'); 
+
         const search = await yts(text);
         if (!search.all || search.all.length === 0) {
             return m.reply('No se encontraron resultados para tu b¨²squeda.');
@@ -16,20 +18,20 @@ const handler = async (m, { conn, text, command }) => {
         const { title, thumbnail, url, timestamp, views, ago, author } = videoInfo;
 
         const infoMessage = `     Y T - P L A Y 
-©¦ T¨ªtulo: *${title}*
-©¦ Canal: ${author.name}
-©¦ Duracion: ${timestamp}
-©¦ Vistas: ${views}
-©¦ Publicado: ${ago}
-©¦ Enlace: ${url}
-¨t©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤`;
+> ? T¨ªtulo: *${title}*
+> ? Canal: ${author.name}
+> ? Duracion: ${timestamp}
+> ? Vistas: ${views}
+> ? Publicado: ${ago}
+> ? Enlace: ${url}`;
 
         await conn.sendMessage(m.chat, {
             image: { url: thumbnail },
             caption: infoMessage
         }, { quoted: m });
 
-        
+        await m.react('??'); 
+
         if (['play2', 'playvideo', 'ytmp4'].includes(command)) {
             const apiKey = "GataDios";
             const apiUrl = `https://api.neoxr.eu/api/youtube?url=${encodeURIComponent(url)}&type=video&quality=480p&apikey=${apiKey}`;
