@@ -25,7 +25,7 @@ let black = `
 > ${md}
 > ${textbot}
 `.trim()
-await conn.sendFile(m.chat, catalogo, 'isagi.mp4', black, fkontak);
+await conn.sendFile(m.chat, catalogo, 'isagi.mp4', black, fkontak, rcanal);
 }
 handler.help = ['botreglas']
 handler.tags = ['main']
