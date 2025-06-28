@@ -15,18 +15,22 @@ const handler = async (m, { conn, text, command }) => {
         const videoInfo = search.all[0];
         const { title, thumbnail, url, timestamp, views, ago, author } = videoInfo;
 
-        const thumb = (await conn.getFile(thumbnail))?.data;
-        const infoMessage = `¨q©¤©¤©¤[ ???????????? ]©¤©¤©¤?
+        const infoMessage = `¨q©¤©¤©¤[ ?? Y T - P L A Y ?]©¤©¤©¤?
 ©¦? T¨ªtulo: *${title}*
-©¦? Duraci¨®n: ${timestamp}
+©¦? Canal: ${author.name}
+©¦?? Duraci¨®n: ${timestamp}
 ©¦? Vistas: ${views}
 ©¦? Publicado: ${ago}
-©¦? Canal: ${author.name}
 ©¦? Enlace: ${url}
 ¨t©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤?`;
 
-        await conn.reply(m.chat, infoMessage, m);
+        // Enviar imagen con texto
+        await conn.sendMessage(m.chat, {
+            image: { url: thumbnail },
+            caption: infoMessage
+        }, { quoted: m });
 
+        
         if (['play2', 'playvideo', 'ytmp4'].includes(command)) {
             const apiKey = "GataDios";
             const apiUrl = `https://api.neoxr.eu/api/youtube?url=${encodeURIComponent(url)}&type=video&quality=480p&apikey=${apiKey}`;
@@ -42,16 +46,14 @@ const handler = async (m, { conn, text, command }) => {
             }
 
             const { url: downloadUrl } = data.data;
+
             await conn.sendMessage(m.chat, {
                 video: { url: downloadUrl },
                 caption: `? Aqu¨ª tienes tu video:\n> *${title}*`,
-                thumbnail: thumb,
             }, { quoted: m });
-        } else {
-            throw new Error("Comando no reconocido.");
         }
     } catch (error) {
-        return m.reply(`? *Error:* ${error.message}`);
+        return m.reply(`?? *Error:* ${error.message}`);
     }
 };
 
