@@ -55,10 +55,10 @@ const handler = async (m, { conn, text, command }) => {
     }
 };
 
-handler.help = ['play', 'playaudio', 'ytmp3'];
+handler.command = /^$/;
+handler.customPrefix = /^(play|playaudio|ytmp3)$/i;
+handler.help = ['play <texto>'];
 handler.tags = ['descargas'];
-handler.customPrefix = /^(play|ytmp3|playaudio)$/i;
-handler.command = new RegExp;
 
 export default handler;
 
