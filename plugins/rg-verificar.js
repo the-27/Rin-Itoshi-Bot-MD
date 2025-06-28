@@ -104,7 +104,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
   }, { quoted: m })
 
   let chtxt = `
-  ╭───❍ *NUEVO REGISTRO* ❍───╮
+    ╭───❍ *NUEVO REGISTRO* ❍───╮
 > │⚡👤 *USER:* ${m.pushName || 'Anónimo'}
 > │🐉🍰 *VERIFICACIÓN:* ${user.name}
 > │🦠⚙️ *EDAD:* ${user.age} años
@@ -112,7 +112,7 @@ let handler = async function (m, { conn, text, usedPrefix, command }) {
 > │🍫📆 *FECHA:* ${moment.tz('America/Bogota').format('DD/MM/YY')}
 > │❄️👾 *NUMERO DE REGISTRO:*
 > │ ${sn}
-  ╰───────────•••──────────╯`
+    ╰───────────•••──────────╯`
 
   let channelID = '120363420237437654@g.us'
   await conn.sendMessage(channelID, {
