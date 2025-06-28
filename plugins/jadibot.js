@@ -86,10 +86,10 @@ let handler = async (m, { conn: _envio, command, usedPrefix, args, text, isOwner
       }
 
       const message = users.map((v, i) => `
-⬣───[ *SUB - BOT: « #${i + 1} »* ]───⬣
-🧃 *usuario* : ${v.user?.name || '𝐒𝐔𝐁 𝐁𝐎𝐓 ☘︎'}
-🔗 *Enlace* : wa.me/${(v.user?.jid || '').replace(/[^0-9]/g, '')}?text=${usedPrefix}estado
-🪇 *online* : ${v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : 'Desconocido'}
+⬣────[ *SUB - BOT: « #${i + 1} »* ]────⬣
+> 🧃 *usuario* : ${v.user?.name || '𝐒𝐔𝐁 𝐁𝐎𝐓 ☘︎'}
+> 🔗 *Enlace* : wa.me/${(v.user?.jid || '').replace(/[^0-9]/g, '')}?text=${usedPrefix}estado
+> 🪇 *online* : ${v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : 'Desconocido'}
 ╰❍━━━━━━━━━✦━━━━━━━━━❍╯`).join('\n\n');
 
       const replyMessage = message.length === 0
