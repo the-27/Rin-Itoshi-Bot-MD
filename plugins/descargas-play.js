@@ -1,4 +1,4 @@
-/*import fetch from "node-fetch";
+import fetch from "node-fetch";
 import yts from "yt-search";
 
 
@@ -70,8 +70,8 @@ let handler = async (m, { conn, text }) => {
   }
 };
 
-handler.command = ['play','mp3',]; // Puedes usar ['play', 'tocar'] si quieres más alias
-handler.help = ['playaudio <texto>','mp3',];
+handler.command = ['playaudio', 'play']; 
+handler.help = ['playaudio <texto>', 'play'];
 handler.tags = ['downloader'];
 
 export default handler;
