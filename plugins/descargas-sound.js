@@ -1,56 +1,79 @@
-import fetch from 'node-fetch';
+import fetch from "node-fetch";
 
-let handler = async (m, { conn, text, command }) => {
-  if (!text) return conn.reply(m.chat, `❗ Ingresa un nombre o link de SoundCloud.`, m);
-
-  let url = '';
-  let title = '';
-  let thumbnail = '';
-
-  try {
-    if (!/soundcloud\.com/.test(text)) {
-      const search = await fetch(`https://api.siputzx.my.id/api/soundcloud/search?query=${encodeURIComponent(text)}`);
-      const searchData = await search.json();
-
-      if (!searchData.status || !searchData.data || searchData.data.length === 0)
-        throw '❌ No se encontró ninguna canción con ese nombre.';
-
-      url = searchData.data[0].url;
-    } else {
-      url = text;
+const handler = async (m, { conn, text, command }) => {
+    if (!text.trim()) {
+        return conn.reply(m.chat, `❗ Ingresa el nombre o enlace de SoundCloud para descargar.`, m);
     }
 
-    const res = await fetch(`https://api.siputzx.my.id/api/d/soundcloud?url=${encodeURIComponent(url)}`);
-    const json = await res.json();
+    try {
+        let songUrl = '';
+        let title = '';
+        let thumbnail = '';
+        let duration = '';
 
-    if (!json.status || !json.data) throw '❌ No se pudo obtener el audio.';
+        // Si es un link de SoundCloud, lo usa directamente
+        if (/soundcloud\.com/.test(text)) {
+            songUrl = text;
+        } else {
+            // Buscar por nombre
+            const search = await fetch(`https://api.siputzx.my.id/api/soundcloud/search?query=${encodeURIComponent(text)}`);
+            const searchData = await search.json();
 
-    title = json.data.title;
-    thumbnail = json.data.thumbnail;
-    const audioUrl = json.data.url;
+            if (!searchData.status || !searchData.data || searchData.data.length === 0) {
+                return m.reply('❌ No se encontraron resultados para tu búsqueda.');
+            }
 
-    const audioMessage = {
-      audio: { url: audioUrl },
-      mimetype: 'audio/mp4',
-      fileName: `${title}.mp3`,
-      contextInfo: {
-        externalAdReply: {
-          showAdAttribution: true,
-          mediaType: 2,
-          mediaUrl: audioUrl,
-          title,
-          sourceUrl: url,
-          thumbnail: await (await conn.getFile(thumbnail)).data,
-        },
-      },
-    };
+            // Tomar el primer resultado
+            songUrl = searchData.data[0].url;
+        }
 
-    await conn.sendMessage(m.chat, audioMessage, { quoted: m });
-  } catch (error) {
-    console.error(error);
-    return conn.reply(m.chat, `❌ Error al intentar obtener el audio de SoundCloud.`, m);
-  }
+        // Descargar datos de la canción
+        const res = await fetch(`https://api.siputzx.my.id/api/d/soundcloud?url=${encodeURIComponent(songUrl)}`);
+        const json = await res.json();
+
+        if (!json.status || !json.data) {
+            throw new Error('❌ No se pudo obtener el audio.');
+        }
+
+        title = json.data.title;
+        thumbnail = json.data.thumbnail;
+        duration = json.data.duration;
+        const audioUrl = json.data.url;
+
+        const thumb = (await conn.getFile(thumbnail))?.data;
+
+        const infoMessage = `╭───[ 🎧 SOUND CLOUD ]───✰
+│🎵 Título: *${title}*
+│⏱️ Duración: ${duration}
+│🔗 Enlace: ${songUrl}
+╰──────────────✰`;
+
+        await conn.reply(m.chat, infoMessage, m);
+
+        await conn.sendMessage(m.chat, {
+            audio: { url: audioUrl },
+            mimetype: 'audio/mp4',
+            fileName: `${title}.mp3`,
+            contextInfo: {
+                externalAdReply: {
+                    showAdAttribution: true,
+                    mediaType: 2,
+                    mediaUrl: audioUrl,
+                    title,
+                    sourceUrl: songUrl,
+                    thumbnail: thumb,
+                },
+            },
+        }, { quoted: m });
+
+    } catch (error) {
+        console.error(error);
+        return m.reply(`❌ *Error:* ${error.message}`);
+    }
 };
 
-handler.command = ['sound', 'soundclouddl'];
+handler.command = ['sc', 'soundcloud', 'sounddl'];
+handler.help = ['soundcloud <nombre o link>'];
+handler.tags = ['descargas'];
+
 export default handler;
