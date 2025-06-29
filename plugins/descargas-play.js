@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+/*import fetch from "node-fetch";
 import yts from "yt-search";
 
 
@@ -74,4 +74,4 @@ handler.command = ['playaudio', 'play'];
 handler.help = ['playaudio <texto>', 'play'];
 handler.tags = ['downloader'];
 
-export default handler;
+export default handler;*/
