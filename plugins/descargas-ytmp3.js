@@ -68,6 +68,6 @@ const handler = async (m, { conn, command, text, usedPrefix }) => {
 
 handler.help = ['play'].map(v => v + ' *<consulta>*')
 handler.tags = ['downloader']
-handler.command = ['playaudio', 'play']
+handler.command = ['play']
 
 export default handler
