@@ -61,7 +61,7 @@ let handler = async (m, { conn, usedPrefix }) => {
         text: `✨ 𝐈𝐍𝐅𝐎 𝐔𝐒𝐔𝐀𝐑𝐈𝐎 ✨\n\n👤 Nombre: ${name}\n💠 Exp: ${exp}\n⭐ Nivel: ${level}\n🎖️ Rango: ${role}`
       },
       footer: {
-        text: "⏤͟͞ू⃪ 𝑺𝑯𝑨𝑫𝑶𝑾 - 𝑩𝑶𝑻 • Powered by 𝐃𝐢𝐨𝐧𝐞𝐢𝐛𝐢"
+        text: "⏤͟͞ू⃪ 𝑺𝑯𝑨𝑫𝑶𝑾 - 𝑩𝑶𝑻 • Powered by black"
       },
       nativeFlowMessage: {
         buttons: [
