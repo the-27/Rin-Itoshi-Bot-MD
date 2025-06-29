@@ -109,6 +109,10 @@ let handler = async (m, { conn, args }) => {
 │ ${med} .xvsearch
 │ ${med} .yts
 │ ${med} .fdroidsearch <término>
+│ ${med} .happymodsearch *<búsqueda>*
+│ ${med} .cinecalidadsearch *<búsqueda>*
+│ ${med} .yahoosearch *<búsqueda>*
+│ ${med} .movie <término>
 ╰────────────────────╯
 
 ╭──⬣
