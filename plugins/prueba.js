@@ -1,71 +1,63 @@
 import fs from 'fs';
+import moment from 'moment-timezone';
 
 function eliminarArchivo(rutaArchivo) {
   if (fs.existsSync(rutaArchivo)) fs.unlinkSync(rutaArchivo);
 }
 
-const handler = async (bot, chatId, nombreUsuario, fecha, hora, info, responder, prefijo, nombreBot) => {
+const handler = async (bot, chatId, name, info, responder, prefijo, nombreBot) => {
   try {
     const imagenMenu = "https://xatimg.com/image/TyANiC68n4eZ.jpg";
+    const fecha = moment().tz('America/Lima').format('DD/MM/YYYY');
+    const hora = moment().tz('America/Lima').format('HH:mm:ss');
 
+    // Enviar imagen primero (opcional)
     await bot.sendMessage(chatId, {
       image: { url: imagenMenu },
       caption: `
 ╭─❍【🌸 *${nombreBot}* 🌸】❍─╮
-│👤 𝗨𝘀𝘂𝗮𝗿𝗶𝗼: *${nombreUsuario}*
-│📅 𝗙𝗲𝗰𝗵𝗮: *${fecha}*
-│⏰ 𝗛𝗼𝗿𝗮: *${hora}*
+│👤 Usuario: *${name}*
+│📅 Fecha: *${fecha}*
+│⏰ Hora: *${hora}*
 ╰────────────────────╯
-      `.trim(),
-      footer: `🔷 ${nombreBot} | Tu asistente con encanto e inteligencia 💙`,
-      buttons: [
+`.trim(),
+    }, { quoted: info });
+
+    // Enviar menú con listas
+    await bot.sendMessage(chatId, {
+      title: "🌐 Lista de comandos",
+      text: `🔷 ${nombreBot} | Tu asistente con encanto e inteligencia 💙`,
+      buttonText: "🌐 Ver comandos",
+      sections: [
         {
-          buttonId: 'action',
-          buttonText: { displayText: '🌐 Ver comandos' },
-          type: 4,
-          nativeFlowInfo: {
-            name: 'single_select',
-            paramsJson: JSON.stringify({
-              title: "🌐 Lista de comandos",
-              sections: [
-                {
-                  title: "🌟 Comandos principales",
-                  highlight_label: "By Fenrys V4",
-                  rows: [
-                    { title: "📜 Menú principal", description: "Comandos básicos y más usados.", id: `${prefijo}menupp` },
-                    { title: "🆕 Nuevos comandos", description: "Lo más reciente en el bot.", id: `${prefijo}menunovo` },
-                    { title: "👑 Menú del dueño", description: "Acceso exclusivo para el creador.", id: `${prefijo}menudono` },
-                    { title: "🛡 Administración", description: "Herramientas para grupos.", id: `${prefijo}menuadm` },
-                    { title: "💠 Premium", description: "Funciones VIP para usuarios premium.", id: `${prefijo}menupremium` },
-                    { title: "🎉 Juegos y diversión", description: "Comandos para divertirse en grupo.", id: `${prefijo}brincadeiras` },
-                    { title: "🖼 Efectos visuales", description: "Aplica efectos con estilo.", id: `${prefijo}Efeitosimg` },
-                    { title: "🪙 Sistema de monedas", description: "Gana y usa monedas virtuales.", id: `${prefijo}menucoins` },
-                    { title: "⚔️ Mundo RPG", description: "Aventuras, batallas y evolución.", id: `${prefijo}menurpg` },
-                    { title: "🎨 Crear logos", description: "Genera logos personalizados.", id: `${prefijo}menulogos` }
-                  ]
-                },
-                {
-                  title: "💖 Apoya el proyecto",
-                  highlight_label: "Donaciones & Soporte",
-                  rows: [
-                    { title: "🌟 Donar por Pix", description: "Apoya el proyecto con tu aporte!", id: `${prefijo}doar` }
-                  ]
-                },
-                {
-                  title: "📢 Comunidad Fenrys",
-                  highlight_label: "¡Entérate de todo!",
-                  rows: [
-                    { title: "💬 Grupo oficial", description: "Únete a nuestro grupo oficial.", id: `${prefijo}grupobot` },
-                    { title: "🤝 Alianzas", description: "Sé parte del equipo!", id: `${prefijo}parcerias` }
-                  ]
-                }
-              ]
-            })
-          }
+          title: "🌟 Comandos principales",
+          rows: [
+            { title: "📜 Menú principal", description: "Comandos básicos y más usados.", rowId: `${prefijo}menupp` },
+            { title: "🆕 Nuevos comandos", description: "Lo más reciente en el bot.", rowId: `${prefijo}menunovo` },
+            { title: "👑 Menú del dueño", description: "Acceso exclusivo para el creador.", rowId: `${prefijo}menudono` },
+            { title: "🛡 Administración", description: "Herramientas para grupos.", rowId: `${prefijo}menuadm` },
+            { title: "💠 Premium", description: "Funciones VIP para usuarios premium.", rowId: `${prefijo}menupremium` },
+            { title: "🎉 Juegos y diversión", description: "Comandos para divertirse en grupo.", rowId: `${prefijo}brincadeiras` },
+            { title: "🖼 Efectos visuales", description: "Aplica efectos con estilo.", rowId: `${prefijo}Efeitosimg` },
+            { title: "🪙 Sistema de monedas", description: "Gana y usa monedas virtuales.", rowId: `${prefijo}menucoins` },
+            { title: "⚔️ Mundo RPG", description: "Aventuras, batallas y evolución.", rowId: `${prefijo}menurpg` },
+            { title: "🎨 Crear logos", description: "Genera logos personalizados.", rowId: `${prefijo}menulogos` },
+          ]
+        },
+        {
+          title: "💖 Apoya el proyecto",
+          rows: [
+            { title: "🌟 Donar por Pix", description: "Apoya el proyecto con tu aporte!", rowId: `${prefijo}doar` }
+          ]
+        },
+        {
+          title: "📢 Comunidad Fenrys",
+          rows: [
+            { title: "💬 Grupo oficial", description: "Únete a nuestro grupo oficial.", rowId: `${prefijo}grupobot` },
+            { title: "🤝 Alianzas", description: "Sé parte del equipo!", rowId: `${prefijo}parcerias` }
+          ]
         }
-      ],
-      headerType: 1,
-      viewOnce: true
+      ]
     }, { quoted: info });
 
   } catch (error) {
