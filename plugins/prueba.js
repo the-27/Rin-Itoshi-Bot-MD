@@ -1,17 +1,13 @@
 import fs from 'fs';
 import moment from 'moment-timezone';
 
-function eliminarArchivo(rutaArchivo) {
-  if (fs.existsSync(rutaArchivo)) fs.unlinkSync(rutaArchivo);
-}
-
 const handler = async (bot, chatId, name, info, responder, prefijo, nombreBot) => {
   try {
     const imagenMenu = "https://xatimg.com/image/TyANiC68n4eZ.jpg";
     const fecha = moment().tz('America/Lima').format('DD/MM/YYYY');
     const hora = moment().tz('America/Lima').format('HH:mm:ss');
 
-    // Enviar imagen primero (opcional)
+    // Enviar imagen con información
     await bot.sendMessage(chatId, {
       image: { url: imagenMenu },
       caption: `
@@ -20,44 +16,47 @@ const handler = async (bot, chatId, name, info, responder, prefijo, nombreBot) =
 │📅 Fecha: *${fecha}*
 │⏰ Hora: *${hora}*
 ╰────────────────────╯
-`.trim(),
+`.trim()
     }, { quoted: info });
 
-    // Enviar menú con listas
+    // Enviar menú tipo lista
+    const sections = [
+      {
+        title: "🌟 Comandos principales",
+        rows: [
+          { title: "📜 Menú principal", rowId: `${prefijo}menupp` },
+          { title: "🆕 Nuevos comandos", rowId: `${prefijo}menunovo` },
+          { title: "👑 Menú del dueño", rowId: `${prefijo}menudono` },
+          { title: "🛡 Administración", rowId: `${prefijo}menuadm` },
+          { title: "💠 Premium", rowId: `${prefijo}menupremium` },
+          { title: "🎉 Juegos y diversión", rowId: `${prefijo}brincadeiras` },
+          { title: "🖼 Efectos visuales", rowId: `${prefijo}Efeitosimg` },
+          { title: "🪙 Sistema de monedas", rowId: `${prefijo}menucoins` },
+          { title: "⚔️ Mundo RPG", rowId: `${prefijo}menurpg` },
+          { title: "🎨 Crear logos", rowId: `${prefijo}menulogos` },
+        ]
+      },
+      {
+        title: "💖 Apoya el proyecto",
+        rows: [
+          { title: "🌟 Donar por Pix", rowId: `${prefijo}doar` }
+        ]
+      },
+      {
+        title: "📢 Comunidad Fenrys",
+        rows: [
+          { title: "💬 Grupo oficial", rowId: `${prefijo}grupobot` },
+          { title: "🤝 Alianzas", rowId: `${prefijo}parcerias` }
+        ]
+      }
+    ];
+
     await bot.sendMessage(chatId, {
-      title: "🌐 Lista de comandos",
       text: `🔷 ${nombreBot} | Tu asistente con encanto e inteligencia 💙`,
+      footer: `Selecciona una opción del menú`,
+      title: "🌐 Lista de comandos",
       buttonText: "🌐 Ver comandos",
-      sections: [
-        {
-          title: "🌟 Comandos principales",
-          rows: [
-            { title: "📜 Menú principal", description: "Comandos básicos y más usados.", rowId: `${prefijo}menupp` },
-            { title: "🆕 Nuevos comandos", description: "Lo más reciente en el bot.", rowId: `${prefijo}menunovo` },
-            { title: "👑 Menú del dueño", description: "Acceso exclusivo para el creador.", rowId: `${prefijo}menudono` },
-            { title: "🛡 Administración", description: "Herramientas para grupos.", rowId: `${prefijo}menuadm` },
-            { title: "💠 Premium", description: "Funciones VIP para usuarios premium.", rowId: `${prefijo}menupremium` },
-            { title: "🎉 Juegos y diversión", description: "Comandos para divertirse en grupo.", rowId: `${prefijo}brincadeiras` },
-            { title: "🖼 Efectos visuales", description: "Aplica efectos con estilo.", rowId: `${prefijo}Efeitosimg` },
-            { title: "🪙 Sistema de monedas", description: "Gana y usa monedas virtuales.", rowId: `${prefijo}menucoins` },
-            { title: "⚔️ Mundo RPG", description: "Aventuras, batallas y evolución.", rowId: `${prefijo}menurpg` },
-            { title: "🎨 Crear logos", description: "Genera logos personalizados.", rowId: `${prefijo}menulogos` },
-          ]
-        },
-        {
-          title: "💖 Apoya el proyecto",
-          rows: [
-            { title: "🌟 Donar por Pix", description: "Apoya el proyecto con tu aporte!", rowId: `${prefijo}doar` }
-          ]
-        },
-        {
-          title: "📢 Comunidad Fenrys",
-          rows: [
-            { title: "💬 Grupo oficial", description: "Únete a nuestro grupo oficial.", rowId: `${prefijo}grupobot` },
-            { title: "🤝 Alianzas", description: "Sé parte del equipo!", rowId: `${prefijo}parcerias` }
-          ]
-        }
-      ]
+      sections
     }, { quoted: info });
 
   } catch (error) {
