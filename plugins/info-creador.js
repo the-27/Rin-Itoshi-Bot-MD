@@ -18,6 +18,7 @@ X-WA-BIZ-DESCRIPTION:Contacto oficial del creador
 X-WA-BIZ-NAME:${black}
 END:VCARD`.trim();
 
+  // Enviar solo el contacto primero
   await conn.sendMessage(m.chat, {
     contacts: {
       displayName: creatorName,
@@ -25,7 +26,10 @@ END:VCARD`.trim();
     }
   }, { quoted: m });
 
- 
+  // Esperar un segundo antes de enviar la imagen y texto (opcional para orden visual)
+  await new Promise(resolve => setTimeout(resolve, 500));
+
+  // Enviar la imagen con el texto por separado
   await conn.sendMessage(m.chat, {
     image: { url: imageUrl },
     caption: `
@@ -37,18 +41,7 @@ END:VCARD`.trim();
 ┃ 💖 *LINK:* wa.me/${creatorNumber}
 ┃ 👻 *GITHUB:* ${github}
 ┗━━━━━━━━━━━━━━━━━━━┛
-                    ᵉⁿˡᵃᶜᵉˢ ᵘᵗⁱˡᵉˢ`,
-    contextInfo: {
-      externalAdReply: {
-        title: '⚡ Contacto del Creador',
-        body: dev,
-        thumbnailUrl: imageUrl,
-        sourceUrl: github,
-        mediaType: 1,
-        renderLargerThumbnail: true,
-        showAdAttribution: true
-      }
-    }
+                    ᵉⁿˡᵃᶜᵉˢ ᵘᵗⁱˡᵉˢ`
   }, { quoted: m });
 };
 
