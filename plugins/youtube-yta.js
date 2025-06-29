@@ -83,7 +83,7 @@ const handler = async (m, { conn, text, command }) => {
   }
 };
 
-handler.command = handler.help = ['ytmp3', 'yta'];
+handler.command = handler.help = ['yta'];
 handler.tags = ['downloader'];
 
 export default handler;

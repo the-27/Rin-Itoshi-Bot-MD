@@ -87,7 +87,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
   }
 };
 
-handler.command = handler.help = ['ytvd', 'ytv', 'ytmp4'];
+handler.command = handler.help = ['ytv'];
 handler.tags = ['downloader'];
 handler.register = true;
 
