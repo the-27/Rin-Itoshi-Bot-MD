@@ -34,7 +34,7 @@ let handler = async (m, { conn, usedPrefix }) => {
     const level = global.db.data.users[m.sender]?.level || 0;
     const role = global.db.data.users[m.sender]?.role || 'Sin rango';
 
-    // Preparar imagen para mensaje interactivo
+ 
     const media = await prepareWAMessageMedia({ image: { url: randomImage } }, { upload: conn.waUploadToServer });
 
     const sections = [{
@@ -53,12 +53,12 @@ let handler = async (m, { conn, usedPrefix }) => {
 
     const interactiveMessage = {
       header: {
-        title: "",
+        title: "HOLZ",
         hasMediaAttachment: true,
         imageMessage: media.imageMessage
       },
       body: {
-        text: `✨ 𝐈𝐍𝐅𝐎 𝐔𝐒𝐔𝐀𝐑𝐈𝐎 ✨\n\n👤 Nombre: ${name}\n💠 Exp: ${exp}\n⭐ Nivel: ${level}\n🎖️ Rango: ${role}`
+        text: `✨ 𝐈𝐍𝐅𝐎 𝐔𝐒𝐔𝐀𝐑𝐈𝐎 ✨\n\n> 👤 Nombre: ${name}\n💠 Exp: ${exp}\n⭐ Nivel: ${level}\n🎖️ Rango: ${role}`
       },
       footer: {
         text: "⏤͟͞ू⃪ 𝑺𝑯𝑨𝑫𝑶𝑾 - 𝑩𝑶𝑻 • Powered by black"
