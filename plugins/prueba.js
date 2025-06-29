@@ -34,62 +34,19 @@ let handler = async (m, { conn, usedPrefix }) => {
     const level = global.db.data.users[m.sender]?.level || 0;
     const role = global.db.data.users[m.sender]?.role || 'Sin rango';
 
-    let menuText = `
-*_~✦═ೋ『★』ೋ═✦~_*
-⚙️ *🄾🄿🄲🄸🄾🄽🄴🅂 🄳🄸🅂🄿🄾🄽🄸🄱🄻🄴🅂:* ⚙️
-
-🌹 *𝐌𝐄𝐍𝐔 𝐂𝐎𝐌𝐏𝐋𝐄𝐓𝐎* → #menu
-📥 *𝐌𝐄𝐍𝐔 𝐃𝐄𝐒𝐂𝐀𝐑𝐆𝐀𝐒* → #menudl
-🔍 *𝐌𝐄𝐍𝐔 𝐁𝐔𝐒𝐐𝐔𝐄𝐃𝐀𝐒* → #menuse    
-🎮 *𝐌𝐄𝐍𝐔 𝐑𝐏𝐆 + 𝐄𝐂𝐎𝐍𝐎𝐌𝐈𝐀* → #menurpg
-👑 *𝐌𝐄𝐍𝐔 𝐎𝐖𝐍𝐄𝐑* → #dev
-👾 *𝐌𝐄𝐍𝐔 𝐏𝐄𝐑𝐅𝐈𝐋* → #perfildates
-🌴 *𝐌𝐄𝐍𝐔 𝐀𝐔𝐃𝐈𝐎𝐒* → #menu2
-🏔️ *𝐌𝐄𝐍𝐔 𝐆𝐑𝐔𝐏𝐎𝐒* → #menugp
-🌸 *𝐌𝐄𝐍𝐔 𝐋𝐎𝐆𝐎𝐒* → #menulogos
-
-📌 Usa los botones o comandos para acceder.
-`.trim();
-
-    // Enviar mensaje clásico con botones normales
-    await conn.sendMessage(m.chat, {
-      image: { url: randomImage },
-      caption: menuText,
-      footer: "🦋 𝑺𝑯𝑨𝑫𝑶𝑾 - 𝑩𝑶𝑻 - 𝑴𝑫",
-      buttons: [
-        { buttonId: `${usedPrefix}menu`, buttonText: { displayText: "🌹 Menu Completo" }, type: 1 },
-        { buttonId: `${usedPrefix}menudl`, buttonText: { displayText: "📥 Menu Descargas" }, type: 1 },
-        { buttonId: `${usedPrefix}menurpg`, buttonText: { displayText: "🎮 Menu RPG" }, type: 1 },
-      ],
-      headerType: 4,
-      contextInfo: {
-        externalAdReply: {
-          title: "SHADOW BOT MD",
-          body: "Menú Personalizado",
-          thumbnailUrl: randomImage,
-          sourceUrl: "https://www.youtube.com/@shadowbot-md",
-          mediaType: 1,
-          renderLargerThumbnail: true,
-          showAdAttribution: true
-        }
-      }
-    }, { quoted: fkontak });
-
-    // Preparar menú interactivo de lista
+    // Preparar imagen para mensaje interactivo
     const media = await prepareWAMessageMedia({ image: { url: randomImage } }, { upload: conn.waUploadToServer });
 
     const sections = [{
       title: "✦ MENÚS DISPONIBLES ✦",
       rows: [
-        { title: "📥 Menu Descargas", description: "Descargas desde redes sociales", id: `${usedPrefix}menudescargas` },
-        { title: "🎮 Menu RPG + Economía", description: "Sistema de aventuras y economía", id: `${usedPrefix}menueconomia` },
-        { title: "🖼️ Menu Stickers", description: "Creador de stickers", id: `${usedPrefix}menusticker` },
+        { title: "📥 Menu Descargas", description: "Descargas desde redes sociales", id: `${usedPrefix}menudl` },
+        { title: "🎮 Menu RPG + Economía", description: "Sistema de aventuras y economía", id: `${usedPrefix}menurpg` },
+        { title: "🖼️ Menu busquedas", description: "MENU DE BUSQUEDAS, YOUTUBE, ECT", id: `${usedPrefix}menuse` },
         { title: "🧰 Menu Herramientas", description: "Utilidades variadas", id: `${usedPrefix}menuherramientas` },
         { title: "👤 Menu Perfil", description: "Opciones de perfil", id: `${usedPrefix}menuperfil` },
         { title: "👥 Menu Grupos", description: "Administración de grupos", id: `${usedPrefix}menugrupo` },
         { title: "🔍 Menu Búsquedas", description: "Buscar imágenes, videos y más", id: `${usedPrefix}menubusquedas` },
-        { title: "🎌 Menu Anime", description: "Contenido otaku", id: `${usedPrefix}menuanime` },
-        { title: "🧩 Menu Juegos", description: "Juegos divertidos", id: `${usedPrefix}menujuegos` },
         { title: "🔞 Menu +18", description: "Contenido NSFW", id: `${usedPrefix}menunsfw` },
       ]
     }];
