@@ -40,7 +40,7 @@ let handler = async (m, { conn, text }) => {
     message += `  ✩   *Título* : ${articleTitle}\n`;
     message += `  ✩   *Descripción* :\n${articleContent}\n`;
     message += `  ✩   *Link* : [${articleTitle}](${articleUrl})\n\n`;
-    message += `> 🔥 Powered by Jose`;
+    message += `> 🔥 Powered by black`;
 
     await conn.sendMessage(m.chat, { text: message }, { quoted: m });
     await m.react('🔍');
@@ -55,7 +55,7 @@ let handler = async (m, { conn, text }) => {
   }
 };
 
-handler.command = /^(wikis)$/i;
+handler.command = ['wikis'];
 handler.tags = ['buscador'];
 handler.help = ['wikis'];
 export default handler;

@@ -99,7 +99,7 @@ const getIframeDetails = async (iframeUrl) => {
 
 handler.help = ['gnula'];
 handler.tags = ['buscador'];
-handler.command = /^(gnula)$/i;
+handler.command = ['gnula'];
 handler.premium = false;
 handler.register = true;
 

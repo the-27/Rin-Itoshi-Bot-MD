@@ -100,11 +100,15 @@ let handler = async (m, { conn, args }) => {
 │ ${med} .spotifysearch *<texto>*
 │ ${med} .ytsearch2 *<text>*
 │ ${med} .npmjs
+│ ${med} .gnula
+│ ${med} .apksearch
+│ ${med} .wikis
 │ ${med} .tiktoksearch *<txt>*
 │ ${med} .tweetposts
 │ ${med} .xnxxs
 │ ${med} .xvsearch
 │ ${med} .yts
+│ ${med} .fdroidsearch <término>
 ╰────────────────────╯
 
 ╭──⬣
@@ -298,6 +302,7 @@ let handler = async (m, { conn, args }) => {
 │ ${med} .kwaistalk *<usuario>*
 │ ${med} .telegramstalk *<nombre_usuario>*
 │ ${med} .youtubestalk *<nombre de usuario>*
+│ ${med} .instagramstalk *<usuario>*
 ╰────────────────────╯
 
 ╭──⬣
