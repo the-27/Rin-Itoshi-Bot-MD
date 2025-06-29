@@ -18,7 +18,7 @@ X-WA-BIZ-DESCRIPTION:Contacto oficial del creador
 X-WA-BIZ-NAME:${black}
 END:VCARD`.trim();
 
-  // Enviar solo el contacto primero
+
   await conn.sendMessage(m.chat, {
     contacts: {
       displayName: creatorName,
@@ -26,10 +26,10 @@ END:VCARD`.trim();
     }
   }, { quoted: m });
 
-  // Esperar un segundo antes de enviar la imagen y texto (opcional para orden visual)
+  
   await new Promise(resolve => setTimeout(resolve, 500));
 
-  // Enviar la imagen con el texto por separado
+ 
   await conn.sendMessage(m.chat, {
     image: { url: imageUrl },
     caption: `
@@ -37,7 +37,7 @@ END:VCARD`.trim();
 ┃ 🌹 *C R E A D O R - 💎 - B O T*
 ┣━━━━━━━━━━━━━━━━━━━┫
 ┃ 🌱 *NOMBRE:* ${creatorName}
-┃ ⚡ *NÚMERO:* ${creatorNumber}
+┃ ⚡ *NÚMERO:* +${creatorNumber}
 ┃ 💖 *LINK:* wa.me/${creatorNumber}
 ┃ 👻 *GITHUB:* ${github}
 ┗━━━━━━━━━━━━━━━━━━━┛
@@ -45,5 +45,8 @@ END:VCARD`.trim();
   }, { quoted: m });
 };
 
-handler.command = ['owner', 'creador', 'dueño'];
+handler.help = ["creador", "owner"];
+handler.tags = ["info"];
+handler.command = ['owner', 'creator', 'creador', 'dueño'];
+
 export default handler;
