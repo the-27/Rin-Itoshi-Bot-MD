@@ -1,160 +1,80 @@
-import yts from 'yt-search';
-import fetch from 'node-fetch';
 import { prepareWAMessageMedia } from '@whiskeysockets/baileys';
+import fetch from 'node-fetch';
 
-const handler = async (m, { conn, args, usedPrefix, command }) => {
-  if (!args[0]) return conn.reply(m.chat, `*🔎 Por favor, ingresa un título de YouTube.*\n> *\`Ejemplo:\`* ${usedPrefix + command} Corazón Serrano - Olvídalo Corazón`, m);
-
+const handler = async (m, { conn, usedPrefix }) => {
   await m.react('🕒');
+
   try {
-    const query = args.join(" ");
-    const searchResults = await searchVideos(query);
-    const spotifyResults = await searchSpotify(query);
+    // Título y texto de presentación
+    const titulo = '✨ Bienvenido al Menú del Bot';
+    const texto = `
+╭━━⬣ 𝙄𝙉𝙁𝙊 𝙐𝙎𝙐𝘼𝙍𝙄𝙊 ⬣━━
+▢ 👤 Usuario: ${conn.getName(m.sender)}
+▢ 🎖️ Rango: ${global.db.data.users[m.sender]?.role || 'Sin rango'}
+▢ ✨ Nivel: ${global.db.data.users[m.sender]?.level || 0}
+▢ 💠 Exp: ${global.db.data.users[m.sender]?.exp || 0}
+╰━━━━━━━━━━━━━━⬣
+`;
 
-    if (!searchResults.length && !spotifyResults.length) {
-      throw new Error('*✖️ No se encontraron resultados.*');
-    }
+    // Imagen
+    const imagen = 'https://files.catbox.moe/pp7ncd.jpg';
+    const imgBuffer = await (await fetch(imagen)).buffer();
+    const media = await prepareWAMessageMedia({ image: imgBuffer }, { upload: conn.waUploadToServer });
 
-    const video = searchResults[0];
+    // Botones rápidos
+    const buttons = [
+      { buttonId: `${usedPrefix}reg`, buttonText: { displayText: '🛡️ Verificar' }, type: 1 },
+      { buttonId: `${usedPrefix}menu`, buttonText: { displayText: '✅ Menú Completo' }, type: 1 }
+    ];
 
-    let thumbnail;
-    try {
-      const res = await fetch(video.miniatura);
-      thumbnail = await res.buffer();
-    } catch {
-      const res = await fetch('https://telegra.ph/file/36f2a1bd2aaf902e4d1ff.jpg');
-      thumbnail = await res.buffer();
-    }
+    // Secciones del botón tipo lista
+    const sections = [
+      {
+        title: "📂 Menús por Categoría",
+        rows: [
+          { title: "📥 Menú Descargas", description: "Descarga contenido", id: `${usedPrefix}menudl` },
+          { title: "🎐 Menú Audios", description: "Audios divertidos", id: `${usedPrefix}menu2` },
+          { title: "👥 Menú Grupos", description: "Comandos para grupos", id: `${usedPrefix}menugp` },
+          { title: "🔞 Menú +18", description: "Contenido para adultos", id: `${usedPrefix}menu18` },
+          { title: "👑 Menú Owner", description: "Funciones exclusivas del dueño", id: `${usedPrefix}dev` },
+        ]
+      }
+    ];
 
-    let messageText = `\`\`\`◜YouTube - Download◞\`\`\`\n\n`;
-    messageText += `*${video.titulo}*\n\n`;
-    messageText += `≡ *⏳ Duración:* ${video.duracion || 'No disponible'}\n`;
-    messageText += `≡ *🌴 Autor:* ${video.canal || 'Desconocido'}\n`;
-    messageText += `≡ *🔗 URL:* ${video.url}`;
-
-    // Primer mensaje con imagen y botones rápidos
+    // Enviar mensaje con imagen, botones rápidos y botón tipo lista
     await conn.sendMessage(m.chat, {
-      image: thumbnail,
-      caption: messageText,
-      footer: '🌀 YouTube y Spotify Downloader',
+      image: media.imageMessage,
+      caption: titulo + '\n\n' + texto.trim(),
+      footer: '🤖 Powered by BOT',
       buttons: [
+        ...buttons,
         {
-          buttonId: `${usedPrefix}ytmp3 ${video.url}`,
-          buttonText: { displayText: '🎧 Descargar MP3' },
-          type: 1,
-        },
-        {
-          buttonId: `${usedPrefix}ytmp4 ${video.url}`,
-          buttonText: { displayText: '📹 Descargar MP4' },
-          type: 1,
+          type: 4,
+          nativeFlowInfo: {
+            name: 'single_select',
+            paramsJson: JSON.stringify({
+              title: '📂 Menús por Categoría',
+              sections
+            })
+          }
         }
       ],
-      headerType: 4
+      headerType: 1,
+      viewOnce: true,
+      contextInfo: {
+        mentionedJid: [m.sender],
+        forwardingScore: 1000,
+        isForwarded: true
+      }
     }, { quoted: m });
-
-    // Segundo mensaje con lista interactiva
-    const ytSections = searchResults.slice(1, 10).map((v, index) => ({
-      title: `${index + 1}. ${v.titulo}`,
-      rows: [
-        {
-          title: `🎶 MP3`,
-          description: `Duración: ${v.duracion || 'No disponible'}`,
-          id: `${usedPrefix}ytmp3 ${v.url}`
-        },
-        {
-          title: `🎥 MP4`,
-          description: `Duración: ${v.duracion || 'No disponible'}`,
-          id: `${usedPrefix}ytmp4 ${v.url}`
-        }
-      ]
-    }));
-
-    const spotifySections = spotifyResults.map((s, index) => ({
-      title: `${index + 1}. ${s.titulo}`,
-      rows: [
-        {
-          title: `🎶 Audio`,
-          description: `Duración: ${s.duracion || 'No disponible'}`,
-          id: `${usedPrefix}spotify ${s.url}`
-        }
-      ]
-    }));
-
-    if (ytSections.length > 0 || spotifySections.length > 0) {
-      await conn.sendMessage(m.chat, {
-        text: '📋 Resultados alternativos:',
-        footer: '🌀 Elige una opción',
-        buttons: [
-          ...(ytSections.length > 0 ? [{
-            type: 4,
-            nativeFlowInfo: {
-              name: 'single_select',
-              paramsJson: JSON.stringify({
-                title: '🎬 YouTube Resultados',
-                sections: ytSections
-              })
-            }
-          }] : []),
-          ...(spotifySections.length > 0 ? [{
-            type: 4,
-            nativeFlowInfo: {
-              name: 'single_select',
-              paramsJson: JSON.stringify({
-                title: '🎵 Spotify Resultados',
-                sections: spotifySections
-              })
-            }
-          }] : [])
-        ],
-        headerType: 1
-      }, { quoted: m });
-    }
 
     await m.react('✅');
   } catch (e) {
     console.error(e);
     await m.react('❌');
-    conn.reply(m.chat, `*✘ Error al buscar el video:*\n${e.message}`, m);
+    await conn.reply(m.chat, '*❌ Error al mostrar el menú.*\n' + e.message, m);
   }
 };
 
-handler.help = ['play4 <texto>'];
-handler.tags = ['dl'];
-handler.command = ['play4'];
+handler.command = ['menugeneral', 'menú', 'menuprincipal'];
 export default handler;
-
-// 🔍 Funciones auxiliares
-
-async function searchVideos(query) {
-  try {
-    const res = await yts(query);
-    return res.videos.slice(0, 10).map(video => ({
-      titulo: video.title,
-      url: video.url,
-      miniatura: video.thumbnail,
-      canal: video.author.name,
-      publicado: video.timestamp || 'No disponible',
-      vistas: video.views || 'No disponible',
-      duracion: video.duration?.timestamp || 'No disponible'
-    }));
-  } catch (error) {
-    console.error('Error en yt-search:', error.message);
-    return [];
-  }
-}
-
-async function searchSpotify(query) {
-  try {
-    const res = await fetch(`https://delirius-apiofc.vercel.app/search/spotify?q=${encodeURIComponent(query)}`);
-    const data = await res.json();
-    if (!data || !Array.isArray(data.data)) return [];
-    return data.data.slice(0, 10).map(track => ({
-      titulo: track.title,
-      url: track.url,
-      duracion: track.duration || 'No disponible'
-    }));
-  } catch (error) {
-    console.error('Error en Spotify API:', error.message);
-    return [];
-  }
-}
