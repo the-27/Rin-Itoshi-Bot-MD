@@ -44,41 +44,39 @@ export default handler;
 
 import fetch from 'node-fetch';
 
-const handler = async (m, { conn, text, command }) => {
+const handler = async (m, { conn, text }) => {
     if (!text) {
-        return conn.reply(m.chat, '❌ Por favor proporciona un enlace válido de YouTube.', m);
+        return conn.reply(m.chat, '❌ Proporciona un enlace de YouTube.', m, rcanal);
     }
 
     try {
-        // Nueva API local para obtener el audio
         const apiUrl = `http://de01.uniplex.xyz:5194/download_audio?url=${encodeURIComponent(text)}`;
         const response = await fetch(apiUrl);
         const result = await response.json();
 
-        // Validaciones de respuesta de la API
-        if (!result || !result.file_url) {
-            return conn.reply(m.chat, '❌ No se pudo descargar el audio. Verifica el enlace e intenta nuevamente.', m);
+        console.log(result);
+
+        if (!result || !result.file_url || !result.file_url.startsWith('http')) {
+            return conn.reply(m.chat, '❌ No se pudo obtener el audio. Verifica el enlace.', m);
         }
 
         const audioUrl = result.file_url;
-        const caption = `✅ *Audio descargado correctamente.*`;
 
-        // Enviar el audio al usuario
         await conn.sendMessage(
             m.chat,
             {
                 audio: { url: audioUrl },
-                mimetype: 'audio/mp4',
-                ptt: false, // Cambia a `true` si deseas enviar como nota de voz
+                mimetype: 'audio/mpeg',
+                ptt: false,
             },
             { quoted: m }
         );
 
-        // Enviar mensaje de confirmación
-        await conn.reply(m.chat, caption, m);
+        await conn.reply(m.chat, '✅ *Audio enviado correctamente.*', m);
+
     } catch (error) {
-        console.error(error);
-        conn.reply(m.chat, '❌ Ocurrió un error al intentar descargar el audio.', m);
+        console.error('Error al descargar el audio:', error);
+        conn.reply(m.chat, '❌ Error al intentar descargar o enviar el audio.', m);
     }
 };
 
