@@ -28,8 +28,9 @@ const handler = async (m, { isOwner, isAdmin, conn, text, participants, args, co
   }
 
   teksLines.push(`╰──────────────༓`);
-
   const teks = teksLines.join('\n');
+
+  const quotedMessage = (typeof fkontak !== 'undefined' && fkontak) ? fkontak : m;
 
   await conn.sendMessage(m.chat, {
     text: teks,
@@ -38,14 +39,14 @@ const handler = async (m, { isOwner, isAdmin, conn, text, participants, args, co
       mentionedJid: participants.map(p => p.id),
       externalAdReply: {
         title: '✧ 𝐈𝐍𝐕𝐎𝐂𝐀𝐍𝐃𝐎 𝐀 𝐓𝐎𝐃𝐎𝐒ꦿ✧',
-        body: '🌴 ʙᴏᴛ ᴅᴇ ᴛʜᴇ_ʙʟᴀᴄᴋ ⚡',
+        body: '🌴 ʙᴏᴛ ᴅᴇ ᴛʜᴇ_ʙʟᴀᴄᴋ ⚡🐉',
         thumbnailUrl: logo,
         mediaType: 1,
         showAdAttribution: true,
         renderLargerThumbnail: true
       }
     }
-  }, { quoted: fkontak || m });
+  }, { quoted: quotedMessage });
 };
 
 handler.help = ['todos *<mensaje opcional>*'];
