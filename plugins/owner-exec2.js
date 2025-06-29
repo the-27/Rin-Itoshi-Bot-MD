@@ -1,26 +1,25 @@
-import cp, { exec as _exec } from 'child_process';
-import { promisify } from 'util';
+import cp, {exec as _exec} from 'child_process';
+import {promisify} from 'util';
 const exec = promisify(_exec).bind(cp);
-
-const handler = async (m, { conn, isROwner, command, text, usedPrefix }) => {
+const handler = async (m, {conn, isOwner, command, text, usedPrefix, args, isROwner}) => {
   if (!isROwner) return;
-  if (!text) return m.reply('⚠️ Ingresa un comando para ejecutar.');
-  if (global.conn.user.jid !== conn.user.jid) return;
-
-  m.reply('🚀 *Ejecutando...*');
-
+  if (global.conn.user.jid != conn.user.jid) return;
+  m.reply(`${emoji} *Ejecutando...*`);
+  let o;
   try {
-    const { stdout, stderr } = await exec(text);
-    if (stdout) m.reply(`✅ *Resultado:*\n${stdout}`);
-    if (stderr) m.reply(`⚠️ *Error:*\n${stderr}`);
+    o = await exec(command.trimStart() + ' ' + text.trimEnd());
   } catch (e) {
-    m.reply(`❌ *Excepción:*\n${e.message}`);
+    o = e;
+  } finally {
+    const {stdout, stderr} = o;
+    if (stdout.trim()) m.reply(stdout);
+    if (stderr.trim()) m.reply(stderr);
   }
 };
-
 handler.help = ['$']
 handler.tags = ['owner']
-handler.command = /^\$/; // Solo responde a comandos que empiezan con $
-handler.rowner = true;
+handler.customPrefix = ['$']
+handler.command = new RegExp
+handler.rowner = true
 
-export default handler;
+export default handler
