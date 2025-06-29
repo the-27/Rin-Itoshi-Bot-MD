@@ -112,7 +112,7 @@ global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageIn
 
 
 
-global.black = {
+global.rcanal2 = {
   contextInfo: {
     isForwarded: true,
     forwardedNewsletterMessageInfo: {

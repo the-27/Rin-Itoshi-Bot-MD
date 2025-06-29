@@ -33,7 +33,7 @@ const ddownr = {
 const handler = async (m, { conn, text, usedPrefix, command }) => {
   try {
     if (!text.trim()) {
-      return conn.reply(m.chat, `💜 Ingresa el nombre del video a descargar.`, m);
+      return conn.reply(m.chat, `💜 Ingresa el nombre del video a descargar.`, m, rcanal2);
     }
 
     const search = await yts(text);
