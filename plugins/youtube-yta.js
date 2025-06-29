@@ -1,4 +1,4 @@
-/*import fetch from 'node-fetch';
+import fetch from 'node-fetch';
 
 let handler = async (m, { conn, usedPrefix, command, text }) => {
   if (!text) return m.reply(`🌴 Ingresa un texto para buscar en YouTube.\n> *Ejemplo:* ${usedPrefix + command} Shakira`);
@@ -32,52 +32,6 @@ let handler = async (m, { conn, usedPrefix, command, text }) => {
     console.error(error);
     m.reply(`❌ Error al procesar la solicitud:\n${error.message}`);
   }
-};
-
-handler.command = ['yta'];
-handler.help = ['yta'];
-handler.tags = ['descargas'];
-handler.coin = 3;
-
-export default handler;
-*/
-
-import fetch from 'node-fetch';
-
-const handler = async (m, { conn, text }) => {
-    if (!text) {
-        return conn.reply(m.chat, '❌ Proporciona un enlace de YouTube.', m, rcanal);
-    }
-
-    try {
-        const apiUrl = `http://de01.uniplex.xyz:5194/download_audio?url=${encodeURIComponent(text)}`;
-        const response = await fetch(apiUrl);
-        const result = await response.json();
-
-        console.log(result);
-
-        if (!result || !result.file_url || !result.file_url.startsWith('http')) {
-            return conn.reply(m.chat, '❌ No se pudo obtener el audio. Verifica el enlace.', m);
-        }
-
-        const audioUrl = result.file_url;
-
-        await conn.sendMessage(
-            m.chat,
-            {
-                audio: { url: audioUrl },
-                mimetype: 'audio/mpeg',
-                ptt: false,
-            },
-            { quoted: m }
-        );
-
-        await conn.reply(m.chat, '✅ *Audio enviado correctamente.*', m);
-
-    } catch (error) {
-        console.error('Error al descargar el audio:', error);
-        conn.reply(m.chat, '❌ Error al intentar descargar o enviar el audio.', m);
-    }
 };
 
 handler.command = ['yta'];
