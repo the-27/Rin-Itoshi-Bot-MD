@@ -1,12 +1,9 @@
 let handler = async (m, { conn }) => {
   const black = 'BLACK.OFC';
-  const dev = '𝙏𝙝𝙚 𝘽𝙡𝙖𝙘𝙠 - Creador Oficial';
   const imageUrl = 'https://files.catbox.moe/pp7ncd.jpg';
-  const creatorNumber = '50231458537';
-  const creatorName = 'BLACKOFC';
-  const channelLink = 'https://whatsapp.com/channel/0029VajUPbECxoB0cYovo60W';
+  const creatorNumber = '51969214380';
+  const creatorName = '𝙏𝙝𝙚 𝘽𝙡𝙖𝙘𝙠 - Creador Oficial';
   const github = 'https://github.com/the-27';
-  const waLink = `https://wa.me/${creatorNumber}`;
 
   const vcard = `
 BEGIN:VCARD
@@ -21,7 +18,6 @@ X-WA-BIZ-DESCRIPTION:Contacto oficial del creador
 X-WA-BIZ-NAME:${black}
 END:VCARD`.trim();
 
-  // Enviar contacto
   await conn.sendMessage(m.chat, {
     contacts: {
       displayName: creatorName,
@@ -29,7 +25,7 @@ END:VCARD`.trim();
     }
   }, { quoted: m });
 
-  // Enviar mensaje con imagen y botones
+ 
   await conn.sendMessage(m.chat, {
     image: { url: imageUrl },
     caption: `
@@ -42,15 +38,6 @@ END:VCARD`.trim();
 ┃ 👻 *GITHUB:* ${github}
 ┗━━━━━━━━━━━━━━━━━━━┛
                     ᵉⁿˡᵃᶜᵉˢ ᵘᵗⁱˡᵉˢ`,
-    footer: 'Selecciona una opción 👇',
-    templateButtons: [
-      { index: 1, urlButton: { displayText: '📞 Contactar por WhatsApp', url: waLink } },
-      { index: 2, urlButton: { displayText: '📣 Canal Oficial', url: channelLink } },
-      { index: 3, urlButton: { displayText: '👾 GitHub', url: github } },
-      { index: 4, quickReplyButton: { displayText: '📜 Ver Menú', id: '.menu' } },
-      { index: 5, quickReplyButton: { displayText: '💰 Donar al Creador', id: '.donar' } }
-    ],
-    headerType: 4,
     contextInfo: {
       externalAdReply: {
         title: '⚡ Contacto del Creador',
