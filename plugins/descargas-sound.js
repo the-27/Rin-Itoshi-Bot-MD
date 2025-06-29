@@ -1,95 +1,55 @@
-// no funciona xd
+import fetch from 'node-fetch';
+import axios from 'axios';
 
-import fetch from "node-fetch";
+let handler = async (m, { conn, command, args, text, usedPrefix }) => {
+if (!text) return conn.reply(m.chat, `🤍 Ingrese el nombre de la cancion de *Soundcloud.*`, m, rcanal)
 
-const handler = async (m, { conn, text, command }) => {
-    if (!text.trim()) {
-        return conn.reply(m.chat, `❗ Ingresa el nombre o enlace de SoundCloud para descargar.`, m);
-    }
+await m.react('🕒');
+try {
+let api = await fetch(`https://apis-starlights-team.koyeb.app/starlight/soundcloud-search?text=${encodeURIComponent(text)}`);
+let json = await api.json();
+let { url } = json[0];
 
-    try {
-        let songUrl = '';
-        let title = '';
-        let thumbnail = '';
-        let duration = '';
+let api2 = await fetch(`https://apis-starlights-team.koyeb.app/starlight/soundcloud?url=${url}`);
+let json2 = await api2.json();
 
-     
-        if (/soundcloud\.com/.test(text)) {
-            songUrl = text;
-        } else {
-            
-            const search = await fetch(`https://api.siputzx.my.id/api/soundcloud/search?query=${encodeURIComponent(text)}`);
-            const searchText = await search.text();
+let { link: dl_url, quality, image } = json2;
 
-            let searchData;
-            try {
-                searchData = JSON.parse(searchText);
-            } catch {
-                throw new Error('⚠️ Error al analizar la respuesta del servidor (búsqueda).');
-            }
+let audio = await getBuffer(dl_url);
 
-            if (!searchData.status || !searchData.data || searchData.data.length === 0) {
-                return m.reply('❌ No se encontraron resultados para tu búsqueda.');
-            }
+let txt = `*\`S O U N C L O U D\`*\n\n`;
+    txt += `*Título* : ${json[0].title}\n`;
+    txt += `*Calidad* : ${quality}\n`;
+    txt += `*Url* : ${url}\n\n`
 
-            
-            songUrl = searchData.data[0].url;
-        }
+await conn.sendFile(m.chat, image, 'thumbnail.jpg', txt, m, rcanal);
+await conn.sendMessage(m.chat, { audio: audio, fileName: `${json[0].title}.mp3`, mimetype: 'audio/mpeg' }, { quoted: m })
 
-       
-        const res = await fetch(`https://api.siputzx.my.id/api/d/soundcloud?url=${encodeURIComponent(songUrl)}`);
-        const resText = await res.text();
+await m.react('✅');
+} catch {
+await m.react('✖️');
+}}
 
-        let json;
-        try {
-            json = JSON.parse(resText);
-        } catch {
-            throw new Error('⚠️ Error al analizar la respuesta del servidor (descarga).');
-        }
+handler.help = ['soundcloud *<texto>*']
+handler.tags = ['dl']
+handler.command = ['soundcloud', 'sound']
 
-        if (!json.status || !json.data) {
-            throw new Error('❌ No se pudo obtener el audio.');
-        }
+export default handler
 
-        title = json.data.title;
-        thumbnail = json.data.thumbnail;
-        duration = json.data.duration;
-        const audioUrl = json.data.url;
-
-        const thumb = (await conn.getFile(thumbnail))?.data;
-
-        const infoMessage = `╭───[ 🎧 SOUND CLOUD ]───✰
-│🎵 Título: *${title}*
-│⏱️ Duración: ${duration}
-│🔗 Enlace: ${songUrl}
-╰──────────────✰`;
-
-        await conn.reply(m.chat, infoMessage, m);
-
-        await conn.sendMessage(m.chat, {
-            audio: { url: audioUrl },
-            mimetype: 'audio/mp4',
-            fileName: `${title}.mp3`,
-            contextInfo: {
-                externalAdReply: {
-                    showAdAttribution: true,
-                    mediaType: 2,
-                    mediaUrl: audioUrl,
-                    title,
-                    sourceUrl: songUrl,
-                    thumbnail: thumb,
-                },
-            },
-        }, { quoted: m });
-
-    } catch (error) {
-        console.error(error);
-        return m.reply(`❌ *Error:* ${error.message}`);
-    }
+const getBuffer = async (url, options) => {
+try {
+const res = await axios({
+method: 'get',
+url,
+headers: {
+'DNT': 1,
+'Upgrade-Insecure-Request': 1,
+},
+...options,
+responseType: 'arraybuffer',
+});
+return res.data;
+} catch (e) {
+console.log(`Error : ${e}`);
+}
 };
-
-handler.command = ['soundcloud', 'sounddl'];
-handler.help = ['soundcloud <nombre o link>'];
-handler.tags = ['descargas'];
-
-export default handler;
