@@ -1,14 +1,14 @@
-let handler = async (m, { conn, usedPrefix }) => {
+let handler = async (m, { conn }) => {
   try {
     const black = 'BLACK.OFC';
     const dev = '𝙏𝙝𝙚 𝘽𝙡𝙖𝙘𝙠 - Creador Oficial';
     const imageUrl = 'https://files.catbox.moe/pp7ncd.jpg';
-
     const creatorNumber = '50231458537';
     const creatorName = 'BLACKOFC';
     const channelLink = 'https://whatsapp.com/channel/0029VajUPbECxoB0cYovo60W';
+    const github = 'https://github.com/the-27';
+    const waLink = `https://wa.me/${creatorNumber}`;
 
- 
     const vcard = `
 BEGIN:VCARD
 VERSION:3.0
@@ -22,7 +22,7 @@ X-WA-BIZ-DESCRIPTION:Contacto oficial del creador
 X-WA-BIZ-NAME:${black}
 END:VCARD`.trim();
 
-    
+    // Enviar contacto
     await conn.sendMessage(m.chat, {
       contacts: {
         displayName: creatorName,
@@ -30,51 +30,40 @@ END:VCARD`.trim();
       }
     }, { quoted: m });
 
-    
+    // Enviar mensaje con imagen y botones mixtos (respuesta rápida + URL)
     await conn.sendMessage(m.chat, {
-      text: `
+      image: { url: imageUrl },
+      caption: `
 ┏━━━━━━━━━━━━━━━━━━━┓
 ┃ 🌹 *C R E A D O R - 💎 - B O T*
 ┣━━━━━━━━━━━━━━━━━━━┫
 ┃ 🌱 *NOMBRE:* ${creatorName}
 ┃ ⚡ *NUMERO:* ${creatorNumber}
 ┃ 💖 *LINK:* wa.me/${creatorNumber}
-┃ 👻 *GITHUB:* https://github.com/the-27 ⭐
+┃ 👻 *GITHUB:* ${github}
 ┗━━━━━━━━━━━━━━━━━━━┛
-                   ᵉⁿˡᵃᶜᵉˢ ᵘᵗⁱˡᵉˢ`.trim(),
+                   ᵉⁿˡᵃᶜᵉˢ ᵘᵗⁱˡᵉˢ`,
+      footer: 'Selecciona una opción 👇',
+      templateButtons: [
+        { index: 1, urlButton: { displayText: '📞 Contactar por WhatsApp', url: waLink } },
+        { index: 2, urlButton: { displayText: '📣 Canal Oficial', url: channelLink } },
+        { index: 3, urlButton: { displayText: '👾 GitHub', url: github } },
+        { index: 4, quickReplyButton: { displayText: '📜 Ver Menú', id: '.menu' } },
+        { index: 5, quickReplyButton: { displayText: '💰 Donar al Creador', id: '.donar' } }
+      ],
+      headerType: 4,
       contextInfo: {
         externalAdReply: {
-          showAdAttribution: true,
-          title: '⚡ ᴄᴏɴᴛᴀᴄᴛᴏ ᴅᴇ ᴍɪ ᴄʀᴇᴀᴅᴏʀ 💥',
+          title: '⚡ Contacto del Creador',
           body: dev,
           thumbnailUrl: imageUrl,
-          sourceUrl: 'https://github.com/the-27',
+          sourceUrl: github,
+          showAdAttribution: true,
           mediaType: 1,
           renderLargerThumbnail: true
         }
       }
     }, { quoted: m });
-
- 
-    let sections = [
-      {
-        title: "Opciones del Creador",
-        rows: [
-          { title: "📞 Contactar por WhatsApp", rowId: `https://wa.me/${creatorNumber}` },
-          { title: "📣 Ir al Canal Oficial", rowId: channelLink }
-        ]
-      }
-    ];
-
-    let listMessage = {
-      text: '👑 *Creador del Bot*',
-      footer: 'Selecciona una opción 👇',
-      title: `${creatorName}`,
-      buttonText: "📋 Ver opciones",
-      sections
-    };
-
-    await conn.sendMessage(m.chat, listMessage, { quoted: m });
 
   } catch (e) {
     console.error(e);
