@@ -174,28 +174,6 @@ const handler = async (m, { conn, text, command }) => {
   }
 };
 
-global.black = {
-  contextInfo: {
-    isForwarded: true,
-    forwardedNewsletterMessageInfo: {
-      newsletterJid: global.canalIdM,
-      serverMessageId: 100,
-      newsletterName: global.canalNombreM,
-    },
-    externalAdReply: {
-      showAdAttribution: true,
-      title: packname,
-      body: dev,
-      mediaUrl: null,
-      description: null,
-      previewType: "PHOTO",
-      thumbnailUrl: icono,
-      sourceUrl: redes,
-      mediaType: 1,
-      renderLargerThumbnail: true
-    }
-  }
-};
 
 handler.command = handler.help = ['yta'];
 handler.tags = ['downloader'];
