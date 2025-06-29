@@ -146,8 +146,8 @@ const handler = async (m, { conn, text, command }) => {
     }
 };
 
-handler.command = ['yta'];
-handler.help = ['yta'];
+handler.command = ['ytv'];
+handler.help = ['ytv'];
 handler.tags = ['descargas'];
 handler.coin = 3;
 
