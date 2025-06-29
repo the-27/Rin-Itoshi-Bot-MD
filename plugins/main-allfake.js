@@ -110,13 +110,6 @@ global.icono = [
 
 global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: 100, newsletterName: channelRD.name, }, externalAdReply: { showAdAttribution: true, title: packname, body: dev, mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: icono, sourceUrl: redes, mediaType: 1, renderLargerThumbnail: false }, }, }}
 
-
-
-
-
-global.black = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: global.canalIdM, serverMessageId: 100, newsletterName: global.canalNombreM, }, externalAdReply: { showAdAttribution: true, title: packname, body: dev, mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: icono, sourceUrl: redes, mediaType: 1, renderLargerThumbnail: true }, }, }}
-
-
 export default handler
 
 function pickRandom(list) {
