@@ -13,8 +13,8 @@ const handler = async (m, { text, conn }) => {
   conn.sendFile(m.chat, qrCode, 'qrcode.png', '¯\\_(ツ)_/¯', m);
 };
 
-handler.help = ['', 'code'].map((v) => 'qr' + v + ' <teks>');
+handler.help = ['', 'codee'].map((v) => 'qrr' + v + ' <teks>');
 handler.tags = ['tools'];
-handler.command = /^qr(code)?$/i;
+handler.command = /^qrr(codee)?$/i;
 
 export default handler;
