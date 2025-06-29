@@ -287,6 +287,7 @@ let handler = async (m, { conn, args }) => {
 │ ${med} .tiktokrandom
 │ ${med} .spotify
 │ ${med} .tiktokhd
+│ ${med} .tiktoktrends
 │ ${med} .snapchat *<link>*
 │ ${med} .terabox
 │ ${med} .tiktok *<url>*
