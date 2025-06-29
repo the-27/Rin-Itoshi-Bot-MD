@@ -1,21 +1,18 @@
 import { prepareWAMessageMedia } from '@whiskeysockets/baileys';
 import moment from 'moment-timezone';
 
-let handler = async (m, { conn, usedPrefix }) => {
+const handler = async (m, { conn, usedPrefix }) => {
+  await m.react('🕒');
   try {
-    let name = conn.getName(m.sender);
+    const name = conn.getName(m.sender);
     const exp = global.db.data.users[m.sender]?.exp || 0;
     const level = global.db.data.users[m.sender]?.level || 0;
     const role = global.db.data.users[m.sender]?.role || 'Sin rango';
 
-    let images = [
-      'https://files.catbox.moe/pp7ncd.jpg',
-      'https://files.catbox.moe/fcbeie.jpg',
-      'https://files.catbox.moe/r0h0j5.jpg',
-    ];
-    let randomImage = images[Math.floor(Math.random() * images.length)];
+    const imagen = 'https://files.catbox.moe/pp7ncd.jpg';
 
-    const media = await prepareWAMessageMedia({ image: { url: randomImage } }, { upload: conn.waUploadToServer });
+    const res = await fetch(imagen);
+    const thumbnail = await res.buffer();
 
     const sections = [
       {
@@ -34,40 +31,39 @@ let handler = async (m, { conn, usedPrefix }) => {
       }
     ];
 
-    const buttons = [
-      {
-        type: 1,
-        buttonId: `${usedPrefix}menu`,
-        buttonText: { displayText: '✅ Menú Completo' }
-      },
-      {
-        type: 1,
-        buttonId: `${usedPrefix}reg`,
-        buttonText: { displayText: '🛡️ Verificar' }
-      },
-      {
-        type: 4,
-        nativeFlowInfo: {
-          name: 'single_select',
-          paramsJson: JSON.stringify({
-            title: '🌹 Menú por Categorías',
-            sections
-          })
-        }
-      }
-    ];
+    const texto = `✨ 𝐈𝐍𝐅𝐎 𝐔𝐒𝐔𝐀𝐑𝐈𝐎 ✨\n\n👤 Usuario: ${name}\n💠 Exp: ${exp}\n⭐ Nivel: ${level}\n🎖️ Rango: ${role}`;
 
     await conn.sendMessage(m.chat, {
-      image: media.imageMessage,
-      caption: `✨ 𝐈𝐍𝐅𝐎 𝐔𝐒𝐔𝐀𝐑𝐈𝐎 ✨\n\n👤 Usuario: ${name}\n💠 Exp: ${exp}\n⭐ Nivel: ${level}\n🎖️ Rango: ${role}`,
+      image: thumbnail,
+      caption: texto,
       footer: '⏤͟͞ू⃪ 𝑹𝑰𝑵 𝑰𝑻𝑶𝑺𝑯𝑰 - 𝑩𝑶𝑻 • Powered by black',
-      buttons,
-      headerType: 4,
+      buttons: [
+        {
+          buttonId: `${usedPrefix}menu`,
+          buttonText: { displayText: '✅ Menú Completo' },
+          type: 1
+        },
+        {
+          buttonId: `${usedPrefix}reg`,
+          buttonText: { displayText: '🛡️ Verificar' },
+          type: 1
+        },
+        {
+          type: 4,
+          nativeFlowInfo: {
+            name: 'single_select',
+            paramsJson: JSON.stringify({
+              title: '🌹 Menú por Categorías',
+              sections
+            })
+          }
+        }
+      ],
+      headerType: 1,
       viewOnce: true
     }, { quoted: m });
 
     await m.react('✅');
-
   } catch (e) {
     console.error(e);
     await m.reply(`✘ Error:\n${e.message}`);
