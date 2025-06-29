@@ -19,7 +19,8 @@ async function tryFetchJSON(servers, query) {
       if (!res.ok) continue;
       const json = await res.json();
       if (json && Object.keys(json).length) return { json, serverName: server.name };
-    } catch {
+    } catch (e) {
+      console.error(`❌ Error en ${server.name}:`, e);
       continue;
     }
   }
@@ -43,31 +44,38 @@ let handler = async (m, { text, conn, command }) => {
     const duration = Math.floor(video.duration);
 
     const msgInfo = `╭─〕
-├̟̇˚₊·͟͟͟͟͟͟͞͞͞͞͞͞➳₊• 🎼 𝑻𝒊𝒕𝒖𝒍𝒐: ${videoTitle}
-├̟̇˚₊·͟͟͟͟͟͟͞͞͞͞͞͞➳₊• ⏱️ 𝑫𝒖𝒓𝒂𝒄𝒊𝒐́𝒏: ${duration}s
-├̟̇˚₊·͟͟͟͟͟͟͞͞͞͞͞͞➳₊• 👁️ 𝑽𝒊𝒔𝒕𝒂𝒔: ${video.views.toLocaleString()}
-├̟̇˚₊·͟͟͟͟͟͟͞͞͞͞͞͞➳₊• 👤 𝑨𝒖𝒕𝒐𝒓: ${video.channel}
-├̟̇˚₊·͟͟͟͟͟͟͞͞͞͞͞͞➳₊• 🔗 𝑳𝒊𝒏𝒌 : ${videoUrl}
-├̟̇˚₊·͟͟͟͟͟͟͞͞͞͞͞͞➳₊• 💠 𝑺𝒆𝒓𝒗𝒆𝒓: ${searchServer || 'Desconocido'}
-│
-╰─〕
-`.trim();
+├̟̇˚₊🎼 𝑻𝒊𝒕𝒖𝒍𝒐: ${videoTitle}
+├̟̇˚₊⏱️ 𝑫𝒖𝒓𝒂𝒄𝒊𝒐́𝒏: ${duration}s
+├̟̇˚₊👁️ 𝑽𝒊𝒔𝒕𝒂𝒔: ${video.views.toLocaleString()}
+├̟̇˚₊👤 𝑨𝒖𝒕𝒐𝒓: ${video.channel}
+├̟̇˚₊💠 𝑺𝒆𝒓𝒗𝒆𝒓: ${searchServer || 'Desconocido'}
+├̟̇˚₊🔗 𝑳𝒊𝒏𝒌: ${videoUrl}
+╰─〕`.trim();
 
     await conn.sendMessage(m.chat, { image: { url: thumb }, caption: msgInfo }, { quoted: m });
 
-    const { json: downloadJson } = await tryFetchJSON(DOWNLOAD_APIS, videoUrl);
+    const { json: downloadJson, serverName: downloadServer } = await tryFetchJSON(DOWNLOAD_APIS, videoUrl);
 
-    if (!downloadJson || !downloadJson.file_url) return m.reply('❌ No se pudo descargar el video.');
+    console.log('✅ JSON Descarga:', downloadJson);
+
+    if (!downloadJson || !downloadJson.file_url) {
+      return m.reply(`❌ No se pudo descargar el video desde ${downloadServer || 'servidores disponibles'}.`);
+    }
+
+    
+    if (downloadJson.filesize && downloadJson.filesize > 16000000) {
+      return m.reply('⚠️ El video es muy pesado para ser enviado por WhatsApp.');
+    }
 
     await conn.sendMessage(m.chat, {
       video: { url: downloadJson.file_url },
       mimetype: 'video/mp4',
-      fileName: `${downloadJson.title}.mp4`
+      fileName: `${downloadJson.title || 'video'}.mp4`
     }, { quoted: m });
 
   } catch (e) {
-    console.error(e);
-    m.reply('❌ Error al procesar tu solicitud.');
+    console.error('❌ Error general:', e);
+    m.reply('❌ Ocurrió un error al procesar tu solicitud.');
   }
 };
 
