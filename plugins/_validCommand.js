@@ -34,12 +34,12 @@ export async function before(m, { conn }) {
 
     await conn.sendMessage(m.chat, {
       text: `╭══════════════════╮  
-║░🌛⬩ ʜᴏʟᴀ ${name}, ʟᴇ ɪɴғᴏʀᴍᴏ
-║░🍃⬩ ǫᴜᴇ ᴇʟ ᴄᴏᴍᴀɴᴅᴏ *${comando}* 
-║░🌿⬩ɴᴏ ᴇxɪsᴛᴇ.
+║░🌛⬩ *ʜᴏʟᴀ "${name}", ʟᴇ ɪɴғᴏʀᴍᴏ*
+║░🍃⬩ *ǫᴜᴇ ᴇʟ ᴄᴏᴍᴀɴᴅᴏ* *"${comando}"* 
+║░🌿⬩ *ɴᴏ ᴇxɪsᴛᴇ.*
 ║░☃️⬩░░░░░░░░░░░░░░░
-║░🍄‍🟫⬩ ᴘᴀʀᴀ ᴠᴇʀ ʟᴀ ʟɪsᴛᴀ ᴅᴇ
-║░🍰⬩ ᴄᴏᴍᴀɴᴅᴏꜱ ᴜꜱᴀ:
+║░🍄‍🟫⬩ *ᴘᴀʀᴀ ᴠᴇʀ ʟᴀ ʟɪsᴛᴀ ᴅᴇ*
+║░🍰⬩ *ᴄᴏᴍᴀɴᴅᴏꜱ ᴜꜱᴀ:*
 ║░🔥⬩ *#menu*
 ╰══════════════════╯`,
       footer: '⚡ 𝚁𝙸𝙽 𝙸𝚃𝙾𝚂𝙷𝙸 𝙱𝙾𝚃 𝙼𝙳 🌟',
@@ -50,8 +50,7 @@ export async function before(m, { conn }) {
           type: 1
         }
       ],
-      headerType: 1,
-      quoted: m
-    });
+      headerType: 1
+    }, { quoted: m });
   }
 }
