@@ -98,7 +98,7 @@ let handler = async (m, { conn: _envio, command, usedPrefix, args, text, isOwner
 
       const totalUsers = users.length;
 
-      const responseMessage = `⚽ 𓂃ʀɪɴ-ɪᴛᴏsʜɪ 𝒋𝒂𝒅𝒊𝒃𝒐𝒕𝒔 𝒂𝒄𝒕𝒊𝒗𝒐𝒔 🌹
+      const responseMessage = `⚽ 𓂃ʀɪɴ-ɪᴛᴏsʜɪ 𝒋𝒂𝒅𝒊𝒃𝒐𝒕𝒔 𝒂𝒄𝒕𝒊𝒗𝒐𝒔𓂃🌹
 > *✦ sᥙᑲᑲ᥆𝗍s ᥲᥴ𝗍і᥎᥆s:* ${totalUsers || '0'}
 
 ${replyMessage.trim()}`;
@@ -107,7 +107,7 @@ ${replyMessage.trim()}`;
         image: { url: 'https://files.catbox.moe/dajw8b.jpg' },
         caption: responseMessage,
         mentions: _envio.parseMention(responseMessage)
-      }, { quoted: m });
+      }, { quoted: rcanal });
 
       break;
     }
