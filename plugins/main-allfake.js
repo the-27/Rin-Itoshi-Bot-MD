@@ -116,9 +116,9 @@ global.rcanal2 = {
   contextInfo: {
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
-      newsletterJid: global.canalIdM,
+      newsletterJid: channelRD.id,
       serverMessageId: 100,
-      newsletterName: '🌴 𝙍𝙄𝙉 𝙄𝙏𝙊𝙎𝙃𝙄 𝘽𝙊𝙏 𝙈𝘿 | 𝘾𝙃𝘼𝙉𝙉𝙀𝙇 ⚽',
+      newsletterName: channelRD.name,
     },
     externalAdReply: {
       showAdAttribution: true,
