@@ -108,17 +108,17 @@ global.icono = [
 'https://files.catbox.moe/y5b41f.jpg'
 ].getRandom()
 
-//global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: 100, newsletterName: channelRD.name, }, externalAdReply: { showAdAttribution: true, title: packname, body: dev, mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: icono, sourceUrl: redes, mediaType: 1, renderLargerThumbnail: false }, }, }}
+global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: 100, newsletterName: channelRD.name, }, externalAdReply: { showAdAttribution: true, title: packname, body: dev, mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: icono, sourceUrl: redes, mediaType: 1, renderLargerThumbnail: false }, }, }}
 
 
 
-global.rcanal = {
+global.rcanal2 = {
   contextInfo: {
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
       newsletterJid: global.canalIdM,
       serverMessageId: 100,
-      newsletterName: global.canalNombreM,
+      newsletterName: '🌴 𝙍𝙄𝙉 𝙄𝙏𝙊𝙎𝙃𝙄 𝘽𝙊𝙏 𝙈𝘿 | 𝘾𝙃𝘼𝙉𝙉𝙀𝙇 ⚽',
     },
     externalAdReply: {
       showAdAttribution: true,

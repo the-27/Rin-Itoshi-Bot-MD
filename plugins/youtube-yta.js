@@ -57,7 +57,7 @@ const handler = async (m, { conn, text, command }) => {
     const format = args[1] || 'mp3';
 
     if (!url) {
-      return conn.reply(m.chat, `*💜 Ingresa la URL de un video de YouTube.*`, m, rcanal);
+      return conn.reply(m.chat, `*💜 Ingresa la URL de un video de YouTube.*`, m, rcanal2);
     }
 
     const isValidUrl = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/.test(url);
