@@ -86,11 +86,11 @@ let handler = async (m, { conn: _envio, command, usedPrefix, args, text, isOwner
       }
 
       const message = users.map((v, i) => `
-⬣────[ *SUB - BOT: « #${i + 1} »* ]────⬣
-> 🧃 *usuario* : ${v.user?.name || '𝐒𝐔𝐁 𝐁𝐎𝐓 ☘︎'}
-> 🔗 *Enlace* : wa.me/${(v.user?.jid || '').replace(/[^0-9]/g, '')}?text=${usedPrefix}estado
-> 🪇 *online* : ${v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : 'Desconocido'}
-╰❍━━━━━━━━━✦━━━━━━━━━❍╯`).join('\n\n');
+╭───⬣⃛ BOT *#${i + 1}* 
+│ 💖 *usuario* : ${v.user?.name || '𝐒𝐔𝐁 𝐁𝐎𝐓 ☘︎'}
+│ 💫 *Enlace* : wa.me/${(v.user?.jid || '').replace(/[^0-9]/g, '')}
+│ 🍿 *online* : ${v.uptime ? convertirMsADiasHorasMinutosSegundos(Date.now() - v.uptime) : 'Desconocido'}
+╰───────────────`).join('\n\n');
 
       const replyMessage = message.length === 0
         ? `😔 No hay Sub-Bots disponible por el momento, verifique más tarde.`
@@ -98,9 +98,8 @@ let handler = async (m, { conn: _envio, command, usedPrefix, args, text, isOwner
 
       const totalUsers = users.length;
 
-      const responseMessage = `╭═━⬣ 𝐒𝐔𝐁𝐁𝐎𝐓𝐒 ✦ 𝐉𝐀𝐃𝐈𝐁𝐎𝐓 🌹
-┃ ⭐ sᥙᑲᑲ᥆𝗍s ᥲᥴ𝗍і᥎᥆s: *${totalUsers || '0'}*
-╰═━━━━━━━━━━━━━━━━⬣
+      const responseMessage = `⚽ 𓂃ʀɪɴ-ɪᴛᴏsʜɪ 𝒋𝒂𝒅𝒊𝒃𝒐𝒕𝒔 𝒂𝒄𝒕𝒊𝒗𝒐𝒔 🌹
+> *✦ sᥙᑲᑲ᥆𝗍s ᥲᥴ𝗍і᥎᥆s:* ${totalUsers || '0'}
 
 ${replyMessage.trim()}`;
 
@@ -108,7 +107,7 @@ ${replyMessage.trim()}`;
         image: { url: 'https://files.catbox.moe/dajw8b.jpg' },
         caption: responseMessage,
         mentions: _envio.parseMention(responseMessage)
-      }, { quoted: fkontak });
+      }, { quoted: m });
 
       break;
     }
