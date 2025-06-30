@@ -53,7 +53,7 @@ global.done = '✅'
 global.error = '✖️'
 global.msm = '⚠︎'
 
-global.emoji = '( ꈍᴗꈍ)'
+global.emoji = '🌴'
 global.emoji2 = '(◍•ᴗ•◍)'
 global.emoji3 = '(✿^‿^)'
 global.emoji4 = '(๑>ᴗ๑'
@@ -108,17 +108,17 @@ global.icono = [
 'https://files.catbox.moe/y5b41f.jpg'
 ].getRandom()
 
-global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: 100, newsletterName: channelRD.name, }, externalAdReply: { showAdAttribution: true, title: packname, body: dev, mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: icono, sourceUrl: redes, mediaType: 1, renderLargerThumbnail: false }, }, }}
+//global.rcanal = { contextInfo: { isForwarded: true, forwardedNewsletterMessageInfo: { newsletterJid: channelRD.id, serverMessageId: 100, newsletterName: channelRD.name, }, externalAdReply: { showAdAttribution: true, title: packname, body: dev, mediaUrl: null, description: null, previewType: "PHOTO", thumbnailUrl: icono, sourceUrl: redes, mediaType: 1, renderLargerThumbnail: false }, }, }}
 
 
 
-global.rcanal2 = {
+global.rcanal = {
   contextInfo: {
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
-      newsletterJid: canalIdM,
+      newsletterJid: channelRD.id,
       serverMessageId: 100,
-      newsletterName: '🌴 𝙍𝙄𝙉 𝙄𝙏𝙊𝙎𝙃𝙄 𝘽𝙊𝙏 𝙈𝘿 | 𝘾𝙃𝘼𝙉𝙉𝙀𝙇 ⚽',
+      newsletterName: channelRD.name,
     },
     externalAdReply: {
       showAdAttribution: true,
