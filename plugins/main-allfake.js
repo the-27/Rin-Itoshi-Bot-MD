@@ -116,9 +116,9 @@ global.rcanal = {
   contextInfo: {
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
-      newsletterJid: channelRD.id,
+      newsletterJid: global.canalIdM,
       serverMessageId: 100,
-      newsletterName: channelRD.name,
+      newsletterName: global.canalNombreM,
     },
     externalAdReply: {
       showAdAttribution: true,
