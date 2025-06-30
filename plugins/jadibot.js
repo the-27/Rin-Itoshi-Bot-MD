@@ -107,7 +107,7 @@ ${replyMessage.trim()}`;
         image: { url: 'https://files.catbox.moe/dajw8b.jpg' },
         caption: responseMessage,
         mentions: _envio.parseMention(responseMessage)
-      }, { quoted: rcanal });
+      }, { quoted: m });
 
       break;
     }
